@@ -1,4 +1,4 @@
-package com.example.moneto
+package com.example.moneto.screens
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -34,17 +34,18 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.moneto.R
 import com.example.moneto.ui.theme.Login
 
 @Preview(showBackground = true)
 @Composable
-fun LoginScreen() {
+fun RegisterScreen() {
     val annotatedString = buildAnnotatedString {
         withStyle(style = SpanStyle(color = Color.LightGray)) {
-            append("Don't have an account? ")
+            append("Already have an account? ")
         }
         withStyle(style = SpanStyle(color = Color.Cyan)) {
-            append("Sign up")
+            append("Log in")
         }
     }
     Surface(modifier = Modifier.fillMaxSize()) {
@@ -64,30 +65,32 @@ fun LoginScreen() {
                 // Top section - Illustration or logo
                 Image(
                     painter = painterResource(id = R.drawable.logo), // Replace with your actual resource
-                    contentDescription = "Login Illustration",
+                    contentDescription = "Moneto Logo",
                     modifier = Modifier.size(180.dp) // Adjust size as needed
                 )
 
                 // Login title and subtitle
                 Text(
-                    text = "Login",
+                    text = "Sign up",
                     color = Color.White,
                     fontSize = 24.sp,
                     fontWeight = FontWeight.Bold,
                     modifier = Modifier.padding(top = 24.dp)
                 )
-                Text(
-                    text = "Please sign in to continue.",
-                    color = Color.Gray,
-                    fontSize = 16.sp,
-                    modifier = Modifier.padding(bottom = 24.dp)
-                )
+
 
                 // Email text field
                 OutlinedTextField(
                     value = "", // Replace with state variable
                     onValueChange = {}, // Handle updates
-                    label = { Text("Email", color = Color.White) },
+                    label = { Text(buildAnnotatedString {
+                        withStyle(style = SpanStyle(color = Color.White)) {
+                            append("Email")
+                        }
+                        withStyle(style = SpanStyle(color = Color.Red)) {
+                            append(" *")
+                        }
+                    }) },
                     singleLine = true,
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
                     modifier = Modifier.fillMaxWidth(),
@@ -98,7 +101,31 @@ fun LoginScreen() {
                 OutlinedTextField(
                     value = "", // Replace with state variable
                     onValueChange = {}, // Handle updates
-                    label = { Text("Password", color = Color.White) },
+                    label = { Text(buildAnnotatedString {
+                        withStyle(style = SpanStyle(color = Color.White)) {
+                            append("Password")
+                        }
+                        withStyle(style = SpanStyle(color = Color.Red)) {
+                            append(" *")
+                        }
+                    }) },
+                    singleLine = true,
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+                    modifier = Modifier.fillMaxWidth(),
+                    shape = RoundedCornerShape(12.dp)
+                )
+
+                OutlinedTextField(
+                    value = "", // Replace with state variable
+                    onValueChange = {}, // Handle updates
+                    label = { Text(buildAnnotatedString {
+                        withStyle(style = SpanStyle(color = Color.White)) {
+                            append("Confirm Password")
+                        }
+                        withStyle(style = SpanStyle(color = Color.Red)) {
+                            append(" *")
+                        }
+                    }) },
                     singleLine = true,
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
                     modifier = Modifier.fillMaxWidth(),
@@ -116,7 +143,7 @@ fun LoginScreen() {
                         containerColor = Login
                     )
                 ) {
-                    Text("LOGIN", modifier = Modifier.padding(8.dp), color = Color.Black)
+                    Text("SIGN UP", modifier = Modifier.padding(8.dp), color = Color.Black)
                 }
 
 
@@ -128,7 +155,7 @@ fun LoginScreen() {
                     ),
                     onClick = { offset ->
                         // Handle click event, check if 'Sign up' part is clicked
-                        if (offset in annotatedString.indexOf("Sign up")..annotatedString.length) {
+                        if (offset in annotatedString.indexOf("Log in")..annotatedString.length) {
                             // Handle sign up click
                         }
                     }
@@ -138,34 +165,4 @@ fun LoginScreen() {
             }
         }
     }
-    /*Surface {
-        Column (modifier = Modifier.fillMaxSize()){
-            val uiColor = if (isSystemInDarkTheme()) Color.White else Color.Black
-
-            Box (contentAlignment = Alignment.TopCenter) {
-                Image(
-                    painter = painterResource(id = R.drawable.shape),
-                    contentDescription = null,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .fillMaxHeight(fraction = 0.46f),
-                    contentScale = ContentScale.FillBounds
-                )
-                Row (verticalAlignment = Alignment.CenterVertically)
-                {
-                    Row{Image(modifier = Modifier.size(200.dp),painter = painterResource(id = R.drawable.logo), contentDescription = stringResource(
-                        id = R.string.app_logo
-                    ))}
-                    Row {
-                        Text(text = stringResource(id = R.string.app_name), style = MaterialTheme.typography.headlineMedium,textAlign = TextAlign.Center,
-                            color = uiColor)
-                    }
-                    Spacer(modifier = Modifier.width(15.dp))
-
-                }
-
-
-            }
-        }
-    }*/
 }

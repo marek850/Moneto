@@ -1,8 +1,8 @@
-package com.example.moneto
+package com.example.moneto.screens
 
 import androidx.compose.runtime.Composable
 
 @Composable
-fun InfoScreen() {
+fun HomeScreen() {
     
 }
