@@ -20,10 +20,13 @@ import androidx.compose.material.icons.filled.Build
 import androidx.compose.material.icons.filled.KeyboardArrowRight
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -53,6 +56,17 @@ fun SettingsScreen() {
         ProfileCard()
         GeneralSettings()
         BudgetSettings()
+        Button(
+            onClick = { /* Handle login */ },
+            modifier = Modifier
+                .padding(vertical = 16.dp).align(Alignment.CenterHorizontally),
+            shape = MaterialTheme.shapes.medium,
+            colors = ButtonDefaults.buttonColors(
+                containerColor = Login
+            )
+        ) {
+            Text("LOGOUT", modifier = Modifier.padding(8.dp), color = Color.Black)
+        }
     }
 }
 
