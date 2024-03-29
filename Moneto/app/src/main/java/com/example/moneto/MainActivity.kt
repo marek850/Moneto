@@ -114,7 +114,7 @@ fun BottomNavBar() {
             composable(Screens.Settings.screen){ SettingsScreen(navigationController) }
             composable(Screens.Info.screen){ InfoScreen() }
             composable(Screens.Expenses.screen){ ExpensesScreen() }
-            composable(Screens.AddExpense.screen){ AddExpense() }
+            composable(Screens.AddExpense.screen){ AddExpense(navigationController) }
         }
 
     }
