@@ -30,6 +30,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.moneto.screens.AddExpense
 import com.example.moneto.screens.ExpensesScreen
 import com.example.moneto.screens.HomeScreen
 import com.example.moneto.screens.InfoScreen
@@ -77,7 +78,9 @@ fun BottomNavBar() {
             Icon(Icons.Default.List, contentDescription = null, modifier = Modifier.size(26.dp), tint = if (selected.value == Icons.Default.List) Color.White else Color.LightGray)
         }
         Button(
-            onClick = { },
+            onClick = {navigationController.navigate(Screens.AddExpense.screen){
+                popUpTo(0)
+            } },
             modifier = Modifier
                 .weight(1f)// Diameter of the circular button
                 .clip(CircleShape), // Clip the button to a circle shape
@@ -108,9 +111,10 @@ fun BottomNavBar() {
     }}) {paddingValues ->
         NavHost(navController = navigationController, startDestination = Screens.Home.screen, modifier = Modifier.padding(paddingValues) ){
             composable(Screens.Home.screen){ HomeScreen() }
-            composable(Screens.Settings.screen){ SettingsScreen() }
+            composable(Screens.Settings.screen){ SettingsScreen(navigationController) }
             composable(Screens.Info.screen){ InfoScreen() }
             composable(Screens.Expenses.screen){ ExpensesScreen() }
+            composable(Screens.AddExpense.screen){ AddExpense() }
         }
 
     }

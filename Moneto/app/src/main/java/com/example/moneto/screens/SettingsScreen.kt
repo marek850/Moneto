@@ -42,20 +42,23 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.moneto.R
+import com.example.moneto.Screens
 import com.example.moneto.ui.theme.Background
+import com.example.moneto.ui.theme.LightPurple
 import com.example.moneto.ui.theme.Login
 
 
 @OptIn(ExperimentalMaterial3Api::class)
-@Preview(showBackground = true)
+@Preview
 @Composable
-fun SettingsScreen() {
+fun SettingsScreen(navController: NavController) {
     Column(modifier = Modifier.background(Background).fillMaxHeight()) {
         HeaderText()
         ProfileCard()
-        GeneralSettings()
-        BudgetSettings()
+        GeneralSettings(navController)
+        BudgetSettings(navController)
         Button(
             onClick = { /* Handle login */ },
             modifier = Modifier
@@ -71,7 +74,7 @@ fun SettingsScreen() {
 }
 
 @Composable
-fun BudgetSettings() {
+fun BudgetSettings(navController: NavController) {
     Column(modifier = Modifier
         .padding(horizontal = 14.dp)
         .padding(top = 10.dp)) {
@@ -88,7 +91,7 @@ fun BudgetSettings() {
 }
 
 @Composable
-fun GeneralSettings() {
+fun GeneralSettings(navController: NavController) {
     Column(modifier = Modifier
         .padding(horizontal = 14.dp)
         .padding(top = 10.dp)) {
@@ -100,7 +103,7 @@ fun GeneralSettings() {
             modifier = Modifier.padding(vertical = 8.dp)
             )
         GeneralSettingsItem(icon = Icons.Default.Person, mainText = "Basic Settings", onClick = {} )
-        GeneralSettingsItem(icon = Icons.Default.Menu, mainText = "Categories", onClick = {} )
+        GeneralSettingsItem(icon = Icons.Default.Menu, mainText = "Categories", onClick = {navController.navigate(Screens.AddExpense.screen)} )
     }
 }
 
@@ -113,7 +116,7 @@ fun GeneralSettingsItem(
 ) {
     Card(onClick = onClick,
             colors = CardDefaults.cardColors(
-            containerColor = Color(0xFF483A6B)
+            containerColor = LightPurple
             ),
         elevation = CardDefaults.cardElevation(
             defaultElevation = 0.dp
@@ -131,7 +134,7 @@ fun GeneralSettingsItem(
                     .size(34.dp)
                     .clip(shape = RoundedCornerShape(10.dp))
                     .background(
-                        Color(0xFF483A6B)
+                        LightPurple
                     ))
                 {
                     Icon(icon, contentDescription = null,
@@ -161,7 +164,7 @@ fun ProfileCard() {
         .height(100.dp)
         .padding(10.dp),
         colors = CardDefaults.cardColors(
-            containerColor = Color(0xFF483A6B)
+            containerColor = LightPurple
         ),
         elevation = CardDefaults.cardElevation(
             defaultElevation = 0.dp
