@@ -34,12 +34,14 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.moneto.R
+import com.example.moneto.Screens
 import com.example.moneto.ui.theme.Login
 
 @Preview(showBackground = true)
 @Composable
-fun RegisterScreen() {
+fun RegisterScreen(navController: NavController) {
     val annotatedString = buildAnnotatedString {
         withStyle(style = SpanStyle(color = Color.LightGray)) {
             append("Already have an account? ")
@@ -156,7 +158,7 @@ fun RegisterScreen() {
                     onClick = { offset ->
                         // Handle click event, check if 'Sign up' part is clicked
                         if (offset in annotatedString.indexOf("Log in")..annotatedString.length) {
-                            // Handle sign up click
+                            navController.navigate(Screens.Login.screen)
                         }
                     }
                 )

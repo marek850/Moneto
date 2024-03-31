@@ -19,14 +19,10 @@ import androidx.compose.material.icons.filled.AccountBox
 import androidx.compose.material.icons.filled.Build
 import androidx.compose.material.icons.filled.KeyboardArrowRight
 import androidx.compose.material.icons.filled.Menu
-import androidx.compose.material.icons.filled.Person
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -39,7 +35,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -47,20 +42,20 @@ import com.example.moneto.R
 import com.example.moneto.Screens
 import com.example.moneto.ui.theme.Background
 import com.example.moneto.ui.theme.LightPurple
-import com.example.moneto.ui.theme.Login
+import com.example.moneto.ui.theme.Purple80
 
 
 @OptIn(ExperimentalMaterial3Api::class)
-@Preview
+
 @Composable
 fun SettingsScreen(navController: NavController) {
     Column(modifier = Modifier.background(Background).fillMaxHeight()) {
         HeaderText()
-        ProfileCard()
+        //ProfileCard()
         GeneralSettings(navController)
         BudgetSettings(navController)
-        Button(
-            onClick = { /* Handle login */ },
+        /*Button(
+            onClick = { *//* Handle login *//* },
             modifier = Modifier
                 .padding(vertical = 16.dp).align(Alignment.CenterHorizontally),
             shape = MaterialTheme.shapes.medium,
@@ -69,7 +64,7 @@ fun SettingsScreen(navController: NavController) {
             )
         ) {
             Text("LOGOUT", modifier = Modifier.padding(8.dp), color = Color.Black)
-        }
+        }*/
     }
 }
 
@@ -85,7 +80,7 @@ fun BudgetSettings(navController: NavController) {
             fontWeight = FontWeight.Bold,
             modifier = Modifier.padding(vertical = 8.dp)
         )
-        GeneralSettingsItem(icon = Icons.Default.AccountBox, mainText = "Currency", onClick = {} )
+        GeneralSettingsItem(icon = Icons.Default.AccountBox, mainText = "Currency", onClick = {navController.navigate(Screens.Currencies.screen)} )
         GeneralSettingsItem(icon = Icons.Default.Build, mainText = "Limit", onClick = {} )
     }
 }
@@ -102,8 +97,9 @@ fun GeneralSettings(navController: NavController) {
             fontWeight = FontWeight.Bold,
             modifier = Modifier.padding(vertical = 8.dp)
             )
-        GeneralSettingsItem(icon = Icons.Default.Person, mainText = "Basic Settings", onClick = {} )
-        GeneralSettingsItem(icon = Icons.Default.Menu, mainText = "Categories", onClick = {navController.navigate(Screens.AddExpense.screen)} )
+        //GeneralSettingsItem(icon = Icons.Default.Person, mainText = "Basic Settings", onClick = {} )
+        GeneralSettingsItem(icon = Icons.Default.Menu, mainText = "Categories", onClick = {navController.navigate(Screens.Categories.screen)}
+       )
     }
 }
 
@@ -196,7 +192,7 @@ fun ProfileCard() {
 
 @Composable
 fun HeaderText() {
-    Text(text = "Settings", fontFamily = FontFamily.SansSerif, color = Login,
+    Text(text = "Settings", fontFamily = FontFamily.SansSerif, color = Purple80,
         textAlign = TextAlign.Center, modifier = Modifier
             .fillMaxWidth()
             .padding(top = 30.dp, bottom = 10.dp),

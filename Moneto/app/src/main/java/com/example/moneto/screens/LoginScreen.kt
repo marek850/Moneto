@@ -20,6 +20,8 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -29,18 +31,22 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 import com.example.moneto.R
+import com.example.moneto.Screens
 import com.example.moneto.ui.theme.Background
 import com.example.moneto.ui.theme.Login
+import com.example.moneto.view_models.LoginViewModel
 
-@Preview(showBackground = true)
 @Composable
-fun LoginScreen() {
+fun LoginScreen(navController: NavController, loginViewModel: LoginViewModel = viewModel()) {
+    val state by loginViewModel.uiState.collectAsState()
     val annotatedString = buildAnnotatedString {
         withStyle(style = SpanStyle(color = Color.LightGray)) {
             append("Don't have an account? ")
@@ -87,8 +93,8 @@ fun LoginScreen() {
 
                 // Email text field
                 OutlinedTextField(
-                    value = "", // Replace with state variable
-                    onValueChange = {}, // Handle updates
+                    value = state.email, // Replace with state variable
+                    onValueChange = loginViewModel::setEmail, // Handle updates
                     label = { Text("Email", color = Color.White) },
                     singleLine = true,
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
@@ -98,18 +104,19 @@ fun LoginScreen() {
 
                 // Password text field
                 OutlinedTextField(
-                    value = "", // Replace with state variable
-                    onValueChange = {}, // Handle updates
+                    value = state.password, // Replace with state variable
+                    onValueChange = loginViewModel::setPassword, // Handle updates
                     label = { Text("Password", color = Color.White) },
                     singleLine = true,
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
                     modifier = Modifier.fillMaxWidth(),
+                    visualTransformation = PasswordVisualTransformation(),
                     shape = RoundedCornerShape(12.dp)
                 )
 
                 // Login button
                 Button(
-                    onClick = { /* Handle login */ },
+                    onClick = { navController.navigate(Screens.Settings.screen) },
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(vertical = 16.dp),
@@ -131,7 +138,7 @@ fun LoginScreen() {
                     onClick = { offset ->
                         // Handle click event, check if 'Sign up' part is clicked
                         if (offset in annotatedString.indexOf("Sign up")..annotatedString.length) {
-                            // Handle sign up click
+                            navController.navigate(Screens.Register.screen)
                         }
                     }
                 )

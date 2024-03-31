@@ -47,7 +47,7 @@ fun CustomTextField(
 ) {
 
     // If color is not provided via the text style, use content color as a default
-    val textColor = LightText
+    val textColor = Color.White
     val mergedTextStyle =
         textStyle.merge(TextStyle(color = textColor))
 
@@ -56,7 +56,7 @@ fun CustomTextField(
         enabled = enabled,
         readOnly = readOnly,
         textStyle = mergedTextStyle,
-        cursorBrush = SolidColor(LightText),
+        cursorBrush = SolidColor(Color.White),
         visualTransformation = visualTransformation,
         interactionSource = interactionSource,
         keyboardOptions = keyboardOptions,

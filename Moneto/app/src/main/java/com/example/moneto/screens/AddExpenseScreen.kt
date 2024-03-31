@@ -9,8 +9,10 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Divider
@@ -58,17 +60,17 @@ fun AddExpense(navController: NavController, addViewModel: AddExpenseViewModel =
 
     Scaffold(topBar = {
         MediumTopAppBar(
-            title = { Text("Add", color = Color.White) },
+            title = { Text("Add", color = Purple80) },
             colors = TopAppBarDefaults.mediumTopAppBarColors(
                 containerColor = Background
             )
         )
-    }, content = { innerPadding ->
+    }, modifier = Modifier.fillMaxHeight(),content = { innerPadding ->
             Column(
                 modifier = Modifier
                     .padding(innerPadding)
                     .background(Background)
-                    .fillMaxHeight(),
+                    .fillMaxHeight().verticalScroll(rememberScrollState()),
                 horizontalAlignment = Alignment.CenterHorizontally
 
             ) {
@@ -155,10 +157,10 @@ fun AddExpense(navController: NavController, addViewModel: AddExpenseViewModel =
                             TextButton(onClick = {categoriesMenuOpen = true}) {
                                 Text(state.category ?: "Select category", color = Purple80)
                                 DropdownMenu(expanded = categoriesMenuOpen, onDismissRequest = { categoriesMenuOpen = false }) {
-                                    categories.forEach { category ->
-                                    DropdownMenuItem(text = { Text(category, color = Purple80) },
+                                    state.categories?.forEach { category ->
+                                    DropdownMenuItem(text = { Text(category.name, color = Purple80) },
                                         onClick = {
-                                            addViewModel.setCategory(category)
+                                            addViewModel.setCategory(category.name)
                                         categoriesMenuOpen = false})
                                     }
                                 }
@@ -167,13 +169,13 @@ fun AddExpense(navController: NavController, addViewModel: AddExpenseViewModel =
                     }
                 }
                 Button(
-                    onClick = {},
+                    onClick = addViewModel::addExpense,
                     modifier = Modifier.padding(16.dp),
                     colors = ButtonDefaults.buttonColors(
                         containerColor = LightPurple
                     )
                 ) {
-                    Text("Add expense", color = Color.White)
+                    Text("Add expense", color = Purple80)
                 }
             }
 
