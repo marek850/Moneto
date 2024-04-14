@@ -39,7 +39,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.example.moneto.screens.AddExpense
+import com.example.moneto.screens.AddTransaction
 import com.example.moneto.screens.Categories
 import com.example.moneto.screens.CurrenciesScreen
 import com.example.moneto.screens.HomeScreen
@@ -48,6 +48,7 @@ import com.example.moneto.screens.LimitSetScreen
 import com.example.moneto.screens.LoginScreen
 import com.example.moneto.screens.RegisterScreen
 import com.example.moneto.screens.SettingsScreen
+import com.example.moneto.screens.StatisticScreen
 import com.example.moneto.ui.theme.Background
 import com.example.moneto.ui.theme.Login
 import com.example.moneto.ui.theme.MonetoTheme
@@ -116,7 +117,7 @@ fun BottomNavBar() {
         IconButton(
             onClick = { /*TODO*/
                 selected.value = Icons.Default.List
-                navigationController.navigate(Screens.Expenses.screen){
+                navigationController.navigate(Screens.Statistics.screen){
                     popUpTo(0)
                 }
             }, modifier = Modifier.weight(1f)) {
@@ -156,10 +157,11 @@ fun BottomNavBar() {
     }}}) {paddingValues ->
         NavHost(navController = navigationController, startDestination = Screens.Home.screen, modifier = Modifier.padding(paddingValues) ){
             composable(Screens.Home.screen){ HomeScreen(/*navigationController*/) }
+            composable(Screens.Statistics.screen){ StatisticScreen(/*navigationController*/) }
             composable(Screens.Settings.screen){ SettingsScreen(navigationController) }
             composable(Screens.Info.screen){ InfoScreen() }
            // composable(Screens.Expenses.screen){ ExpensesScreen() }
-            composable(Screens.AddExpense.screen){ AddExpense(navigationController)
+            composable(Screens.AddExpense.screen){ AddTransaction(navigationController)
             }
             composable(Screens.Register.screen){ RegisterScreen(navigationController) }
             composable(Screens.Categories.screen){Categories(navigationController)}

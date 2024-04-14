@@ -43,20 +43,25 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.moneto.components.CustomRow
 import com.example.moneto.components.CustomTextField
+import com.example.moneto.data.TransactionType
 import com.example.moneto.ui.theme.Background
 import com.example.moneto.ui.theme.LightBackground
 import com.example.moneto.ui.theme.LightPurple
 import com.example.moneto.ui.theme.Purple80
 import com.example.moneto.ui.theme.Typography
-import com.example.moneto.view_models.AddExpenseViewModel
+import com.example.moneto.view_models.AddTransactionViewModel
 import com.marosseleng.compose.material3.datetimepickers.date.domain.DatePickerDefaults
 import com.marosseleng.compose.material3.datetimepickers.date.ui.dialog.DatePickerDialog
 
 @OptIn(ExperimentalComposeUiApi::class, ExperimentalMaterial3Api::class)
 @Composable
-fun AddExpense(navController: NavController, addViewModel: AddExpenseViewModel = viewModel()) {
-    val categories = listOf("Groceries", "Bills", "Restaurants")
+fun AddTransaction(navController: NavController, addViewModel: AddTransactionViewModel = viewModel()) {
+    //val categories = listOf("Groceries", "Bills", "Restaurants")
     val state by addViewModel.uiState.collectAsState()
+    val transactionTypes = listOf(
+        TransactionType.Income,
+        TransactionType.Expense
+    )
 
     Scaffold(topBar = {
         MediumTopAppBar(
@@ -84,6 +89,7 @@ fun AddExpense(navController: NavController, addViewModel: AddExpenseViewModel =
                             .fillMaxWidth()
 
                     ) {
+
                         CustomRow(label = "Description",){
                             CustomTextField(value = state.description,modifier = Modifier.fillMaxWidth() , textStyle = TextStyle(
                                 textAlign = TextAlign.Right,
@@ -108,6 +114,27 @@ fun AddExpense(navController: NavController, addViewModel: AddExpenseViewModel =
                             ), maxLines = 1,
                                 onValueChange = addViewModel::setAmount
                             )
+                        }
+                        Divider(
+                            modifier = Modifier.padding(start = 16.dp, end = 16.dp),
+                            thickness = 1.dp,
+                            color = Color.LightGray
+                        )
+                        CustomRow(label = "Type") {
+                            var typeMenuOpened by remember {
+                                mutableStateOf(false)
+                            }
+                            TextButton(onClick = {typeMenuOpened = true}) {
+                                Text(state.type?.name ?: "Select transaction type", color = Purple80)
+                                DropdownMenu(expanded = typeMenuOpened, onDismissRequest = { typeMenuOpened = false }) {
+                                    transactionTypes.forEach { type ->
+                                        DropdownMenuItem(text = { Text(type.name, color = Purple80) },
+                                            onClick = {
+                                                addViewModel.setType(type)
+                                                typeMenuOpened = false})
+                                    }
+                                }
+                            }
                         }
                         Divider(
                             modifier = Modifier.padding(start = 16.dp, end = 16.dp),
@@ -175,7 +202,7 @@ fun AddExpense(navController: NavController, addViewModel: AddExpenseViewModel =
                         containerColor = LightPurple
                     )
                 ) {
-                    Text("Add expense", color = Purple80)
+                    Text("Add transaction", color = Purple80)
                 }
             }
 

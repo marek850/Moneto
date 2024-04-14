@@ -6,7 +6,8 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
 data class ExpensesState(
-    val name: String = "",
+    val sumTotal: Double = 1250.98,
+
 )
 
 class ExpensesViewModel : ViewModel() {

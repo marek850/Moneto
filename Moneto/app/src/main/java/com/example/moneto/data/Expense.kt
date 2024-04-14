@@ -4,6 +4,7 @@ import java.time.LocalDateTime
 
 data class Expense (
     val amount: Double,
+    val transactionType: TransactionType,
     val date: LocalDateTime,
     val description: String,
     val category: Category

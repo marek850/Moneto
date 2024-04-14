@@ -2,6 +2,7 @@ package com.example.moneto.view_models
 
 import androidx.lifecycle.ViewModel
 import com.example.moneto.data.Category
+import com.example.moneto.data.TransactionType
 import com.example.moneto.data.monetoDb
 import io.realm.kotlin.ext.query
 import io.realm.kotlin.query.RealmResults
@@ -14,14 +15,16 @@ import java.time.LocalDate
 data class AddScreenState(
     val amount: String = "",
     val description: String = "",
+    val type: TransactionType,
     val date: LocalDate,
     val category: String? = null,
     val categories: RealmResults<Category>? = null
 
 )
-class AddExpenseViewModel : ViewModel(){
+class AddTransactionViewModel : ViewModel(){
     private val _state = MutableStateFlow(AddScreenState(
         description = "",
+        type = TransactionType.Expense,
         date = LocalDate.now()
 
 
@@ -60,6 +63,13 @@ class AddExpenseViewModel : ViewModel(){
     }
     fun addExpense() {
            // TODO dorobit po implementacii DB
+    }
+    fun setType(transactionType: TransactionType){
+        _state.update { currentState ->
+            currentState.copy(
+                type = transactionType,
+            )
+        }
     }
 
 }

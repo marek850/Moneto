@@ -36,7 +36,6 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.moneto.components.CustomRow
@@ -45,11 +44,7 @@ import com.example.moneto.ui.theme.Background
 import com.example.moneto.ui.theme.LightBackground
 import com.example.moneto.ui.theme.LightPurple
 import com.example.moneto.ui.theme.Purple80
-import com.example.moneto.view_models.AddExpenseViewModel
-import com.example.moneto.view_models.AddScreenState
-import com.example.moneto.view_models.LimitsScreenState
 import com.example.moneto.view_models.LimitsViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
 
 @Preview
 @OptIn(ExperimentalMaterial3Api::class)

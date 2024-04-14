@@ -65,6 +65,44 @@ fun WeekChart() {
             labelRatio = 7,
             labelTextSize = 14.sp
         ),
-        modifier = Modifier.fillMaxSize().padding(bottom = 30.dp))
+        modifier = Modifier.fillMaxSize().padding(bottom = 30.dp, end = 20.dp ))
+
+    /*val maxRange = 50
+    val barData = DataUtils.getBarChartData(50, maxRange, BarChartType.VERTICAL, DataCategoryOptions())
+    val yStepSize = 10
+
+    val xAxisData = AxisData.Builder()
+        .axisStepSize(30.dp)
+        .steps(barData.size - 1)
+        .bottomPadding(40.dp)
+        .axisLabelAngle(20f)
+        .startDrawPadding(48.dp)
+        .labelData { index -> barData[index].label }
+        .build()
+    val yAxisData = AxisData.Builder()
+        .steps(yStepSize)
+        .labelAndAxisLinePadding(20.dp)
+        .axisOffset(20.dp)
+        .labelData { index -> (index * (maxRange / yStepSize)).toString() }
+        .build()
+    val barChartData = BarChartData(
+        chartData = barData,
+        xAxisData = xAxisData,
+        yAxisData = yAxisData,
+        barStyle = BarStyle(
+            paddingBetweenBars = 20.dp,
+            barWidth = 25.dp
+        ),
+        showYAxis = true,
+        showXAxis = true,
+        horizontalExtraSpace = 10.dp,
+    )
+    BarChart(modifier = Modifier.height(350.dp), barChartData = BarChartData(
+        chartData = listOf(
+            BarData(point = Point(0f, 0f),label = DayOfWeek.MONDAY.name.substring(0, 1), ),
+            BarData(point = Point(0f, 1f),label = DayOfWeek.TUESDAY.name.substring(0, 1), )
+        )
+    )
+    )*/
 
 }
