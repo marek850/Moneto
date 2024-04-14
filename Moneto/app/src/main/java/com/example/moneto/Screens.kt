@@ -10,5 +10,6 @@ sealed class Screens (val screen: String) {
     data object Register: Screens("register")
     data object Login: Screens("login")
     data object Currencies: Screens("currencies")
+    data object Limits: Screens("limits")
 
 }

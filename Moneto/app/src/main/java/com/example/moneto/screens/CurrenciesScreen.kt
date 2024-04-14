@@ -84,7 +84,7 @@ fun CurrenciesScreen(navController: NavController) {
             horizontalAlignment = Alignment.CenterHorizontally
 
         ) {
-            Row() {
+            Row {
                 var currenciesMenuOpen by remember {
                     mutableStateOf(false)
                 }
@@ -97,7 +97,7 @@ fun CurrenciesScreen(navController: NavController) {
                         RoundedCornerShape(10.dp)
                     ).fillMaxWidth(),onClick = {currenciesMenuOpen = true}) {
                     Row {
-                        Text(setCurrency ?: "Select category", color = Purple80)
+                        Text(setCurrency ?: "Select currency", color = Purple80)
                         Icon(Icons.Default.KeyboardArrowDown ,contentDescription = null,
                             tint = Purple80,
                             modifier = Modifier.size(23.dp))
@@ -105,7 +105,7 @@ fun CurrenciesScreen(navController: NavController) {
                         DropdownMenu(
                             expanded = currenciesMenuOpen,
                             onDismissRequest = { currenciesMenuOpen = false }) {
-                            currencies?.forEach { currency ->
+                            currencies.forEach { currency ->
                                 DropdownMenuItem(text = { Text(currency, color = Purple80) },
                                     onClick = {
                                         setCurrency = currency

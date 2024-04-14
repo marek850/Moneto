@@ -64,10 +64,15 @@ fun CustomTextField(
         singleLine = singleLine,
         maxLines = maxLines,
         decorationBox = @Composable { innerTextField ->
-            TextFieldDefaults.TextFieldDecorationBox(
+            TextFieldDefaults.DecorationBox(
                 value = value,
-                visualTransformation = visualTransformation,
                 innerTextField = innerTextField,
+                enabled = enabled,
+                singleLine = singleLine,
+                visualTransformation = visualTransformation,
+                interactionSource = interactionSource,
+                isError = isError,
+                label = label,
                 placeholder = {
                     Row(
                         modifier = Modifier.fillMaxWidth(),
@@ -77,20 +82,17 @@ fun CustomTextField(
                         placeholder?.invoke()
                     }
                 },
-                label = label,
-                singleLine = singleLine,
-                enabled = enabled,
-                isError = isError,
-                interactionSource = interactionSource,
-                contentPadding = PaddingValues(horizontal = 16.dp),
-                colors = TextFieldDefaults.textFieldColors(
-                    containerColor = Color.Transparent,
+                colors = TextFieldDefaults.colors(
+                    focusedContainerColor = Color.Transparent,
                     //textColor = Color.White,
+                    unfocusedContainerColor = Color.Transparent,
+                    disabledContainerColor = Color.Transparent,
                     cursorColor = LightText,
                     focusedIndicatorColor = Color.Transparent,
                     unfocusedIndicatorColor = Color.Transparent,
                     disabledIndicatorColor = Color.Transparent,
                 ),
+                contentPadding = PaddingValues(horizontal = 16.dp),
             )
         })
 }

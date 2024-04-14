@@ -81,7 +81,7 @@ fun BudgetSettings(navController: NavController) {
             modifier = Modifier.padding(vertical = 8.dp)
         )
         GeneralSettingsItem(icon = Icons.Default.AccountBox, mainText = "Currency", onClick = {navController.navigate(Screens.Currencies.screen)} )
-        GeneralSettingsItem(icon = Icons.Default.Build, mainText = "Limit", onClick = {} )
+        GeneralSettingsItem(icon = Icons.Default.Build, mainText = "Limit", onClick = {navController.navigate(Screens.Limits.screen)} )
     }
 }
 
@@ -138,7 +138,7 @@ fun GeneralSettingsItem(
                         modifier = Modifier.padding(8.dp))
                 }
                 Spacer(modifier = Modifier.width(14.dp))
-                Column() {
+                Column {
                     Text(text = mainText,fontFamily = FontFamily.Default
                         ,color = Color.LightGray,
                         fontSize = 14.sp,

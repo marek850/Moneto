@@ -15,12 +15,9 @@ import kotlinx.coroutines.launch
 data class CategoriesState(
     val categoryName: String = "",
     val categories: List<Category> = listOf()
-) {
+)
 
-
-}
-
-class CategoriesViewModel(): ViewModel(){
+class CategoriesViewModel : ViewModel(){
     private val _state = MutableStateFlow(CategoriesState())
     val uiState: StateFlow<CategoriesState> = _state.asStateFlow()
 

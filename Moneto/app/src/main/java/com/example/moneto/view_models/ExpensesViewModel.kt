@@ -7,12 +7,9 @@ import kotlinx.coroutines.flow.asStateFlow
 
 data class ExpensesState(
     val name: String = "",
-) {
+)
 
-
-}
-
-class ExpensesViewModel(): ViewModel() {
+class ExpensesViewModel : ViewModel() {
     private val _state = MutableStateFlow(ExpensesState())
     val uiState: StateFlow<ExpensesState> = _state.asStateFlow()
 

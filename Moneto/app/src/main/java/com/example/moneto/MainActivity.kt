@@ -42,8 +42,9 @@ import androidx.navigation.compose.rememberNavController
 import com.example.moneto.screens.AddExpense
 import com.example.moneto.screens.Categories
 import com.example.moneto.screens.CurrenciesScreen
-import com.example.moneto.screens.ExpensesScreen
+import com.example.moneto.screens.HomeScreen
 import com.example.moneto.screens.InfoScreen
+import com.example.moneto.screens.LimitSetScreen
 import com.example.moneto.screens.LoginScreen
 import com.example.moneto.screens.RegisterScreen
 import com.example.moneto.screens.SettingsScreen
@@ -93,6 +94,7 @@ fun BottomNavBar() {
     showBottomBar = when (backStackEntry?.destination?.route) {
         Screens.Categories.screen  -> false
         Screens.Currencies.screen -> false
+        Screens.Limits.screen -> false
         else -> true
     }
     val context = LocalContext.current.applicationContext
@@ -152,8 +154,8 @@ fun BottomNavBar() {
             Icon(Icons.Default.Info, contentDescription = null, modifier = Modifier.size(26.dp), tint = if (selected.value == Icons.Default.Info) Color.White else Color.LightGray)
         }
     }}}) {paddingValues ->
-        NavHost(navController = navigationController, startDestination = Screens.AddExpense.screen, modifier = Modifier.padding(paddingValues) ){
-            composable(Screens.Home.screen){ ExpensesScreen(navigationController) }
+        NavHost(navController = navigationController, startDestination = Screens.Home.screen, modifier = Modifier.padding(paddingValues) ){
+            composable(Screens.Home.screen){ HomeScreen(/*navigationController*/) }
             composable(Screens.Settings.screen){ SettingsScreen(navigationController) }
             composable(Screens.Info.screen){ InfoScreen() }
            // composable(Screens.Expenses.screen){ ExpensesScreen() }
@@ -162,6 +164,8 @@ fun BottomNavBar() {
             composable(Screens.Register.screen){ RegisterScreen(navigationController) }
             composable(Screens.Categories.screen){Categories(navigationController)}
             composable(Screens.Currencies.screen){ CurrenciesScreen(navigationController) }
+            composable(Screens.Limits.screen){ LimitSetScreen(navigationController) }
+
 
         }
 
