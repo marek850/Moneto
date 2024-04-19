@@ -1,5 +1,6 @@
-package com.example.moneto.components
+package com.example.moneto.charts
 
+import android.util.Half.toFloat
 import androidx.compose.foundation.background
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -11,14 +12,15 @@ import co.yml.charts.ui.piechart.models.PieChartConfig
 import co.yml.charts.ui.piechart.models.PieChartData
 import com.example.moneto.ui.theme.LightBackground
 import com.example.moneto.ui.theme.Purple80
+import kotlin.math.abs
 
 @Composable
 @Preview
-fun TransactionChart() {
+fun TransactionChart(expenses: Double, income: Double) {
     val donutChartData = PieChartData(
         slices = listOf(
-            PieChartData.Slice("Expenses", 10f, Color.Red),
-            PieChartData.Slice("Income", 20f, Color.Green)
+            PieChartData.Slice("Expenses", abs(expenses).toFloat(), Color.Red),
+            PieChartData.Slice("Income", income.toFloat(), Color.Green)
         ), plotType = PlotType.Donut
     )
     val donutChartConfig = PieChartConfig(

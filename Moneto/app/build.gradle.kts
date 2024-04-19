@@ -60,16 +60,11 @@ android {
 }
 
 dependencies {
-    val room_version = "2.6.1"
 
-    implementation("androidx.room:room-runtime:$room_version")
     implementation ("com.github.tehras:charts:0.2.4-alpha")
-    annotationProcessor("androidx.room:room-compiler:$room_version")
     implementation("io.github.serpro69:kotlin-faker:1.16.0")
     implementation ("co.yml:ycharts:2.1.0")
     // To use Kotlin annotation processing tool (kapt)
-    kapt("androidx.room:room-compiler:$room_version")
-    implementation("androidx.room:room-ktx:$room_version")
     implementation ("io.realm.kotlin:library-base:1.6.0")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.1")
     implementation("androidx.activity:activity-compose:1.7.0")

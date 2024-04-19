@@ -18,6 +18,8 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -27,31 +29,50 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.moneto.components.TransactionChart
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
+import com.example.moneto.charts.TransactionChart
 import com.example.moneto.components.TransactionList
-import com.example.moneto.testData.mockExpenses
 import com.example.moneto.ui.theme.Background
 import com.example.moneto.ui.theme.LightBackground
 import com.example.moneto.ui.theme.Purple80
+import com.example.moneto.view_models.HomeViewModel
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 @Preview
-fun HomeScreen() {
+fun HomeScreen(navController: NavController, homeViewModel: HomeViewModel = viewModel()) {
+    val state by homeViewModel.state.collectAsState()
     val incomes = buildAnnotatedString {
         withStyle(style = SpanStyle(color = Purple80)) {
             append("Income: ")
         }
         withStyle(style = SpanStyle(color = Color.Green)) {
-            append("20$")
+            append("${state.incomeValue}$")
         }
     }
     val expenses = buildAnnotatedString {
-        withStyle(style = SpanStyle(color = Color.LightGray)) {
-            append("Expenses:")
+        withStyle(style = SpanStyle(color = Purple80)) {
+            append("Expenses: ")
         }
         withStyle(style = SpanStyle(color = Color.Red)) {
-            append("10$")
+            append("-${state.expensesValue}$")
         }
+    }
+    val totalBalance = buildAnnotatedString {
+        withStyle(style = SpanStyle(color = Purple80)) {
+            append("Total balance: ")
+        }
+        if (state.totalSum >= 0){
+            withStyle(style = SpanStyle(color = Color.Green)) {
+                append("${state.totalSum}$")
+            }
+        } else {
+            withStyle(style = SpanStyle(color = Color.Red)) {
+                append("${state.totalSum}$")
+            }
+        }
+
     }
     Scaffold(modifier = Modifier.fillMaxHeight(),content = { innerPadding ->
         Column(
@@ -86,19 +107,19 @@ fun HomeScreen() {
                         .size(200.dp)
                         .padding(vertical = 16.dp, horizontal = 16.dp)
                         .align(alignment = Alignment.CenterHorizontally)) {
-                        TransactionChart()
+                        TransactionChart(state.expensesValue, state.incomeValue)
                     }
                     Row(modifier = Modifier
                         .fillMaxWidth()
                         .padding(10.dp), horizontalArrangement = Arrangement.Center) {
-                        Text(text = "Total balance: 10$", color = Purple80)
+                        Text(text = totalBalance)
                     }
                 }
             }
 
             Spacer(modifier = Modifier.height(16.dp)) // Add space between chart and button
             Column(/*modifier = Modifier.verticalScroll(rememberScrollState()).fillMaxHeight()*/) {
-                TransactionList(expenses = mockExpenses)
+               TransactionList(transactions = state.transactions)
             }
 
         }

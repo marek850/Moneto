@@ -1,4 +1,4 @@
-package com.example.moneto.components
+package com.example.moneto.charts
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -7,8 +7,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.moneto.BarDrawer
-import com.example.moneto.LabelDrawer
 import com.example.moneto.ui.theme.Purple40
 import com.example.moneto.ui.theme.Purple80
 import com.github.tehras.charts.bar.BarChart

@@ -1,4 +1,4 @@
-package com.example.moneto
+package com.example.moneto.charts
 
 import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.graphics.Canvas

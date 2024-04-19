@@ -156,7 +156,7 @@ fun BottomNavBar() {
         }
     }}}) {paddingValues ->
         NavHost(navController = navigationController, startDestination = Screens.Home.screen, modifier = Modifier.padding(paddingValues) ){
-            composable(Screens.Home.screen){ HomeScreen(/*navigationController*/) }
+            composable(Screens.Home.screen){ HomeScreen(navigationController) }
             composable(Screens.Statistics.screen){ StatisticScreen(/*navigationController*/) }
             composable(Screens.Settings.screen){ SettingsScreen(navigationController) }
             composable(Screens.Info.screen){ InfoScreen() }

@@ -15,14 +15,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.moneto.data.Expense
+import com.example.moneto.data.Transaction
 import com.example.moneto.data.TransactionType
 import com.example.moneto.ui.theme.LightPurple
+import com.example.moneto.ui.theme.Purple80
 import java.text.DecimalFormat
 
 @Composable
 @Preview
-fun TransactionElement(expense: Expense) {
+fun TransactionElement(transaction: Transaction) {
     Card(
         shape = RoundedCornerShape(12.dp), // Adjust corner shape as needed
         colors = CardDefaults.cardColors(
@@ -40,14 +41,14 @@ fun TransactionElement(expense: Expense) {
         ) {
             Row(modifier = Modifier.fillMaxWidth()) {
                 Column(modifier = Modifier.padding(10.dp)) {
-                    Text(text = expense.description ?:expense.category!!.name)
+                    Text(text = transaction.description ?:transaction.category!!.name, color = Purple80)
                 }
                 Spacer(Modifier.weight(1f))
                 Column(modifier = Modifier.padding(10.dp)) {
-                    Text(text = "USD ${ if(expense.transactionType == TransactionType.Expense){
-                        DecimalFormat("-0.#").format(expense.amount)
+                    Text(text = "USD ${ if(transaction.type == TransactionType.Expense){
+                        DecimalFormat("-0.#").format(transaction.amount)
                     }
-                            else { DecimalFormat("0.#").format(expense.amount)}}", color = if (expense.transactionType == TransactionType.Expense){
+                            else { DecimalFormat("0.#").format(transaction.amount)}}", color = if (transaction.type == TransactionType.Expense){
                                 Color.Red
                     } else { Color.Green}
                         

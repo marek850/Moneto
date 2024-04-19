@@ -1,7 +1,6 @@
 package com.example.moneto.testData
 
 import com.example.moneto.data.Category
-import com.example.moneto.data.Expense
 import com.example.moneto.data.TransactionType
 import io.github.serpro69.kfaker.Faker
 import java.time.LocalDateTime

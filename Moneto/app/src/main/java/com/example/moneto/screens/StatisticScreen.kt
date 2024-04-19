@@ -16,9 +16,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.moneto.components.TransactionList
-import com.example.moneto.components.WeekChart
-import com.example.moneto.testData.mockExpenses
+import com.example.moneto.charts.WeekChart
 import com.example.moneto.ui.theme.Background
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -51,7 +49,7 @@ fun StatisticScreen(/*navController: NavController*/) {
                 Column(
                     modifier = Modifier/*.verticalScroll(transactionListScrollState)*/.fillMaxHeight()
                 ) {
-                    TransactionList(expenses = mockExpenses)
+                    //TransactionList(expenses = mockExpenses)
                 }
             }
         }

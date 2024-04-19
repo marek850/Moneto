@@ -162,7 +162,8 @@ fun AddTransaction(navController: NavController, addViewModel: AddTransactionVie
                                         contentColor = Purple80,
                                     ),
                                     onDismissRequest = {datePickerShowing = false},
-                                    onDateChange = {it -> addViewModel.setDate(it)
+                                    onDateChange = {
+                                        addViewModel.setDate(it)
                                     datePickerShowing = false},
                                     initialDate = state.date,
 
@@ -182,12 +183,12 @@ fun AddTransaction(navController: NavController, addViewModel: AddTransactionVie
                                 mutableStateOf(false)
                             }
                             TextButton(onClick = {categoriesMenuOpen = true}) {
-                                Text(state.category ?: "Select category", color = Purple80)
+                                Text(state.category?.name ?: "Select category", color = Purple80)
                                 DropdownMenu(expanded = categoriesMenuOpen, onDismissRequest = { categoriesMenuOpen = false }) {
                                     state.categories?.forEach { category ->
                                     DropdownMenuItem(text = { Text(category.name, color = Purple80) },
                                         onClick = {
-                                            addViewModel.setCategory(category.name)
+                                            addViewModel.setCategory(category)
                                         categoriesMenuOpen = false})
                                     }
                                 }
@@ -196,7 +197,7 @@ fun AddTransaction(navController: NavController, addViewModel: AddTransactionVie
                     }
                 }
                 Button(
-                    onClick = addViewModel::addExpense,
+                    onClick = addViewModel::addTransaction,
                     modifier = Modifier.padding(16.dp),
                     colors = ButtonDefaults.buttonColors(
                         containerColor = LightPurple
