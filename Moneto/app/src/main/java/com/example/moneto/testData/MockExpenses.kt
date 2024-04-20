@@ -3,8 +3,6 @@ package com.example.moneto.testData
 import com.example.moneto.data.Category
 import com.example.moneto.data.TransactionType
 import io.github.serpro69.kfaker.Faker
-import java.time.LocalDateTime
-import java.time.temporal.ChronoUnit
 
 
 val faker = Faker()
@@ -27,9 +25,9 @@ val mockCategories = listOf(
 val mockTransactionTypes = listOf(
     TransactionType.Income,
     TransactionType.Expense
-)
-val mockExpenses: List<Expense> = List(30) {
-    Expense(
+)/*
+val mockExpenses: List<Transaction> = List(30) {
+    Transaction(
         amount = faker.random.nextInt(min = 1, max = 999)
             .toDouble() + faker.random.nextDouble(),
         date = LocalDateTime.now().minus(
@@ -41,4 +39,4 @@ val mockExpenses: List<Expense> = List(30) {
         category = faker.random.randomValue(mockCategories),
         transactionType = faker.random.randomValue(mockTransactionTypes)
     )
-}
+}*/

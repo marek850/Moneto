@@ -157,12 +157,11 @@ fun BottomNavBar() {
     }}}) {paddingValues ->
         NavHost(navController = navigationController, startDestination = Screens.Home.screen, modifier = Modifier.padding(paddingValues) ){
             composable(Screens.Home.screen){ HomeScreen(navigationController) }
-            composable(Screens.Statistics.screen){ StatisticScreen(/*navigationController*/) }
+            composable(Screens.Statistics.screen){ StatisticScreen(navigationController) }
             composable(Screens.Settings.screen){ SettingsScreen(navigationController) }
             composable(Screens.Info.screen){ InfoScreen() }
            // composable(Screens.Expenses.screen){ ExpensesScreen() }
-            composable(Screens.AddExpense.screen){ AddTransaction(navigationController)
-            }
+            composable(Screens.AddExpense.screen){ AddTransaction(navigationController) }
             composable(Screens.Register.screen){ RegisterScreen(navigationController) }
             composable(Screens.Categories.screen){Categories(navigationController)}
             composable(Screens.Currencies.screen){ CurrenciesScreen(navigationController) }

@@ -14,12 +14,18 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.Typography
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -32,10 +38,13 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.moneto.charts.TransactionChart
+import com.example.moneto.components.Picker
 import com.example.moneto.components.TransactionList
+import com.example.moneto.data.TimeRange
 import com.example.moneto.ui.theme.Background
 import com.example.moneto.ui.theme.LightBackground
 import com.example.moneto.ui.theme.Purple80
+import com.example.moneto.ui.theme.Typography
 import com.example.moneto.view_models.HomeViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -43,6 +52,9 @@ import com.example.moneto.view_models.HomeViewModel
 @Preview
 fun HomeScreen(navController: NavController, homeViewModel: HomeViewModel = viewModel()) {
     val state by homeViewModel.state.collectAsState()
+    var timeRangeOpened by remember {
+        mutableStateOf(false)
+    }
     val incomes = buildAnnotatedString {
         withStyle(style = SpanStyle(color = Purple80)) {
             append("Income: ")
@@ -74,6 +86,7 @@ fun HomeScreen(navController: NavController, homeViewModel: HomeViewModel = view
         }
 
     }
+    val timeRanges = listOf(TimeRange.Day, TimeRange.Week, TimeRange.Month, TimeRange.Year)
     Scaffold(modifier = Modifier.fillMaxHeight(),content = { innerPadding ->
         Column(
             modifier = Modifier
@@ -116,8 +129,23 @@ fun HomeScreen(navController: NavController, homeViewModel: HomeViewModel = view
                     }
                 }
             }
-
-            Spacer(modifier = Modifier.height(16.dp)) // Add space between chart and button
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Text(
+                    "Total for: ",
+                    style = Typography.titleLarge, color = Purple80
+                )
+                Picker(state.timeRange.name, { timeRangeOpened = !timeRangeOpened })
+                DropdownMenu(expanded = timeRangeOpened,
+                    onDismissRequest = { timeRangeOpened = false }) {
+                    timeRanges.forEach { timeRange ->
+                        DropdownMenuItem(text = { Text(timeRange.name) }, onClick = {
+                            homeViewModel.updateTimeRangeAndSums(timeRange)
+                            timeRangeOpened = false
+                        })
+                    }
+                }
+            }
+            Spacer(modifier = Modifier.height(5.dp)) // Add space between chart and button
             Column(/*modifier = Modifier.verticalScroll(rememberScrollState()).fillMaxHeight()*/) {
                TransactionList(transactions = state.transactions)
             }
