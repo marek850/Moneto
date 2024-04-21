@@ -206,9 +206,5 @@ fun AddTransaction(navController: NavController, addViewModel: AddTransactionVie
                     Text("Add transaction", color = Purple80)
                 }
             }
-
-
-
-
     })
 }

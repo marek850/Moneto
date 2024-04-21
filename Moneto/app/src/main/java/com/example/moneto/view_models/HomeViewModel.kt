@@ -6,6 +6,7 @@ import com.example.moneto.data.TimeRange
 import com.example.moneto.data.Transaction
 import com.example.moneto.data.TransactionType
 import com.example.moneto.data.monetoDb
+import com.example.moneto.utils.calculateDateRange
 import io.realm.kotlin.ext.query
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -37,17 +38,28 @@ class HomeViewModel : ViewModel(){
         }
     }
     fun updateTimeRangeAndSums(range:TimeRange) {
+        val (start, end) = calculateDateRange(range)
+        val transactions = monetoDb.query<Transaction>().find().filter { transaction ->
+            (transaction.date.toLocalDate().isAfter(start) && transaction.date.toLocalDate()
+                .isBefore(end)) || transaction.date.toLocalDate()
+                .isEqual(start) || transaction.date.toLocalDate().isEqual(end)
+        }
         val expenses = monetoDb.query<Transaction>().find().filter { transaction ->
-            (transaction.type == TransactionType.Expense)
+            (transaction.type == TransactionType.Expense) && ((transaction.date.toLocalDate().isAfter(start) && transaction.date.toLocalDate()
+                .isBefore(end)) || transaction.date.toLocalDate()
+                .isEqual(start) || transaction.date.toLocalDate().isEqual(end))
         }
         val income = monetoDb.query<Transaction>().find().filter { transaction ->
-            (transaction.type == TransactionType.Income)
+            (transaction.type == TransactionType.Income) && ((transaction.date.toLocalDate().isAfter(start) && transaction.date.toLocalDate()
+                .isBefore(end)) || transaction.date.toLocalDate()
+                .isEqual(start) || transaction.date.toLocalDate().isEqual(end))
         }
         val expenseTotal = expenses.sumOf { it.amount }
         val incomeTotal = income.sumOf { it.amount }
         val totalSum = incomeTotal - expenseTotal
         _state.update { currentState ->
             currentState.copy(
+                transactions = transactions,
                 expensesValue = expenseTotal,
                 incomeValue = incomeTotal,
                 totalSum = totalSum,

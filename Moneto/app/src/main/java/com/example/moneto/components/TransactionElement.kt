@@ -42,6 +42,7 @@ fun TransactionElement(transaction: Transaction) {
             Row(modifier = Modifier.fillMaxWidth()) {
                 Column(modifier = Modifier.padding(10.dp)) {
                     Text(text = transaction.description ?:transaction.category!!.name, color = Purple80)
+                    //Text(text = transaction.date.toString(), color = Purple80)
                 }
                 Spacer(Modifier.weight(1f))
                 Column(modifier = Modifier.padding(10.dp)) {

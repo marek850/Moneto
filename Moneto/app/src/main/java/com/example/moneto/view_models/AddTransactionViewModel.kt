@@ -63,7 +63,7 @@ class AddTransactionViewModel : ViewModel(){
         _state.update { currentState -> currentState.copy(category = category) }
     }
     fun addTransaction() {
-        if (_state.value.category != null) {
+        if (_state.value.category != null && _state.value.amount != "") {
             viewModelScope.launch(Dispatchers.IO) {
                 val now = LocalDateTime.now()
                 monetoDb.write {

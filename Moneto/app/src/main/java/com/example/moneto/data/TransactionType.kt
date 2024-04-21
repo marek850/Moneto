@@ -1,8 +1,8 @@
 package com.example.moneto.data
 
-sealed class TransactionType(val name: String, val target: String) {
-    object Income : TransactionType("Income", "Income")
-    object Expense : TransactionType("Expense", "Expense")
+sealed class TransactionType(val name: String) {
+    object Income : TransactionType("Income")
+    object Expense : TransactionType("Expense")
 }
 
 fun String.toTransactionType(): TransactionType {

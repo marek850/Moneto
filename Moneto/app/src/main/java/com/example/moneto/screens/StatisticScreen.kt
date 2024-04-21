@@ -67,10 +67,10 @@ fun StatisticScreen(navController: NavController, statisticsViewModel: Statistic
                     //.verticalScroll(rememberScrollState())
             ){
                 when (state.timeRange) {
-                    TimeRange.Day -> DayChart()
-                    TimeRange.Week -> WeekChart()
-                    TimeRange.Month -> MonthChart(month = LocalDate.now())
-                    TimeRange.Year -> YearChart()
+                    TimeRange.Day -> DayChart(state.transactions)
+                    TimeRange.Week -> WeekChart(state.transactions)
+                    TimeRange.Month -> MonthChart(state.transactions, LocalDate.now())
+                    TimeRange.Year -> YearChart(state.transactions)
                     else -> Unit
                 }
             }
@@ -95,7 +95,7 @@ fun StatisticScreen(navController: NavController, statisticsViewModel: Statistic
                 Column(
                     modifier = Modifier/*.verticalScroll(transactionListScrollState)*/.fillMaxHeight()
                 ) {
-                    TransactionList(transactions = state.transactions)
+                    TransactionList(state.transactions, state.timeRange)
                 }
             }
         }

@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.moneto.data.TimeRange
 import com.example.moneto.data.Transaction
 import com.example.moneto.data.monetoDb
+import com.example.moneto.utils.calculateDateRange
 import io.realm.kotlin.ext.query
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -19,8 +20,8 @@ data class StatisticsViewState(
 )
 
 class StatisticsViewModel : ViewModel(){
-    private val _state = MutableStateFlow(HomeViewState())
-    val state: StateFlow<HomeViewState> = _state.asStateFlow()
+    private val _state = MutableStateFlow(StatisticsViewState())
+    val state: StateFlow<StatisticsViewState> = _state.asStateFlow()
 
     init {
         _state.update { currentState ->
@@ -29,13 +30,20 @@ class StatisticsViewModel : ViewModel(){
             )
         }
         viewModelScope.launch(Dispatchers.IO) {
-
+            updateTimeRange(TimeRange.Day)
         }
     }
     fun updateTimeRange(range:TimeRange) {
+        val (start, end) = calculateDateRange(range)
+        val transactions = monetoDb.query<Transaction>().find().filter { transaction ->
+            (transaction.date.toLocalDate().isAfter(start) && transaction.date.toLocalDate()
+                .isBefore(end)) || transaction.date.toLocalDate()
+                .isEqual(start) || transaction.date.toLocalDate().isEqual(end)
+        }
         _state.update { currentState ->
             currentState.copy(
-                timeRange = range
+                timeRange = range,
+                transactions = transactions
             )
         }
     }
