@@ -4,15 +4,22 @@ import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.graphics.Canvas
 import androidx.compose.ui.graphics.Paint
 import androidx.compose.ui.graphics.drawscope.DrawScope
+import com.example.moneto.data.TimeRange
 import com.example.moneto.ui.theme.Background
 import com.github.tehras.charts.bar.BarChartData
 
-    class BarDrawer :
+    class BarDrawer (val timeRange: TimeRange) :
         com.github.tehras.charts.bar.renderer.bar.BarDrawer {
         private val barPaint = Paint().apply {
             this.isAntiAlias = true
         }
-
+        private val rightOffset = when(timeRange) {
+            TimeRange.Day -> 10f
+            TimeRange.Week -> 24f
+            TimeRange.Month -> 6f
+            TimeRange.Year -> 18f
+            else -> 0f
+        }
         override fun drawBar(
             drawScope: DrawScope,
             canvas: Canvas,
@@ -22,7 +29,7 @@ import com.github.tehras.charts.bar.BarChartData
             canvas.drawRoundRect(
                 barArea.left,
                 0f,
-                barArea.right +24f,
+                barArea.right + rightOffset,
                 barArea.bottom,
                 16f,
                 16f,
@@ -33,7 +40,7 @@ import com.github.tehras.charts.bar.BarChartData
             canvas.drawRoundRect(
                 barArea.left,
                 barArea.top,
-                barArea.right + 24f,
+                barArea.right + rightOffset,
                 barArea.bottom,
                 16f,
                 16f,

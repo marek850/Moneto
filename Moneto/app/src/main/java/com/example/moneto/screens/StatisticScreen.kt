@@ -27,15 +27,18 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.example.moneto.charts.DayChart
+import com.example.moneto.charts.MonthChart
 import com.example.moneto.charts.WeekChart
+import com.example.moneto.charts.YearChart
 import com.example.moneto.components.Picker
 import com.example.moneto.components.TransactionList
 import com.example.moneto.data.TimeRange
 import com.example.moneto.ui.theme.Background
 import com.example.moneto.ui.theme.Purple80
 import com.example.moneto.ui.theme.Typography
-import com.example.moneto.view_models.HomeViewModel
 import com.example.moneto.view_models.StatisticsViewModel
+import java.time.LocalDate
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Preview
@@ -63,7 +66,13 @@ fun StatisticScreen(navController: NavController, statisticsViewModel: Statistic
                     .padding(vertical = 16.dp)
                     //.verticalScroll(rememberScrollState())
             ){
-                WeekChart()
+                when (state.timeRange) {
+                    TimeRange.Day -> DayChart()
+                    TimeRange.Week -> WeekChart()
+                    TimeRange.Month -> MonthChart(month = LocalDate.now())
+                    TimeRange.Year -> YearChart()
+                    else -> Unit
+                }
             }
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Text(

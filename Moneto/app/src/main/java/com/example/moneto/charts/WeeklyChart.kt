@@ -7,6 +7,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.moneto.data.TimeRange
 import com.example.moneto.ui.theme.Purple40
 import com.example.moneto.ui.theme.Purple80
 import com.github.tehras.charts.bar.BarChart
@@ -56,8 +57,8 @@ fun WeekChart() {
             ),
         )
     ),
-       barDrawer = BarDrawer(),
-        labelDrawer = LabelDrawer(),
+       barDrawer = BarDrawer(TimeRange.Week),
+        labelDrawer = LabelDrawer(TimeRange.Week),
         yAxisDrawer = SimpleYAxisDrawer(
             labelTextColor = Purple80,
             labelRatio = 7,
