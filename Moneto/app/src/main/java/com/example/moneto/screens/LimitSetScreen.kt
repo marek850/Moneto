@@ -104,7 +104,7 @@ fun LimitSetScreen(navController: NavController, limitViewModel: LimitsViewModel
                 ) {
                     CustomRow(label = "Daily Limit",) {
                         CustomTextField(
-                            value = state.dailyLimit,
+                            value = if(state.dailyLimit.toDoubleOrNull() != null && state.dailyLimit.toDouble() > 0) {state.dailyLimit} else {"Not set"},
                             modifier = Modifier.fillMaxWidth(),
                             textStyle = TextStyle(
                                 textAlign = TextAlign.Right,
@@ -124,7 +124,7 @@ fun LimitSetScreen(navController: NavController, limitViewModel: LimitsViewModel
                     )
                     CustomRow(label = "Monthly Limit",) {
                         CustomTextField(
-                            value = state.monthlyLimit,
+                            value = if(state.monthlyLimit.toDoubleOrNull() != null && state.monthlyLimit.toDouble() > 0) {state.monthlyLimit} else {"Not set"},
                             modifier = Modifier.fillMaxWidth(),
                             textStyle = TextStyle(
                                 textAlign = TextAlign.Right,

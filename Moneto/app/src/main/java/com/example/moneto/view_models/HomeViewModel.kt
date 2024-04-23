@@ -2,6 +2,7 @@ package com.example.moneto.view_models
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.moneto.data.Currency
 import com.example.moneto.data.TimeRange
 import com.example.moneto.data.Transaction
 import com.example.moneto.data.TransactionType
@@ -20,7 +21,8 @@ data class HomeViewState(
     val expensesValue: Double = 0.0,
     val incomeValue: Double = 0.0,
     val totalSum: Double = 0.0,
-    val timeRange: TimeRange = TimeRange.Day
+    val timeRange: TimeRange = TimeRange.Day,
+    val currency: Currency? = null
 )
 
 class HomeViewModel : ViewModel(){
@@ -28,9 +30,12 @@ class HomeViewModel : ViewModel(){
     val state: StateFlow<HomeViewState> = _state.asStateFlow()
 
     init {
+        val currencies = monetoDb.query<Currency>().find()
+        val currency = currencies[0]
         _state.update { currentState ->
             currentState.copy(
-                transactions = monetoDb.query<Transaction>().find()
+                transactions = monetoDb.query<Transaction>().find(),
+                currency = currency
             )
         }
         viewModelScope.launch(Dispatchers.IO) {

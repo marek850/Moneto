@@ -6,13 +6,14 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.example.moneto.data.Currency
 import com.example.moneto.data.OneDaySumTransactions
 import com.example.moneto.data.TimeRange
 import com.example.moneto.data.Transaction
 import java.time.LocalDate
 
 @Composable
-fun TransactionList(transactions: List<Transaction>, timeRange: TimeRange) {
+fun TransactionList(transactions: List<Transaction>, timeRange: TimeRange, currency: Currency?) {
     val groupedYearTransactions: Map<String, OneDaySumTransactions>
     val groupedWeekTransactions: Map<LocalDate, OneDaySumTransactions>
     val groupedMonthTransactions: Map<Int, OneDaySumTransactions>
@@ -21,7 +22,7 @@ fun TransactionList(transactions: List<Transaction>, timeRange: TimeRange) {
             Text("No data for selected date range.", modifier = Modifier.padding(top = 32.dp))
         } else {
             transactions.forEach { transaction ->
-                TransactionElement(transaction = transaction)
+                TransactionElement(transaction = transaction, currency)
             }
         }
     }

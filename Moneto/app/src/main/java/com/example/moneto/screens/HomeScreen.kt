@@ -60,7 +60,7 @@ fun HomeScreen(navController: NavController, homeViewModel: HomeViewModel = view
             append("Income: ")
         }
         withStyle(style = SpanStyle(color = Color.Green)) {
-            append("${String.format("%.2f", state.incomeValue)}$")
+            append("${String.format("%.2f", state.incomeValue)}${state.currency?.symbol}")
         }
     }
     val expenses = buildAnnotatedString {
@@ -68,7 +68,7 @@ fun HomeScreen(navController: NavController, homeViewModel: HomeViewModel = view
             append("Expenses: ")
         }
         withStyle(style = SpanStyle(color = Color.Red)) {
-            append("-${String.format("%.2f", state.expensesValue)}$")
+            append("-${String.format("%.2f", state.expensesValue)}${state.currency?.symbol}")
         }
     }
     val totalBalance = buildAnnotatedString {
@@ -77,11 +77,11 @@ fun HomeScreen(navController: NavController, homeViewModel: HomeViewModel = view
         }
         if (state.totalSum >= 0){
             withStyle(style = SpanStyle(color = Color.Green)) {
-                append("${String.format("%.2f", state.totalSum)}$")
+                append("${String.format("%.2f", state.totalSum)}${state.currency?.symbol}")
             }
         } else {
             withStyle(style = SpanStyle(color = Color.Red)) {
-                append("${String.format("%.2f", state.totalSum)}$")
+                append("${String.format("%.2f", state.totalSum)}${state.currency?.symbol}")
             }
         }
 
@@ -147,7 +147,7 @@ fun HomeScreen(navController: NavController, homeViewModel: HomeViewModel = view
             }
             Spacer(modifier = Modifier.height(5.dp)) // Add space between chart and button
             Column(/*modifier = Modifier.verticalScroll(rememberScrollState()).fillMaxHeight()*/) {
-               TransactionList(state.transactions, state.timeRange)
+               TransactionList(state.transactions, state.timeRange, state.currency)
             }
 
         }

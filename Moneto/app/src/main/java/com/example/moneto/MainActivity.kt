@@ -24,6 +24,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -39,6 +40,10 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.example.moneto.data.Category
+import com.example.moneto.data.Curr
+import com.example.moneto.data.Currency
+import com.example.moneto.data.monetoDb
 import com.example.moneto.screens.AddTransaction
 import com.example.moneto.screens.Categories
 import com.example.moneto.screens.CurrenciesScreen
@@ -52,6 +57,7 @@ import com.example.moneto.screens.StatisticScreen
 import com.example.moneto.ui.theme.Background
 import com.example.moneto.ui.theme.Login
 import com.example.moneto.ui.theme.MonetoTheme
+import io.realm.kotlin.ext.query
 import io.sentry.compose.withSentryObservableEffect
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -60,6 +66,7 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContent {
             MonetoTheme {
                 // A surface container using the 'background' color from the theme
@@ -88,9 +95,38 @@ fun MainScreen(navController: NavController) {
 }
 @Composable
 fun BottomNavBar() {
+
     val navigationController = rememberNavController().withSentryObservableEffect()
     var showBottomBar by rememberSaveable { mutableStateOf(true) }
     val backStackEntry by navigationController.currentBackStackEntryAsState()
+
+    LaunchedEffect(Unit) {
+        monetoDb.write {
+            val deletedCurrency = this.query<Currency>().find()
+            if (deletedCurrency.isEmpty())
+                this.copyToRealm(
+                Currency(1, Curr.UnitedStatesDollar.code, Curr.UnitedStatesDollar.symbol)
+                )
+        }
+        monetoDb.write {
+            val categoriesToCreate = listOf<String>("Sallary", "Restaurant", "Groceries", "Rent", "Drugs", "Car")
+            val categories = this.query<Category>().find()
+            val existingCategoryNames = categories.map { it.name }.toSet()
+
+            // Iterate over categoriesToCreate and create any that are missing
+            categoriesToCreate.forEach { categoryName ->
+                if (categoryName !in existingCategoryNames) {
+                    // Create a new category if it's not found in the existing ones
+                    val newCategory = Category(categoryName)
+                    this.copyToRealm(newCategory)
+
+                }
+            }
+
+
+        }
+
+    }
 
     showBottomBar = when (backStackEntry?.destination?.route) {
         Screens.Categories.screen  -> false

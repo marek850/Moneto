@@ -10,10 +10,13 @@ import androidx.compose.ui.unit.dp
 import com.example.moneto.data.OneDaySumTransactions
 import com.example.moneto.data.OneHourSumTransactions
 
-@Composable
-@Preview
+
+
+/*
 fun HourGroupedTransactions(
-    /*date: LocalDate,*/
+    */
+/*date: LocalDate,*//*
+
     oneHourSumTransactions: OneHourSumTransactions,
 ) {
     Column() {
@@ -25,4 +28,4 @@ fun HourGroupedTransactions(
             )
         }
     }
-}
+}*/
