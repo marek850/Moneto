@@ -16,26 +16,50 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 data class StatisticsViewState(
-    val transactions: List<Transaction> = listOf(),
+    val transactions: MutableList<Transaction> = mutableListOf(),
     val timeRange: TimeRange = TimeRange.Day,
     val currency: Currency? = null
 )
 
-class StatisticsViewModel : ViewModel(){
+class StatisticsViewModel : ViewModel(), TransactionsBaseViewModel{
     private val _state = MutableStateFlow(StatisticsViewState())
     val state: StateFlow<StatisticsViewState> = _state.asStateFlow()
 
     init {
         val currencies = monetoDb.query<Currency>().find()
         val currency = currencies[0]
+        val transactions = monetoDb.query<Transaction>().find()
+        val mutableTransactions = mutableListOf<Transaction>()
+        for (transaction in transactions){
+            mutableTransactions.add(transaction)
+        }
         _state.update { currentState ->
             currentState.copy(
-                transactions = monetoDb.query<Transaction>().find(),
+                transactions = mutableTransactions,
                 currency = currency
             )
         }
         viewModelScope.launch(Dispatchers.IO) {
             updateTimeRange(TimeRange.Day)
+        }
+    }
+    fun removeTransaction(tranToRemove: Transaction) {
+
+        viewModelScope.launch(Dispatchers.IO) {
+            monetoDb.write {
+                val deletingTransaction =
+                    this.query<Transaction>("_id == $0", tranToRemove._id).find().firstOrNull()
+                deletingTransaction?.let {
+                    delete(it)
+                    // Perform the state update only after successful deletion
+                    _state.update { currentState ->
+                        val updatedTransactions = currentState.transactions.filter { transaction ->
+                            transaction._id != tranToRemove._id
+                        }.toMutableList()
+                        currentState.copy(transactions = updatedTransactions)
+                    }
+                }
+            }
         }
     }
     fun updateTimeRange(range:TimeRange) {
@@ -45,10 +69,14 @@ class StatisticsViewModel : ViewModel(){
                 .isBefore(end)) || transaction.date.toLocalDate()
                 .isEqual(start) || transaction.date.toLocalDate().isEqual(end)
         }
+        val mutableTransactions = mutableListOf<Transaction>()
+        for (transaction in transactions){
+            mutableTransactions.add(transaction)
+        }
         _state.update { currentState ->
             currentState.copy(
                 timeRange = range,
-                transactions = transactions
+                transactions = mutableTransactions
             )
         }
     }

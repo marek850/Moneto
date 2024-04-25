@@ -10,10 +10,11 @@ import com.example.moneto.data.Currency
 import com.example.moneto.data.OneDaySumTransactions
 import com.example.moneto.data.TimeRange
 import com.example.moneto.data.Transaction
+import com.example.moneto.view_models.TransactionsBaseViewModel
 import java.time.LocalDate
 
 @Composable
-fun TransactionList(transactions: List<Transaction>, timeRange: TimeRange, currency: Currency?) {
+fun TransactionList(transactions: List<Transaction>, timeRange: TimeRange, currency: Currency?,viewModel: TransactionsBaseViewModel) {
     val groupedYearTransactions: Map<String, OneDaySumTransactions>
     val groupedWeekTransactions: Map<LocalDate, OneDaySumTransactions>
     val groupedMonthTransactions: Map<Int, OneDaySumTransactions>
@@ -22,7 +23,7 @@ fun TransactionList(transactions: List<Transaction>, timeRange: TimeRange, curre
             Text("No data for selected date range.", modifier = Modifier.padding(top = 32.dp))
         } else {
             transactions.forEach { transaction ->
-                TransactionElement(transaction = transaction, currency)
+                TransactionElement(transaction = transaction, currency, viewModel)
             }
         }
     }

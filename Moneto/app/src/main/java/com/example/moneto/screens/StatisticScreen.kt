@@ -95,7 +95,7 @@ fun StatisticScreen(navController: NavController, statisticsViewModel: Statistic
                 Column(
                     modifier = Modifier/*.verticalScroll(transactionListScrollState)*/.fillMaxHeight()
                 ) {
-                    TransactionList(state.transactions, state.timeRange, state.currency)
+                    TransactionList(state.transactions, state.timeRange, state.currency, statisticsViewModel)
                 }
             }
         }

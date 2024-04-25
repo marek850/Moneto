@@ -147,7 +147,7 @@ fun HomeScreen(navController: NavController, homeViewModel: HomeViewModel = view
             }
             Spacer(modifier = Modifier.height(5.dp)) // Add space between chart and button
             Column(/*modifier = Modifier.verticalScroll(rememberScrollState()).fillMaxHeight()*/) {
-               TransactionList(state.transactions, state.timeRange, state.currency)
+               TransactionList(state.transactions, state.timeRange, state.currency, homeViewModel)
             }
 
         }
