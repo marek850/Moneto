@@ -4,7 +4,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -17,12 +16,10 @@ import androidx.compose.material.icons.rounded.KeyboardArrowLeft
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MediumTopAppBar
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
@@ -39,28 +36,22 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.em
-import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.DialogProperties
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import com.example.moneto.components.CustomRow
 import com.example.moneto.data.Curr
 import com.example.moneto.ui.theme.Background
 import com.example.moneto.ui.theme.LightPurple
 import com.example.moneto.ui.theme.Purple80
 import com.example.moneto.ui.theme.Typography
 import com.example.moneto.view_models.CurrenciesViewModel
-import com.example.moneto.view_models.LimitsViewModel
 
-@Preview
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CurrenciesScreen(navController: NavController,currenciesViewModel: CurrenciesViewModel = viewModel()) {
     val state by currenciesViewModel.uiState.collectAsState()
-    val currencies = listOf(Curr.Euro, Curr.UnitedStatesDollar, Curr.AustralianDollar, Curr.JappaneseYen)
+    val currencies = listOf(Curr.Euro, Curr.UnitedStatesDollar, Curr.AustralianDollar, Curr.JapaneseYen)
     val openDialog = remember { mutableStateOf(false) }
     Scaffold(topBar = {
         MediumTopAppBar(
@@ -79,7 +70,7 @@ fun CurrenciesScreen(navController: NavController,currenciesViewModel: Currencie
                             tint = Purple80,
                             contentDescription = "Settings"
                         )
-                        Text("Settings", color = Purple80,)
+                        Text("Settings", color = Purple80)
                     }
                 }
             }
@@ -98,7 +89,11 @@ fun CurrenciesScreen(navController: NavController,currenciesViewModel: Currencie
                 var currenciesMenuOpen by remember {
                     mutableStateOf(false)
                 }
-                Text(text = "Used Currency:", modifier = Modifier.padding(horizontal = 16.dp, vertical = 10.dp),style = Typography.titleLarge,)
+                Text(
+                    text = "Used Currency:",
+                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 10.dp),
+                    style = Typography.titleLarge,
+                )
                 Button(colors = ButtonDefaults.buttonColors(
                     containerColor = LightPurple
                 ),modifier = Modifier
@@ -106,7 +101,7 @@ fun CurrenciesScreen(navController: NavController,currenciesViewModel: Currencie
                         RoundedCornerShape(10.dp)
                     ).fillMaxWidth(),onClick = {currenciesMenuOpen = true}) {
                     Row {
-                        Text(state.shortName ?: "Select currency", color = Purple80)
+                        Text(state.shortName, color = Purple80)
                         Icon(Icons.Default.KeyboardArrowDown ,contentDescription = null,
                             tint = Purple80,
                             modifier = Modifier.size(23.dp))
@@ -144,7 +139,7 @@ fun CurrenciesScreen(navController: NavController,currenciesViewModel: Currencie
                     confirmButton = {
                         TextButton(
                             onClick = {
-                                openDialog.value = false // Close dialog on confirm
+                                openDialog.value = false
                             }
                         ) {
                             Text("OK",color = Purple80)
@@ -153,7 +148,7 @@ fun CurrenciesScreen(navController: NavController,currenciesViewModel: Currencie
                     dismissButton = {
                         TextButton(
                             onClick = {
-                                openDialog.value = false // Close dialog on dismiss
+                                openDialog.value = false
                             }
                         ) {
                             Text("Cancel",color = Purple80)

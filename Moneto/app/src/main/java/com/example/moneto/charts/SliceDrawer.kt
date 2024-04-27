@@ -11,7 +11,6 @@ class SliceDrawer : SliceDrawer{
     private val barPaint = Paint().apply {
         this.isAntiAlias = true
     }
-
     override fun drawSlice(
         drawScope: DrawScope,
         canvas: Canvas,
@@ -25,7 +24,7 @@ class SliceDrawer : SliceDrawer{
         val top = (area.height - diameter) / 2
         val right = left + diameter
         val bottom = top + diameter
-        val rect = android.graphics.RectF(left, top, right, bottom)
+        android.graphics.RectF(left, top, right, bottom)
 
         // Set the color for the slice
         barPaint.color = slice.color

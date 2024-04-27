@@ -26,62 +26,76 @@ fun YearChart(transactions: List<Transaction>) {
                 BarChartData.Bar(
                     label = Month.JANUARY.name.substring(0, 1),
                     value = abs(groupedTransactions[Month.JANUARY.name]?.total?.toFloat()?: 0f),
-                    color = if (groupedTransactions[Month.JANUARY.name]?.total?.toFloat()?: 0f > 0){ Color.Green } else{ Color.Red }
+                    color = if ((groupedTransactions[Month.JANUARY.name]?.total?.toFloat()
+                            ?: 0f) > 0
+                    ){ Color.Green } else{ Color.Red }
                 ),
                 BarChartData.Bar(
                     label = Month.FEBRUARY.name.substring(0, 1),
                     value = abs(groupedTransactions[Month.FEBRUARY.name]?.total?.toFloat() ?: 0f),
-                    color = if (groupedTransactions[Month.FEBRUARY.name]?.total?.toFloat() ?: 0f > 0){ Color.Green } else{ Color.Red }
+                    color = if ((groupedTransactions[Month.FEBRUARY.name]?.total?.toFloat()
+                            ?: 0f) > 0
+                    ){ Color.Green } else{ Color.Red }
                 ),
                 BarChartData.Bar(
                     label = Month.MARCH.name.substring(0, 1),
                     value = abs(groupedTransactions[Month.MARCH.name]?.total?.toFloat() ?: 0f),
-                    color = if (groupedTransactions[Month.MARCH.name]?.total?.toFloat() ?: 0f > 0){ Color.Green } else{ Color.Red }
+                    color = if ((groupedTransactions[Month.MARCH.name]?.total?.toFloat() ?: 0f) > 0){ Color.Green } else{ Color.Red }
                 ),
                 BarChartData.Bar(
                     label = Month.APRIL.name.substring(0, 1),
                     value = abs(groupedTransactions[Month.APRIL.name]?.total?.toFloat() ?: 0f),
-                    color = if (groupedTransactions[Month.APRIL.name]?.total?.toFloat() ?: 0f > 0){ Color.Green } else{ Color.Red }
+                    color = if ((groupedTransactions[Month.APRIL.name]?.total?.toFloat() ?: 0f) > 0){ Color.Green } else{ Color.Red }
                 ),
                 BarChartData.Bar(
                     label = Month.MAY.name.substring(0, 1),
                     value = abs(groupedTransactions[Month.MAY.name]?.total?.toFloat() ?: 0f),
-                    color = if (groupedTransactions[Month.MAY.name]?.total?.toFloat() ?: 0f > 0){ Color.Green } else{ Color.Red }
+                    color = if ((groupedTransactions[Month.MAY.name]?.total?.toFloat() ?: 0f) > 0){ Color.Green } else{ Color.Red }
                 ),
                 BarChartData.Bar(
                     label = Month.JUNE.name.substring(0, 1),
                     value = abs(groupedTransactions[Month.JUNE.name]?.total?.toFloat() ?: 0f),
-                    color = if (groupedTransactions[Month.JUNE.name]?.total?.toFloat() ?: 0f > 0){ Color.Green } else{ Color.Red }
+                    color = if ((groupedTransactions[Month.JUNE.name]?.total?.toFloat() ?: 0f) > 0){ Color.Green } else{ Color.Red }
                 ),
                 BarChartData.Bar(
                     label = Month.JULY.name.substring(0, 1),
                     value = abs(groupedTransactions[Month.JULY.name]?.total?.toFloat() ?: 0f),
-                    color = if (groupedTransactions[Month.JULY.name]?.total?.toFloat() ?: 0f > 0){ Color.Green } else{ Color.Red }
+                    color = if ((groupedTransactions[Month.JULY.name]?.total?.toFloat() ?: 0f) > 0){ Color.Green } else{ Color.Red }
                 ),
                 BarChartData.Bar(
                     label = Month.AUGUST.name.substring(0, 1),
                     value = abs(groupedTransactions[Month.AUGUST.name]?.total?.toFloat() ?: 0f),
-                    color = if (groupedTransactions[Month.AUGUST.name]?.total?.toFloat() ?: 0f > 0){ Color.Green } else{ Color.Red }
+                    color = if ((groupedTransactions[Month.AUGUST.name]?.total?.toFloat()
+                            ?: 0f) > 0
+                    ){ Color.Green } else{ Color.Red }
                 ),
                 BarChartData.Bar(
                     label = Month.SEPTEMBER.name.substring(0, 1),
                     value = abs(groupedTransactions[Month.SEPTEMBER.name]?.total?.toFloat() ?: 0f),
-                    color = if (groupedTransactions[Month.SEPTEMBER.name]?.total?.toFloat()?: 0f > 0){ Color.Green } else{ Color.Red }
+                    color = if ((groupedTransactions[Month.SEPTEMBER.name]?.total?.toFloat()
+                            ?: 0f) > 0
+                    ){ Color.Green } else{ Color.Red }
                 ),
                 BarChartData.Bar(
                     label = Month.OCTOBER.name.substring(0, 1),
                     value = abs(groupedTransactions[Month.OCTOBER.name]?.total?.toFloat() ?: 0f),
-                    color = if (groupedTransactions[Month.OCTOBER.name]?.total?.toFloat()?: 0f > 0){ Color.Green } else{ Color.Red }
+                    color = if ((groupedTransactions[Month.OCTOBER.name]?.total?.toFloat()
+                            ?: 0f) > 0
+                    ){ Color.Green } else{ Color.Red }
                 ),
                 BarChartData.Bar(
                     label = Month.NOVEMBER.name.substring(0, 1),
                     value = abs(groupedTransactions[Month.NOVEMBER.name]?.total?.toFloat() ?: 0f),
-                    color = if (groupedTransactions[Month.NOVEMBER.name]?.total?.toFloat()?: 0f > 0){ Color.Green } else{ Color.Red }
+                    color = if ((groupedTransactions[Month.NOVEMBER.name]?.total?.toFloat()
+                            ?: 0f) > 0
+                    ){ Color.Green } else{ Color.Red }
                 ),
                 BarChartData.Bar(
                     label = Month.DECEMBER.name.substring(0, 1),
                     value = abs(groupedTransactions[Month.DECEMBER.name]?.total?.toFloat() ?: 0f),
-                    color = if (groupedTransactions[Month.DECEMBER.name]?.total?.toFloat()?: 0f > 0){ Color.Green } else{ Color.Red }
+                    color = if ((groupedTransactions[Month.DECEMBER.name]?.total?.toFloat()
+                            ?: 0f) > 0
+                    ){ Color.Green } else{ Color.Red }
                 ),
             )
         ),

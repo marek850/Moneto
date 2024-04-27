@@ -8,7 +8,7 @@ import com.example.moneto.data.TimeRange
 import com.example.moneto.ui.theme.Background
 import com.github.tehras.charts.bar.BarChartData
 
-    class BarDrawer (val timeRange: TimeRange) :
+    class BarDrawer (timeRange: TimeRange) :
         com.github.tehras.charts.bar.renderer.bar.BarDrawer {
         private val barPaint = Paint().apply {
             this.isAntiAlias = true
@@ -18,7 +18,6 @@ import com.github.tehras.charts.bar.BarChartData
             TimeRange.Week -> 24f
             TimeRange.Month -> 6f
             TimeRange.Year -> 18f
-            else -> 0f
         }
         override fun drawBar(
             drawScope: DrawScope,

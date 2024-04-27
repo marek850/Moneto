@@ -4,19 +4,9 @@ package com.example.moneto.data
 import io.realm.kotlin.types.RealmObject
 import io.realm.kotlin.types.annotations.PrimaryKey
 import org.mongodb.kbson.ObjectId
-import java.time.LocalDate
 import java.time.LocalDateTime
 
-/*
-@Entity
-data class Transaction(
-    @PrimaryKey val uid: Int,
-    @ColumnInfo(name = "amount") val amount: Double?,
-    @ColumnInfo(name = "description") val description: String?,
-    @ColumnInfo(name = "transactionType") val transactionType: TransactionType,
-    @ColumnInfo(name = "date") val date: DateTime,
-    @ColumnInfo(name = "category") val category: Category
-)*/
+
 class Transaction() : RealmObject {
     @PrimaryKey
     var _id: ObjectId = ObjectId.invoke()
@@ -26,7 +16,7 @@ class Transaction() : RealmObject {
     val type: TransactionType get() { return _type.toTransactionType() }
     private var _date: String = LocalDateTime.now().toString()
     val date: LocalDateTime get() { return LocalDateTime.parse(_date) }
-    var category: Category? = null
+    private var category: Category? = null
 
     constructor(
         description: String,
@@ -120,33 +110,8 @@ fun List<Transaction>.groupedByMonth(): Map<String, OneDaySumTransactions> {
 
         return dataMap.toSortedMap(compareByDescending { it })
     }
-    fun List<Transaction>.groupedByDay(): Map<LocalDate, OneDaySumTransactions> {
-        val dataMap: MutableMap<LocalDate, OneDaySumTransactions> = mutableMapOf()
 
-        this.forEach { transaction ->
-            val date = transaction.date.toLocalDate()
-
-            if (dataMap[date] == null) {
-                dataMap[date] = OneDaySumTransactions(
-                    transactions = mutableListOf(),
-                    total = 0.0
-                )
-            }
-
-            dataMap[date]!!.transactions.add(transaction)
-            if (transaction.type == TransactionType.Income)
-                dataMap[date]!!.total = dataMap[date]!!.total.plus(transaction.amount)
-            else
-                dataMap[date]!!.total = dataMap[date]!!.total.minus(transaction.amount)
-        }
-
-        dataMap.values.forEach { OneDaySumTransactions ->
-            OneDaySumTransactions.transactions.sortBy { transaction -> transaction.date }
-        }
-
-        return dataMap.toSortedMap(compareByDescending { it })
-    }
-    fun List<Transaction>.groupedByDayOfMonth(): Map<Int, OneDaySumTransactions> {
+fun List<Transaction>.groupedByDayOfMonth(): Map<Int, OneDaySumTransactions> {
         val dataMap: MutableMap<Int, OneDaySumTransactions> = mutableMapOf()
 
         this.forEach { transaction ->

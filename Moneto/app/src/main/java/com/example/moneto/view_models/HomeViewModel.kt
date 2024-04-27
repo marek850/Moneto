@@ -24,7 +24,6 @@ data class HomeViewState(
     val timeRange: TimeRange = TimeRange.Day,
     val currency: Currency? = null
 )
-
 class HomeViewModel : ViewModel(), TransactionsBaseViewModel{
     private val _state = MutableStateFlow(HomeViewState())
     val state: StateFlow<HomeViewState> = _state.asStateFlow()
@@ -50,19 +49,13 @@ class HomeViewModel : ViewModel(), TransactionsBaseViewModel{
     fun removeTransaction(tranToRemove: Transaction){
 
         viewModelScope.launch(Dispatchers.IO) {
-            // This block handles the database write operation
             monetoDb.write {
-                // Attempt to find and delete the transaction from the database.
                 val deletingTransaction = this.query<Transaction>("_id == $0", tranToRemove._id).find().firstOrNull()
                 if (deletingTransaction != null) {
                     delete(deletingTransaction)
                 }
             }
-
-            // After deleting, fetch data again and update UI state. Since `viewModelScope.launch` defaults to Main
-            // if we specify `launch(Dispatchers.Main)` explicitly here, it ensures the UI updates are done on the main thread.
             viewModelScope.launch(Dispatchers.Main) {
-                // Fetch the current state range
                 val (start, end) = calculateDateRange(_state.value.timeRange)
                 val transactions = monetoDb.query<Transaction>().find()
 
@@ -78,7 +71,6 @@ class HomeViewModel : ViewModel(), TransactionsBaseViewModel{
                 val incomeTotal = income.sumOf { it.amount }
                 val totalSum = incomeTotal - expenseTotal
 
-                // Update the UI state
                 _state.update { currentState ->
                     val updatedTransactions = transactions.filter { it._id != tranToRemove._id }
                     currentState.copy(
@@ -90,45 +82,6 @@ class HomeViewModel : ViewModel(), TransactionsBaseViewModel{
                 }
             }
         }
-        /*
-            monetoDb.write {
-                // First, attempt to find and delete the transaction from the database.
-                val deletingTransaction = this.query<Transaction>("_id == $0", tranToRemove._id).find().first()
-                deletingTransaction.let {
-                    delete(it)
-                    val (start, end) = calculateDateRange(_state.value.timeRange)
-                    val expenses = monetoDb.query<Transaction>().find().filter { transaction ->
-                        (transaction.type == TransactionType.Expense) && ((transaction.date.toLocalDate().isAfter(start) && transaction.date.toLocalDate()
-                            .isBefore(end)) || transaction.date.toLocalDate()
-                            .isEqual(start) || transaction.date.toLocalDate().isEqual(end))
-                    }
-                    val income = monetoDb.query<Transaction>().find().filter { transaction ->
-                        (transaction.type == TransactionType.Income) && ((transaction.date.toLocalDate().isAfter(start) && transaction.date.toLocalDate()
-                            .isBefore(end)) || transaction.date.toLocalDate()
-                            .isEqual(start) || transaction.date.toLocalDate().isEqual(end))
-                    }
-                    val expenseTotal = expenses.sumOf { it.amount }
-                    val incomeTotal = income.sumOf { it.amount }
-                    val totalSum = incomeTotal - expenseTotal
-                    // Only proceed to update the UI and sums if the deletion is successful.
-                    // Update the local transactions list and then recalculate sums.
-                    _state.update { currentState ->
-                        val updatedTransactions = currentState.transactions.filter { transaction ->
-                            transaction._id != tranToRemove._id
-                        }.toMutableList()
-
-                        // Perform a copy to update the state with the new list without the removed transaction.
-                        currentState.copy(transactions = updatedTransactions,expensesValue = expenseTotal,
-                            incomeValue = incomeTotal,
-                            totalSum = totalSum)
-                    }
-
-                    // Now call updateTimeRangeAndSums to recalculate based on the updated list.
-                    // This should be done after the state is set with the updated transaction list.
-                    // Pass the current time range from the state to reflect recent changes.
-                }
-            }
-        }*/
     }
     fun updateTimeRangeAndSums(range:TimeRange) {
         val (start, end) = calculateDateRange(range)

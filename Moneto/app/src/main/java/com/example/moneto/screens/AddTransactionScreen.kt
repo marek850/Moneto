@@ -40,7 +40,6 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavController
 import com.example.moneto.components.CustomRow
 import com.example.moneto.components.CustomTextField
 import com.example.moneto.data.TransactionType
@@ -55,8 +54,7 @@ import com.marosseleng.compose.material3.datetimepickers.date.ui.dialog.DatePick
 
 @OptIn(ExperimentalComposeUiApi::class, ExperimentalMaterial3Api::class)
 @Composable
-fun AddTransaction(navController: NavController, addViewModel: AddTransactionViewModel = viewModel()) {
-    //val categories = listOf("Groceries", "Bills", "Restaurants")
+fun AddTransaction(addViewModel: AddTransactionViewModel = viewModel()) {
     val state by addViewModel.uiState.collectAsState()
     val transactionTypes = listOf(
         TransactionType.Income,
@@ -90,10 +88,13 @@ fun AddTransaction(navController: NavController, addViewModel: AddTransactionVie
 
                     ) {
 
-                        CustomRow(label = "Description",){
-                            CustomTextField(value = state.description,modifier = Modifier.fillMaxWidth() , textStyle = TextStyle(
-                                textAlign = TextAlign.Right,
-                            ),onValueChange = addViewModel::setDescription,
+                        CustomRow(label = "Description"){
+                            CustomTextField(
+                                value = state.description,
+                                onValueChange = addViewModel::setDescription,
+                                textStyle = TextStyle(
+                                    textAlign = TextAlign.Right,
+                                ),
                                 placeholder = {Text("Big Mac Menu etc.")
                                     },
                                 arrangement = Arrangement.End,
@@ -107,12 +108,18 @@ fun AddTransaction(navController: NavController, addViewModel: AddTransactionVie
                         CustomRow(
                             label = "Amount"
                         ){
-                            CustomTextField(value = state.amount,arrangement = Arrangement.End,textStyle = TextStyle(
-                                textAlign = TextAlign.Right,
-                            ),placeholder = { Text(text = "0")},modifier = Modifier.fillMaxWidth() ,keyboardOptions = KeyboardOptions(
-                                keyboardType = KeyboardType.Number,
-                            ), maxLines = 1,
-                                onValueChange = addViewModel::setAmount
+                            CustomTextField(
+                                value = state.amount,
+                                onValueChange = addViewModel::setAmount,
+                                textStyle = TextStyle(
+                                    textAlign = TextAlign.Right,
+                                ),
+                                placeholder = { Text(text = "0")},
+                                arrangement = Arrangement.End,
+                                keyboardOptions = KeyboardOptions(
+                                    keyboardType = KeyboardType.Number,
+                                ),
+                                maxLines = 1
                             )
                         }
                         Divider(
@@ -125,7 +132,7 @@ fun AddTransaction(navController: NavController, addViewModel: AddTransactionVie
                                 mutableStateOf(false)
                             }
                             TextButton(onClick = {typeMenuOpened = true}) {
-                                Text(state.type?.name ?: "Select transaction type", color = Purple80)
+                                Text(state.type.name, color = Purple80)
                                 DropdownMenu(expanded = typeMenuOpened, onDismissRequest = { typeMenuOpened = false }) {
                                     transactionTypes.forEach { type ->
                                         DropdownMenuItem(text = { Text(type.name, color = Purple80) },

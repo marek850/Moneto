@@ -12,7 +12,6 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.LocalTextStyle
-import androidx.compose.material3.TextFieldColors
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -25,16 +24,16 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import com.example.moneto.ui.theme.LightText
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CustomTextField(
     value: String,
     onValueChange: (String) -> Unit,
-    modifier: Modifier = Modifier,
     enabled: Boolean = true,
     readOnly: Boolean = false,
     textStyle: TextStyle = LocalTextStyle.current,
-    label: @Composable() (() -> Unit)? = null,
-    placeholder: @Composable() (() -> Unit)? = null,
+    label: @Composable (() -> Unit)? = null,
+    placeholder: @Composable (() -> Unit)? = null,
     arrangement: Arrangement.Horizontal = Arrangement.Start,
     visualTransformation: VisualTransformation = VisualTransformation.None,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
@@ -42,11 +41,9 @@ fun CustomTextField(
     isError: Boolean = false,
     singleLine: Boolean = false,
     maxLines: Int = Int.MAX_VALUE,
-    interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
-    colors: TextFieldColors = TextFieldDefaults.textFieldColors()
+    interactionSource: MutableInteractionSource = remember { MutableInteractionSource() }
 ) {
 
-    // If color is not provided via the text style, use content color as a default
     val textColor = Color.White
     val mergedTextStyle =
         textStyle.merge(TextStyle(color = textColor))
@@ -84,7 +81,6 @@ fun CustomTextField(
                 },
                 colors = TextFieldDefaults.colors(
                     focusedContainerColor = Color.Transparent,
-                    //textColor = Color.White,
                     unfocusedContainerColor = Color.Transparent,
                     disabledContainerColor = Color.Transparent,
                     cursorColor = LightText,

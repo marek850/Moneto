@@ -17,8 +17,6 @@ data class CurrenciesScreenState(
     val symbol: String = "",
     val shortName: String = "",
     val currency: Curr = Curr.Euro
-    //val currencies: RealmResults<Currency>? = null //TODO po implementacii DB upravit
-
 )
 class CurrenciesViewModel : ViewModel() {
     private val _state = MutableStateFlow(CurrenciesScreenState())

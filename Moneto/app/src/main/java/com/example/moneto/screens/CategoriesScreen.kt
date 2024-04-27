@@ -58,7 +58,7 @@ import me.saket.swipe.SwipeableActionsBox
 fun Categories(navController: NavController, categoriesModel: CategoriesViewModel = viewModel()) {
     val uiState by categoriesModel.uiState.collectAsState()
 
-    val colorPickerController = rememberColorPickerController()
+    rememberColorPickerController()
 
     Scaffold(modifier = Modifier
         .background(Background)
@@ -76,7 +76,7 @@ fun Categories(navController: NavController, categoriesModel: CategoriesViewMode
                         Icon(
                             Icons.Rounded.KeyboardArrowLeft, tint = Purple80,contentDescription = "Settings"
                         )
-                        Text("Settings", color = Purple80, )
+                        Text("Settings", color = Purple80)
                     }
                 }
             })
@@ -99,7 +99,7 @@ fun Categories(navController: NavController, categoriesModel: CategoriesViewMode
                     ) {
                         itemsIndexed(
                             uiState.categories,
-                            key = { _, category -> category.name }) { index, category ->
+                            key = { _, category -> category.name }) { _, category ->
 
                             SwipeableActionsBox(
                                 endActions = listOf(
@@ -141,15 +141,6 @@ fun Categories(navController: NavController, categoriesModel: CategoriesViewMode
                                     }
                                 }
                             }
-                            /*if (index < uiState.categories.size - 1) {
-                                Row(modifier = Modifier.background(LightBackground).height(1.dp)) {
-                                    Divider(
-                                        modifier = Modifier.padding(start = 16.dp,end = 16.dp),
-                                        thickness = 1.dp,
-                                        color = Color.LightGray
-                                    )
-                                }
-                            }*/
                         }
                     }
                 }
@@ -162,50 +153,6 @@ fun Categories(navController: NavController, categoriesModel: CategoriesViewMode
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween,
             ) {
-                /*if (uiState.colorPickerShowing) {
-                    Dialog(onDismissRequest = categoriesModel::hideColorPicker) {
-                        Surface(color = Background) {
-                            Column(
-                                modifier = Modifier.padding(all = 30.dp)
-                            ) {
-                                Text("Select a color", style = Typography.titleLarge)
-                                Row(
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .padding(top = 24.dp),
-                                    horizontalArrangement = Arrangement.Center,
-                                    verticalAlignment = Alignment.CenterVertically
-                                ) {
-                                    AlphaTile(
-                                        modifier = Modifier
-                                            .fillMaxWidth()
-                                            .height(60.dp)
-                                            .clip(RoundedCornerShape(6.dp)),
-                                        controller = colorPickerController
-                                    )
-                                }
-                                HsvColorPicker(
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .height(300.dp)
-                                        .padding(10.dp),
-                                    controller = colorPickerController,
-                                    onColorChanged = { envelope ->
-                                        categoriesModel.setNewCategoryColor(envelope.color)
-                                    },
-                                )
-                                TextButton(
-                                    onClick = categoriesModel::hideColorPicker,
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .padding(top = 24.dp),
-                                ) {
-                                    Text("Done")
-                                }
-                            }
-                        }
-                    }
-                }*/
                 Surface(
                     color = LightBackground,
                     modifier = Modifier
@@ -222,9 +169,6 @@ fun Categories(navController: NavController, categoriesModel: CategoriesViewMode
                             onValueChange = categoriesModel::setNewCategoryName,
                             placeholder = { Text("Category name", color = Color.White
                             ) },
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                ,
                             maxLines = 1,
                         )
                     }
@@ -245,7 +189,7 @@ fun Categories(navController: NavController, categoriesModel: CategoriesViewMode
     })
 }
 
-@Preview()
+@Preview
 @Composable
 fun CategoriesPreview() {
 

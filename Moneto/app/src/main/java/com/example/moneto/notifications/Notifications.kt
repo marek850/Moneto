@@ -26,7 +26,6 @@ import io.realm.kotlin.ext.query
 import java.time.Duration
 import java.time.LocalDate
 import java.time.LocalTime
-import java.time.temporal.ChronoUnit
 import java.util.concurrent.TimeUnit
 import kotlin.math.abs
 import kotlin.math.ceil
@@ -89,7 +88,7 @@ fun scheduleChecks(applicationContext: Context) {
         .setConstraints(Constraints.Builder().setRequiresBatteryNotLow(true).build())
         .build()
 
-    val monthlyLimitCheckRequest = OneTimeWorkRequestBuilder<TransactionCheckWorker>()
+    val monthlyLimitCheckRequest = OneTimeWorkRequestBuilder<MonthlyLimitCheckWorker>()
         .setInitialDelay(getInitialDelay(12, 0), TimeUnit.SECONDS)
         .addTag("monthlyLimitCheck")
         .build()
@@ -177,7 +176,6 @@ class MonthlyLimitCheckWorker(appContext: Context, workerParams: WorkerParameter
         val monthlyLimit : Double
         val monthEnd = today.withDayOfMonth(today.lengthOfMonth())
         val monthStart = today.withDayOfMonth(1)
-        val daysToEnd = ChronoUnit.DAYS.between(today, monthEnd)
         if (!limits.isEmpty()) {
             monthlyLimit = limits[0].monthlyLimit
 
@@ -244,7 +242,6 @@ class MonthlyLimitCheckWorker(appContext: Context, workerParams: WorkerParameter
         if (ActivityCompat.checkSelfPermission(context, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
             return
         }
-
         NotificationManagerCompat.from(context).notify(1235, builder.build())
     }
 }

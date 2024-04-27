@@ -51,7 +51,6 @@ class StatisticsViewModel : ViewModel(), TransactionsBaseViewModel{
                     this.query<Transaction>("_id == $0", tranToRemove._id).find().firstOrNull()
                 deletingTransaction?.let {
                     delete(it)
-                    // Perform the state update only after successful deletion
                     _state.update { currentState ->
                         val updatedTransactions = currentState.transactions.filter { transaction ->
                             transaction._id != tranToRemove._id

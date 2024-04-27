@@ -9,40 +9,30 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Delete
-import androidx.compose.material.icons.rounded.Send
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.State
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.moneto.data.Currency
 import com.example.moneto.data.Transaction
 import com.example.moneto.data.TransactionType
 import com.example.moneto.ui.theme.LightPurple
 import com.example.moneto.ui.theme.Purple80
 import com.example.moneto.view_models.HomeViewModel
-import com.example.moneto.view_models.HomeViewState
 import com.example.moneto.view_models.StatisticsViewModel
-import com.example.moneto.view_models.StatisticsViewState
 import com.example.moneto.view_models.TransactionsBaseViewModel
 import java.text.DecimalFormat
 
 @Composable
-@Preview
 fun TransactionElement(transaction: Transaction, currency: Currency?,viewModel: TransactionsBaseViewModel) {
-
     Card(
-        shape = RoundedCornerShape(12.dp), // Adjust corner shape as needed
+        shape = RoundedCornerShape(12.dp),
         colors = CardDefaults.cardColors(
             containerColor = LightPurple
         ),
@@ -77,8 +67,7 @@ fun TransactionElement(transaction: Transaction, currency: Currency?,viewModel: 
                 }
                 Spacer(Modifier.weight(0.1f))
                 Column(modifier = Modifier.padding(10.dp)) {
-                    Text(text = transaction.description ?:transaction.category!!.name, color = Purple80)
-                    //Text(text = transaction.date.toString(), color = Purple80)
+                    Text(text = transaction.description, color = Purple80)
                 }
                 Spacer(Modifier.weight(1f))
                 Column(modifier = Modifier.padding(10.dp)) {
@@ -92,26 +81,6 @@ fun TransactionElement(transaction: Transaction, currency: Currency?,viewModel: 
                        )
                 }
             }
-           /* Column(
-                modifier = Modifier.weight(1f) // This makes the column take up all available space except for the image
-            ) {
-                Text(
-                    text = expense.description ?:expense.category!!.name,
-                )
-                Spacer(Modifier.weight(1f))
-                Text(
-                    text = "USD ${DecimalFormat("0.#").format(expense.amount)}",
-                )
-            }*/
         }
     }
-
-    /*Column() {
-        Row() {
-            Text(expense.category!!.name)
-            Text(
-                "USD ${DecimalFormat("0.#").format(expense.amount)}",
-            )
-        }
-    }*/
 }

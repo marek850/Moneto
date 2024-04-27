@@ -1,6 +1,5 @@
 package com.example.moneto.screens
 
-import android.app.Dialog
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -36,13 +35,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
@@ -54,7 +50,6 @@ import com.example.moneto.ui.theme.LightPurple
 import com.example.moneto.ui.theme.Purple80
 import com.example.moneto.view_models.LimitsViewModel
 
-@Preview
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LimitSetScreen(navController: NavController, limitViewModel: LimitsViewModel = viewModel()) {
@@ -77,7 +72,7 @@ fun LimitSetScreen(navController: NavController, limitViewModel: LimitsViewModel
                             tint = Purple80,
                             contentDescription = "Settings"
                         )
-                        Text("Settings", color = Purple80,)
+                        Text("Settings", color = Purple80)
                     }
                 }
             }
@@ -102,14 +97,13 @@ fun LimitSetScreen(navController: NavController, limitViewModel: LimitsViewModel
                         .fillMaxWidth()
 
                 ) {
-                    CustomRow(label = "Daily Expense Limit",) {
+                    CustomRow(label = "Daily Expense Limit") {
                         CustomTextField(
                             value = state.dailyLimit,
-                            modifier = Modifier.fillMaxWidth(),
+                            onValueChange = limitViewModel::setDailyLimit,
                             textStyle = TextStyle(
                                 textAlign = TextAlign.Right,
                             ),
-                            onValueChange = limitViewModel::setDailyLimit,
                             placeholder = {
                                 Text("Not Set")
                             },
@@ -122,14 +116,13 @@ fun LimitSetScreen(navController: NavController, limitViewModel: LimitsViewModel
                         thickness = 1.dp,
                         color = Color.LightGray
                     )
-                    CustomRow(label = "Monthly Expense Limit",) {
+                    CustomRow(label = "Monthly Expense Limit") {
                         CustomTextField(
                             value = state.monthlyLimit,
-                            modifier = Modifier.fillMaxWidth(),
+                            onValueChange = limitViewModel::setMonthlyLimit,
                             textStyle = TextStyle(
                                 textAlign = TextAlign.Right,
                             ),
-                            onValueChange = limitViewModel::setMonthlyLimit,
                             placeholder = {
                                 Text("Not Set")
                             },
@@ -141,7 +134,7 @@ fun LimitSetScreen(navController: NavController, limitViewModel: LimitsViewModel
             }
             Button(
                 onClick = {limitViewModel.addLimits()
-                    openDialog.value = true },//TODO uprava limitu v DB
+                    openDialog.value = true },
                 modifier = Modifier.padding(16.dp),
                 colors = ButtonDefaults.buttonColors(
                     containerColor = LightPurple
@@ -157,7 +150,7 @@ fun LimitSetScreen(navController: NavController, limitViewModel: LimitsViewModel
                     confirmButton = {
                         TextButton(
                             onClick = {
-                                openDialog.value = false // Close dialog on confirm
+                                openDialog.value = false
                             }
                         ) {
                             Text("OK",color = Purple80)
@@ -166,7 +159,7 @@ fun LimitSetScreen(navController: NavController, limitViewModel: LimitsViewModel
                     dismissButton = {
                         TextButton(
                             onClick = {
-                                openDialog.value = false // Close dialog on dismiss
+                                openDialog.value = false
                             }
                         ) {
                             Text("Cancel",color = Purple80)

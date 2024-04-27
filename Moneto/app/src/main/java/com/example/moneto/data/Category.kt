@@ -9,7 +9,6 @@ class Category() : RealmObject {
     @io.realm.kotlin.types.annotations.PrimaryKey
     var _id: ObjectId = ObjectId.invoke()
     var name: String = ""
-
     constructor(
         name: String,
     ) : this() {

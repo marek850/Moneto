@@ -22,13 +22,13 @@ fun DayChart(transactions: List<Transaction>) {
     val groupedTransactions = transactions.groupedByHourOfDay()
     BarChart(
         barChartData = BarChartData(
-            bars = buildList() {
+            bars = buildList {
                 for (i in 1..numberOfHours) {
                     add(
                         BarChartData.Bar(
                             label = "$i",
                             value = abs(groupedTransactions[i]?.total?.toFloat() ?: 0f),
-                            color = if (groupedTransactions[i]?.total?.toFloat() ?: 0f > 0){ Color.Green } else{ Color.Red },
+                            color = if ((groupedTransactions[i]?.total?.toFloat() ?: 0f) > 0){ Color.Green } else{ Color.Red },
                         ))
                 }
             }

@@ -31,15 +31,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.moneto.R
 import com.example.moneto.Screens
+import com.example.moneto.ui.theme.Background
 import com.example.moneto.ui.theme.Login
 
-@Preview(showBackground = true)
 @Composable
 fun RegisterScreen(navController: NavController) {
     val annotatedString = buildAnnotatedString {
@@ -54,7 +53,7 @@ fun RegisterScreen(navController: NavController) {
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .background(Color(0xFF201a30)) // Use the provided dark background color
+                .background(Background)
         ) {
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
@@ -62,16 +61,14 @@ fun RegisterScreen(navController: NavController) {
                     .fillMaxSize()
                     .padding(32.dp)
             ) {
-                Spacer(modifier = Modifier.height(40.dp)) // Adjust as per your UI
+                Spacer(modifier = Modifier.height(40.dp))
 
-                // Top section - Illustration or logo
                 Image(
-                    painter = painterResource(id = R.drawable.logo), // Replace with your actual resource
+                    painter = painterResource(id = R.drawable.logo),
                     contentDescription = "Moneto Logo",
-                    modifier = Modifier.size(180.dp) // Adjust size as needed
+                    modifier = Modifier.size(180.dp)
                 )
 
-                // Login title and subtitle
                 Text(
                     text = "Sign up",
                     color = Color.White,
@@ -80,11 +77,9 @@ fun RegisterScreen(navController: NavController) {
                     modifier = Modifier.padding(top = 24.dp)
                 )
 
-
-                // Email text field
                 OutlinedTextField(
-                    value = "", // Replace with state variable
-                    onValueChange = {}, // Handle updates
+                    value = "",
+                    onValueChange = {},
                     label = { Text(buildAnnotatedString {
                         withStyle(style = SpanStyle(color = Color.White)) {
                             append("Email")
@@ -99,10 +94,9 @@ fun RegisterScreen(navController: NavController) {
                     shape = RoundedCornerShape(12.dp)
                 )
 
-                // Password text field
                 OutlinedTextField(
-                    value = "", // Replace with state variable
-                    onValueChange = {}, // Handle updates
+                    value = "",
+                    onValueChange = {},
                     label = { Text(buildAnnotatedString {
                         withStyle(style = SpanStyle(color = Color.White)) {
                             append("Password")
@@ -118,8 +112,8 @@ fun RegisterScreen(navController: NavController) {
                 )
 
                 OutlinedTextField(
-                    value = "", // Replace with state variable
-                    onValueChange = {}, // Handle updates
+                    value = "",
+                    onValueChange = {},
                     label = { Text(buildAnnotatedString {
                         withStyle(style = SpanStyle(color = Color.White)) {
                             append("Confirm Password")
@@ -134,9 +128,8 @@ fun RegisterScreen(navController: NavController) {
                     shape = RoundedCornerShape(12.dp)
                 )
 
-                // Login button
                 Button(
-                    onClick = { /* Handle login */ },
+                    onClick = {  },
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(vertical = 16.dp),
@@ -156,14 +149,13 @@ fun RegisterScreen(navController: NavController) {
                         textAlign = TextAlign.Center
                     ),
                     onClick = { offset ->
-                        // Handle click event, check if 'Sign up' part is clicked
                         if (offset in annotatedString.indexOf("Log in")..annotatedString.length) {
                             navController.navigate(Screens.Login.screen)
                         }
                     }
                 )
 
-                Spacer(modifier = Modifier.weight(1f)) // Pushes everything to the top
+                Spacer(modifier = Modifier.weight(1f))
             }
         }
     }

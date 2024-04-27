@@ -59,7 +59,7 @@ fun LoginScreen(navController: NavController, loginViewModel: LoginViewModel = v
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .background(Background) // Use the provided dark background color
+                .background(Background)
         ) {
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
@@ -67,16 +67,14 @@ fun LoginScreen(navController: NavController, loginViewModel: LoginViewModel = v
                     .fillMaxSize()
                     .padding(32.dp)
             ) {
-                Spacer(modifier = Modifier.height(40.dp)) // Adjust as per your UI
+                Spacer(modifier = Modifier.height(40.dp))
 
-                // Top section - Illustration or logo
                 Image(
-                    painter = painterResource(id = R.drawable.logo), // Replace with your actual resource
+                    painter = painterResource(id = R.drawable.logo),
                     contentDescription = "Login Illustration",
-                    modifier = Modifier.size(180.dp) // Adjust size as needed
+                    modifier = Modifier.size(180.dp)
                 )
 
-                // Login title and subtitle
                 Text(
                     text = "Login",
                     color = Color.White,
@@ -91,10 +89,9 @@ fun LoginScreen(navController: NavController, loginViewModel: LoginViewModel = v
                     modifier = Modifier.padding(bottom = 24.dp)
                 )
 
-                // Email text field
                 OutlinedTextField(
-                    value = state.email, // Replace with state variable
-                    onValueChange = loginViewModel::setEmail, // Handle updates
+                    value = state.email,
+                    onValueChange = loginViewModel::setEmail,
                     label = { Text("Email", color = Color.White) },
                     singleLine = true,
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
@@ -102,10 +99,9 @@ fun LoginScreen(navController: NavController, loginViewModel: LoginViewModel = v
                     shape = RoundedCornerShape(12.dp)
                 )
 
-                // Password text field
                 OutlinedTextField(
-                    value = state.password, // Replace with state variable
-                    onValueChange = loginViewModel::setPassword, // Handle updates
+                    value = state.password,
+                    onValueChange = loginViewModel::setPassword,
                     label = { Text("Password", color = Color.White) },
                     singleLine = true,
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
@@ -114,7 +110,6 @@ fun LoginScreen(navController: NavController, loginViewModel: LoginViewModel = v
                     shape = RoundedCornerShape(12.dp)
                 )
 
-                // Login button
                 Button(
                     onClick = { navController.navigate(Screens.Settings.screen) },
                     modifier = Modifier
@@ -128,7 +123,6 @@ fun LoginScreen(navController: NavController, loginViewModel: LoginViewModel = v
                     Text("LOGIN", modifier = Modifier.padding(8.dp), color = Color.Black)
                 }
 
-
                 ClickableText(
                     text = annotatedString,
                     style = TextStyle(
@@ -136,45 +130,14 @@ fun LoginScreen(navController: NavController, loginViewModel: LoginViewModel = v
                         textAlign = TextAlign.Center
                     ),
                     onClick = { offset ->
-                        // Handle click event, check if 'Sign up' part is clicked
                         if (offset in annotatedString.indexOf("Sign up")..annotatedString.length) {
                             navController.navigate(Screens.Register.screen)
                         }
                     }
                 )
 
-                Spacer(modifier = Modifier.weight(1f)) // Pushes everything to the top
+                Spacer(modifier = Modifier.weight(1f))
             }
         }
     }
-    /*Surface {
-        Column (modifier = Modifier.fillMaxSize()){
-            val uiColor = if (isSystemInDarkTheme()) Color.White else Color.Black
-
-            Box (contentAlignment = Alignment.TopCenter) {
-                Image(
-                    painter = painterResource(id = R.drawable.shape),
-                    contentDescription = null,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .fillMaxHeight(fraction = 0.46f),
-                    contentScale = ContentScale.FillBounds
-                )
-                Row (verticalAlignment = Alignment.CenterVertically)
-                {
-                    Row{Image(modifier = Modifier.size(200.dp),painter = painterResource(id = R.drawable.logo), contentDescription = stringResource(
-                        id = R.string.app_logo
-                    ))}
-                    Row {
-                        Text(text = stringResource(id = R.string.app_name), style = MaterialTheme.typography.headlineMedium,textAlign = TextAlign.Center,
-                            color = uiColor)
-                    }
-                    Spacer(modifier = Modifier.width(15.dp))
-
-                }
-
-
-            }
-        }
-    }*/
 }

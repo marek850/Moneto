@@ -8,14 +8,13 @@ import com.example.moneto.data.TimeRange
 import com.example.moneto.ui.theme.Purple80
 import com.github.tehras.charts.piechart.utils.toLegacyInt
 
-class LabelDrawer(val timeRange: TimeRange,private val lastDay: Int? = -1) :
+class LabelDrawer(private val timeRange: TimeRange, private val lastDay: Int? = -1) :
     com.github.tehras.charts.bar.renderer.label.LabelDrawer {
     private val leftOffset = when (timeRange) {
         TimeRange.Day -> 20f
         TimeRange.Week -> 50f
         TimeRange.Month -> 13f
         TimeRange.Year -> 32f
-        else -> 0f
     }
     private val paint = android.graphics.Paint().apply {
         this.textAlign = android.graphics.Paint.Align.CENTER

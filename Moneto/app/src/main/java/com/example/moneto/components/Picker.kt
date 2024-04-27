@@ -47,7 +47,5 @@ fun Picker(label: String, onClick: () -> Unit) {
 @Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
 fun Preview() {
-
         Picker("this week", onClick = {})
-
 }

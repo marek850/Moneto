@@ -19,7 +19,6 @@ fun CategoriesChart() {
         PieChartData.Slice(2f, Color.Blue),
         PieChartData.Slice(1f, Color.Red),
         PieChartData.Slice(4f, Color.Magenta)
-
     )),
         modifier = Modifier.fillMaxSize().padding(bottom = 30.dp),
         sliceDrawer = SliceDrawer()

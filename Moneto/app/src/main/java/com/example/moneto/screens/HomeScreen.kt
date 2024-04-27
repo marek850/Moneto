@@ -16,10 +16,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.Typography
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -33,10 +31,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.withStyle
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavController
 import com.example.moneto.charts.TransactionChart
 import com.example.moneto.components.Picker
 import com.example.moneto.components.TransactionList
@@ -47,10 +43,8 @@ import com.example.moneto.ui.theme.Purple80
 import com.example.moneto.ui.theme.Typography
 import com.example.moneto.view_models.HomeViewModel
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-@Preview
-fun HomeScreen(navController: NavController, homeViewModel: HomeViewModel = viewModel()) {
+fun HomeScreen(homeViewModel: HomeViewModel = viewModel()) {
     val state by homeViewModel.state.collectAsState()
     var timeRangeOpened by remember {
         mutableStateOf(false)
@@ -93,8 +87,8 @@ fun HomeScreen(navController: NavController, homeViewModel: HomeViewModel = view
                 .padding(innerPadding)
                 .background(Background)
                 .fillMaxHeight()
-                .fillMaxWidth() // Ensure the Column takes up all available height
-                .verticalScroll(rememberScrollState()), // Add scrolling
+                .fillMaxWidth()
+                .verticalScroll(rememberScrollState()),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Box (modifier = Modifier
@@ -134,7 +128,7 @@ fun HomeScreen(navController: NavController, homeViewModel: HomeViewModel = view
                     "Total for: ",
                     style = Typography.titleLarge, color = Purple80
                 )
-                Picker(state.timeRange.name, { timeRangeOpened = !timeRangeOpened })
+                Picker(state.timeRange.name) { timeRangeOpened = !timeRangeOpened }
                 DropdownMenu(expanded = timeRangeOpened,
                     onDismissRequest = { timeRangeOpened = false }) {
                     timeRanges.forEach { timeRange ->
@@ -145,9 +139,9 @@ fun HomeScreen(navController: NavController, homeViewModel: HomeViewModel = view
                     }
                 }
             }
-            Spacer(modifier = Modifier.height(5.dp)) // Add space between chart and button
-            Column(/*modifier = Modifier.verticalScroll(rememberScrollState()).fillMaxHeight()*/) {
-               TransactionList(state.transactions, state.timeRange, state.currency, homeViewModel)
+            Spacer(modifier = Modifier.height(5.dp))
+            Column {
+               TransactionList(state.transactions, state.currency, homeViewModel)
             }
 
         }

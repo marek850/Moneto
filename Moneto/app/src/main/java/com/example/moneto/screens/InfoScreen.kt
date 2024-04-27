@@ -22,13 +22,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.moneto.R
+import com.example.moneto.ui.theme.Background
 
 @Preview(showBackground = true)
 @Composable
 fun InfoScreen() {
     Box(modifier = Modifier
         .fillMaxSize()
-        .background(Color(0xFF201a30)) // Use the provided dark background color
+        .background(Background)
     ) {
         Column(
             modifier = Modifier

@@ -48,11 +48,6 @@ class CategoriesViewModel : ViewModel(){
             )
         }
     }
-
-
-
-
-
     fun createNewCategory() {
         viewModelScope.launch(Dispatchers.IO) {
             monetoDb.write {
@@ -75,13 +70,5 @@ class CategoriesViewModel : ViewModel(){
                 delete(deletingCategory)
             }
         }
-    }
-
-    fun hideColorPicker() {
-        TODO("Not yet implemented")
-    }
-
-    fun setNewCategoryColor(color: androidx.compose.ui.graphics.Color) {
-
     }
 }

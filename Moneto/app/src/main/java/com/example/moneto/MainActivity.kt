@@ -25,7 +25,6 @@ import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
@@ -39,11 +38,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -59,7 +56,6 @@ import com.example.moneto.screens.CurrenciesScreen
 import com.example.moneto.screens.HomeScreen
 import com.example.moneto.screens.InfoScreen
 import com.example.moneto.screens.LimitSetScreen
-import com.example.moneto.screens.LoginScreen
 import com.example.moneto.screens.RegisterScreen
 import com.example.moneto.screens.SettingsScreen
 import com.example.moneto.screens.StatisticScreen
@@ -69,7 +65,6 @@ import com.example.moneto.ui.theme.MonetoTheme
 import io.realm.kotlin.ext.query
 import io.sentry.compose.withSentryObservableEffect
 
-@OptIn(ExperimentalMaterial3Api::class)
 class MainActivity :  ComponentActivity(){
 
     companion object{
@@ -83,7 +78,7 @@ class MainActivity :  ComponentActivity(){
         val channel = NotificationChannel("CHANNEL_ID", name, importance).apply {
             description = descriptionText
         }
-        // Register the channel with the system
+
         val notificationManager: NotificationManager =
             getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         notificationManager.createNotificationChannel(channel)
@@ -98,7 +93,7 @@ class MainActivity :  ComponentActivity(){
         checkPermission(Manifest.permission.POST_NOTIFICATIONS, NOTIFICATION_PERMISSION)
 
     }
-    fun checkPermission(permission: String, requestCode: Int){
+    private fun checkPermission(permission: String, requestCode: Int){
         if (ContextCompat.checkSelfPermission(this, permission) == PackageManager.PERMISSION_DENIED){
             ActivityCompat.requestPermissions(this, arrayOf(permission), requestCode)
         }else   {
@@ -118,26 +113,6 @@ class MainActivity :  ComponentActivity(){
             }
         }
     }
-
-
-}
-
-
-@Composable
-fun AppNavigator() {
-    val navController = rememberNavController()
-    NavHost(navController = navController, startDestination = "login") {
-        composable("login") { LoginScreen(navController) }
-        composable("main") { MainScreen(navController) }
-        // You can add more composable routes here if needed
-    }
-}
-@Composable
-fun MainScreen(navController: NavController) {
-    // This is where you include your BottomNavBar and the main content of your app
-   // BottomNavBar(navController)
-    // Main app content (excluding BottomNavBar) goes here
-    // You might want to use another NavHost here for inner navigation or manage content differently
 }
 @Composable
 fun BottomNavBar() {
@@ -155,21 +130,17 @@ fun BottomNavBar() {
                 )
         }
         monetoDb.write {
-            val categoriesToCreate = listOf<String>("Sallary", "Restaurant", "Groceries", "Rent", "Drugs", "Car")
+            val categoriesToCreate = listOf("Sallary", "Restaurant", "Groceries", "Rent", "Drugs", "Car")
             val categories = this.query<Category>().find()
             val existingCategoryNames = categories.map { it.name }.toSet()
 
-            // Iterate over categoriesToCreate and create any that are missing
             categoriesToCreate.forEach { categoryName ->
                 if (categoryName !in existingCategoryNames) {
-                    // Create a new category if it's not found in the existing ones
                     val newCategory = Category(categoryName)
                     this.copyToRealm(newCategory)
 
                 }
             }
-
-
         }
 
     }
@@ -180,7 +151,6 @@ fun BottomNavBar() {
         Screens.Limits.screen -> false
         else -> true
     }
-    val context = LocalContext.current.applicationContext
     val selected = remember {
         mutableStateOf(Icons.Default.Home)
     }
@@ -188,7 +158,7 @@ fun BottomNavBar() {
 
     BottomAppBar(containerColor = Background) {
         IconButton(
-            onClick = { /*TODO*/
+            onClick = {
                 selected.value = Icons.Default.Home
                 navigationController.navigate(Screens.Home.screen){
                     popUpTo(0)
@@ -197,7 +167,7 @@ fun BottomNavBar() {
             Icon(Icons.Default.Home, contentDescription = null, modifier = Modifier.size(26.dp), tint = if (selected.value == Icons.Default.Home) Color.White else Color.LightGray)
         }
         IconButton(
-            onClick = { /*TODO*/
+            onClick = {
                 selected.value = Icons.Default.List
                 navigationController.navigate(Screens.Statistics.screen){
                     popUpTo(0)
@@ -210,16 +180,16 @@ fun BottomNavBar() {
                 popUpTo(0)
             } },
             modifier = Modifier
-                .weight(1f)// Diameter of the circular button
-                .clip(CircleShape), // Clip the button to a circle shape
+                .weight(1f)
+                .clip(CircleShape),
             colors = ButtonDefaults.buttonColors(containerColor = Login, contentColor = Color.White)
         ) {
             Icon(Icons.Default.Add, contentDescription = null, modifier = Modifier
-                .fillMaxSize() // Set the icon size
-                )// Add padding if necessary)
+                .fillMaxSize()
+                )
         }
         IconButton(
-            onClick = { /*TODO*/
+            onClick = {
                 selected.value = Icons.Default.Settings
                 navigationController.navigate(Screens.Settings.screen){
                     popUpTo(0)
@@ -228,7 +198,7 @@ fun BottomNavBar() {
             Icon(Icons.Default.Settings, contentDescription = null, modifier = Modifier.size(26.dp), tint = if (selected.value == Icons.Default.Settings) Color.White else Color.LightGray)
         }
         IconButton(
-            onClick = { /*TODO*/
+            onClick = {
                 selected.value = Icons.Default.Info
                 navigationController.navigate(Screens.Info.screen){
                     popUpTo(0)
@@ -238,20 +208,15 @@ fun BottomNavBar() {
         }
     }}}) {paddingValues ->
         NavHost(navController = navigationController, startDestination = Screens.Home.screen, modifier = Modifier.padding(paddingValues) ){
-            composable(Screens.Home.screen){ HomeScreen(navigationController) }
-            composable(Screens.Statistics.screen){ StatisticScreen(navigationController) }
+            composable(Screens.Home.screen){ HomeScreen() }
+            composable(Screens.Statistics.screen){ StatisticScreen() }
             composable(Screens.Settings.screen){ SettingsScreen(navigationController) }
             composable(Screens.Info.screen){ InfoScreen() }
-           // composable(Screens.Expenses.screen){ ExpensesScreen() }
-            composable(Screens.AddExpense.screen){ AddTransaction(navigationController) }
+            composable(Screens.AddExpense.screen){ AddTransaction() }
             composable(Screens.Register.screen){ RegisterScreen(navigationController) }
             composable(Screens.Categories.screen){Categories(navigationController)}
             composable(Screens.Currencies.screen){ CurrenciesScreen(navigationController) }
             composable(Screens.Limits.screen){ LimitSetScreen(navigationController) }
-
-
         }
-
     }
-
 }

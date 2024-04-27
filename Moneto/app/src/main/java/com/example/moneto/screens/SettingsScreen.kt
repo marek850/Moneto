@@ -1,15 +1,12 @@
 package com.example.moneto.screens
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -30,44 +27,25 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.example.moneto.R
 import com.example.moneto.Screens
 import com.example.moneto.ui.theme.Background
 import com.example.moneto.ui.theme.LightPurple
 import com.example.moneto.ui.theme.Purple80
 
-
-@OptIn(ExperimentalMaterial3Api::class)
-
 @Composable
 fun SettingsScreen(navController: NavController) {
     Column(modifier = Modifier.background(Background).fillMaxHeight()) {
         HeaderText()
-        //ProfileCard()
         GeneralSettings(navController)
         BudgetSettings(navController)
-        /*Button(
-            onClick = { *//* Handle login *//* },
-            modifier = Modifier
-                .padding(vertical = 16.dp).align(Alignment.CenterHorizontally),
-            shape = MaterialTheme.shapes.medium,
-            colors = ButtonDefaults.buttonColors(
-                containerColor = Login
-            )
-        ) {
-            Text("LOGOUT", modifier = Modifier.padding(8.dp), color = Color.Black)
-        }*/
     }
 }
-
 @Composable
 fun BudgetSettings(navController: NavController) {
     Column(modifier = Modifier
@@ -97,7 +75,6 @@ fun GeneralSettings(navController: NavController) {
             fontWeight = FontWeight.Bold,
             modifier = Modifier.padding(vertical = 8.dp)
             )
-        //GeneralSettingsItem(icon = Icons.Default.Person, mainText = "Basic Settings", onClick = {} )
         GeneralSettingsItem(icon = Icons.Default.Menu, mainText = "Categories", onClick = {navController.navigate(Screens.Categories.screen)}
        )
     }
@@ -149,43 +126,6 @@ fun GeneralSettingsItem(
             Icon(Icons.Default.KeyboardArrowRight, contentDescription = null,
                 tint = Color.LightGray,
                 modifier = Modifier.size(16.dp))
-        }
-    }
-}
-
-@Composable
-fun ProfileCard() {
-    Card(modifier = Modifier
-        .fillMaxWidth()
-        .height(100.dp)
-        .padding(10.dp),
-        colors = CardDefaults.cardColors(
-            containerColor = LightPurple
-        ),
-        elevation = CardDefaults.cardElevation(
-            defaultElevation = 0.dp
-        )) {
-        Row(modifier = Modifier.padding(20.dp), horizontalArrangement = Arrangement.SpaceBetween) {
-            Column(modifier = Modifier.weight(2f)) {
-                Text(text = "My Account",
-                    fontFamily = FontFamily.Monospace
-                    ,color = Color.White,
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.Bold
-                )
-                Text(text = "marekmagula906@gmail.com",
-                    fontFamily = FontFamily.Serif
-                    ,color = Color.LightGray,
-                    fontSize = 12.sp,
-                    fontWeight = FontWeight.Bold
-                )
-            }
-            Image(painter = painterResource(id = R.drawable.profile_icon), contentDescription = null
-            , modifier = Modifier
-                    .weight(1f) // Assign weight for the image to take up one third of the available space
-                    .aspectRatio(0.2f) // Maintain a 1:1 aspect ratio (you can adjust this as needed)
-                    .fillMaxHeight(),
-                contentScale = ContentScale.Fit)
         }
     }
 }
