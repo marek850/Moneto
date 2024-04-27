@@ -3,6 +3,7 @@ package com.example.moneto.components
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -19,11 +20,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.moneto.data.Currency
 import com.example.moneto.data.Transaction
 import com.example.moneto.data.TransactionType
 import com.example.moneto.ui.theme.LightPurple
 import com.example.moneto.ui.theme.Purple80
+import com.example.moneto.ui.theme.PurpleGrey80
 import com.example.moneto.view_models.HomeViewModel
 import com.example.moneto.view_models.StatisticsViewModel
 import com.example.moneto.view_models.TransactionsBaseViewModel
@@ -47,7 +50,7 @@ fun TransactionElement(transaction: Transaction, currency: Currency?,viewModel: 
             verticalAlignment = Alignment.CenterVertically
         ) {
             Row(modifier = Modifier.fillMaxWidth()) {
-                Column(modifier = Modifier.padding(5.dp)) {
+                Column(modifier = Modifier.padding(5.dp).fillMaxHeight()) {
                     IconButton(
                         onClick = {
                             if (viewModel is HomeViewModel) {
@@ -55,19 +58,23 @@ fun TransactionElement(transaction: Transaction, currency: Currency?,viewModel: 
                             } else if (viewModel is StatisticsViewModel) {
                                 viewModel.removeTransaction(transaction)
                             } },
-                        modifier = Modifier.size(30.dp).padding(0.dp)
+                        modifier = Modifier.size(35.dp).padding(0.dp)
                     ) {
                         Icon(
                             Icons.Rounded.Delete,
                             tint = Purple80,
                             contentDescription = "Delete transaction",
-                            modifier = Modifier.size(20.dp)
+                            modifier = Modifier.size(25.dp)
                         )
                     }
                 }
                 Spacer(Modifier.weight(0.1f))
                 Column(modifier = Modifier.padding(10.dp)) {
-                    Text(text = transaction.description, color = Purple80)
+                    Row{Text(text = transaction.description, color = Purple80)}
+                    Row{Text(text = "${transaction.date.dayOfWeek.name.subSequence(0,3)} ${transaction.date.dayOfMonth} ${transaction.date.month.name.subSequence(0,3)} ${transaction.date.year}", color = PurpleGrey80,style = androidx.compose.ui.text.TextStyle(
+                        fontSize = 10.sp
+                    ))}
+
                 }
                 Spacer(Modifier.weight(1f))
                 Column(modifier = Modifier.padding(10.dp)) {

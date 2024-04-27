@@ -1,6 +1,5 @@
 package com.example.moneto.view_models
 
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.moneto.data.Currency
 import com.example.moneto.data.TimeRange
@@ -21,7 +20,7 @@ data class StatisticsViewState(
     val currency: Currency? = null
 )
 
-class StatisticsViewModel : ViewModel(), TransactionsBaseViewModel{
+class StatisticsViewModel : TransactionsBaseViewModel(){
     private val _state = MutableStateFlow(StatisticsViewState())
     val state: StateFlow<StatisticsViewState> = _state.asStateFlow()
 
@@ -43,7 +42,7 @@ class StatisticsViewModel : ViewModel(), TransactionsBaseViewModel{
             updateTimeRange(TimeRange.Day)
         }
     }
-    fun removeTransaction(tranToRemove: Transaction) {
+    override fun removeTransaction(tranToRemove: Transaction) {
 
         viewModelScope.launch(Dispatchers.IO) {
             monetoDb.write {
