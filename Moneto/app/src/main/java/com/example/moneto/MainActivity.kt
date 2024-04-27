@@ -3,7 +3,13 @@ package com.example.moneto
 /*
 import com.example.moneto.screens.Categories
 */
+import android.Manifest
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.content.Context
+import android.content.pm.PackageManager
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
@@ -35,6 +41,8 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -44,6 +52,7 @@ import com.example.moneto.data.Category
 import com.example.moneto.data.Curr
 import com.example.moneto.data.Currency
 import com.example.moneto.data.monetoDb
+import com.example.moneto.notifications.scheduleChecks
 import com.example.moneto.screens.AddTransaction
 import com.example.moneto.screens.Categories
 import com.example.moneto.screens.CurrenciesScreen
@@ -61,21 +70,58 @@ import io.realm.kotlin.ext.query
 import io.sentry.compose.withSentryObservableEffect
 
 @OptIn(ExperimentalMaterial3Api::class)
-class MainActivity : ComponentActivity() {
+class MainActivity :  ComponentActivity(){
 
-
+    companion object{
+        private const val NOTIFICATION_PERMISSION = 100
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val name = "Moneto Notifications"
+        val descriptionText = "Moneto app notification channel"
+        val importance = NotificationManager.IMPORTANCE_DEFAULT
+        val channel = NotificationChannel("CHANNEL_ID", name, importance).apply {
+            description = descriptionText
+        }
+        // Register the channel with the system
+        val notificationManager: NotificationManager =
+            getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        notificationManager.createNotificationChannel(channel)
+        scheduleChecks(this)
 
         setContent {
             MonetoTheme {
-                // A surface container using the 'background' color from the theme
-                //BottomNavBar()
+
                 BottomNavBar()
             }
         }
+        checkPermission(Manifest.permission.POST_NOTIFICATIONS, NOTIFICATION_PERMISSION)
+
     }
+    fun checkPermission(permission: String, requestCode: Int){
+        if (ContextCompat.checkSelfPermission(this, permission) == PackageManager.PERMISSION_DENIED){
+            ActivityCompat.requestPermissions(this, arrayOf(permission), requestCode)
+        }else   {
+        }
+    }
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == NOTIFICATION_PERMISSION){
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                Toast.makeText(this, "Notification permission granted", Toast.LENGTH_SHORT).show()
+            } else  {
+                Toast.makeText(this, "Notification permission denied", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+
 }
+
 
 @Composable
 fun AppNavigator() {

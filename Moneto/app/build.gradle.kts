@@ -48,6 +48,7 @@ android {
     }
     buildFeatures {
         compose = true
+        viewBinding = true
     }
     composeOptions {
         kotlinCompilerExtensionVersion = "1.5.1"
@@ -60,6 +61,19 @@ android {
 }
 
 dependencies {
+    // Check for the latest version available
+    implementation ("androidx.work:work-runtime-ktx:2.7.1")
+    implementation ("androidx.core:core-ktx:1.6.0")
+    implementation ("androidx.appcompat:appcompat:1.3.1")
+
+    // For AppWidgets support
+    implementation( "androidx.glance:glance-appwidget:1.0.0" )
+
+    // For interop APIs with Material 2
+    implementation( "androidx.glance:glance-material:1.0.0" )
+
+    // For interop APIs with Material 3
+    implementation( "androidx.glance:glance-material3:1.0.0" )
 
     implementation ("com.github.tehras:charts:0.2.4-alpha")
     implementation("io.github.serpro69:kotlin-faker:1.16.0")

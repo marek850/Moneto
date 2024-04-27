@@ -102,16 +102,16 @@ fun LimitSetScreen(navController: NavController, limitViewModel: LimitsViewModel
                         .fillMaxWidth()
 
                 ) {
-                    CustomRow(label = "Daily Limit",) {
+                    CustomRow(label = "Daily Expense Limit",) {
                         CustomTextField(
-                            value = if(state.dailyLimit.toDoubleOrNull() != null && state.dailyLimit.toDouble() > 0) {state.dailyLimit} else {"Not set"},
+                            value = state.dailyLimit,
                             modifier = Modifier.fillMaxWidth(),
                             textStyle = TextStyle(
                                 textAlign = TextAlign.Right,
                             ),
                             onValueChange = limitViewModel::setDailyLimit,
                             placeholder = {
-                                Text("0")
+                                Text("Not Set")
                             },
                             arrangement = Arrangement.End,
                             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
@@ -122,16 +122,16 @@ fun LimitSetScreen(navController: NavController, limitViewModel: LimitsViewModel
                         thickness = 1.dp,
                         color = Color.LightGray
                     )
-                    CustomRow(label = "Monthly Limit",) {
+                    CustomRow(label = "Monthly Expense Limit",) {
                         CustomTextField(
-                            value = if(state.monthlyLimit.toDoubleOrNull() != null && state.monthlyLimit.toDouble() > 0) {state.monthlyLimit} else {"Not set"},
+                            value = state.monthlyLimit,
                             modifier = Modifier.fillMaxWidth(),
                             textStyle = TextStyle(
                                 textAlign = TextAlign.Right,
                             ),
                             onValueChange = limitViewModel::setMonthlyLimit,
                             placeholder = {
-                                Text("0")
+                                Text("Not Set")
                             },
                             arrangement = Arrangement.End,
                             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)

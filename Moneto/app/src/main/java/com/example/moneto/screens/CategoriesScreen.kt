@@ -6,14 +6,17 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.KeyboardArrowLeft
 import androidx.compose.material.icons.rounded.Send
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -92,11 +95,12 @@ fun Categories(navController: NavController, categoriesModel: CategoriesViewMode
                         modifier = Modifier
                             .padding(16.dp)
                             .fillMaxWidth()
-                            .clip(RoundedCornerShape(20.dp))
+                            .clip(RoundedCornerShape(30.dp))
                     ) {
                         itemsIndexed(
                             uiState.categories,
                             key = { _, category -> category.name }) { index, category ->
+
                             SwipeableActionsBox(
                                 endActions = listOf(
                                     SwipeAction(
@@ -105,10 +109,16 @@ fun Categories(navController: NavController, categoriesModel: CategoriesViewMode
                                         onSwipe = { categoriesModel.deleteCategory(category) }
                                     ),
                                 ),
-                                modifier = Modifier.animateItemPlacement().clip(shape = RoundedCornerShape(10.dp)).padding(vertical = 10.dp).background(
-                                    LightBackground)
+                                modifier = Modifier
+                                    .animateItemPlacement()
+                                    .clip(shape = RoundedCornerShape(30.dp))
+                                    .padding(vertical = 10.dp)
+                                    .background(
+                                        LightBackground
+                                    )
                             ) {
-                                CustomRow(modifier = Modifier.background(LightBackground).clip(shape = RoundedCornerShape(10.dp))) {
+                                CustomRow(modifier = Modifier
+                                    .background(LightBackground)) {
                                     Row(
                                         verticalAlignment = Alignment.CenterVertically,
                                         modifier = Modifier.padding(horizontal = 16.dp)
@@ -120,6 +130,13 @@ fun Categories(navController: NavController, categoriesModel: CategoriesViewMode
                                                 vertical = 10.dp
                                             ),
                                             style = Typography.titleMedium,
+                                        )
+                                        Spacer(modifier = Modifier.weight(1f))
+                                        Icon(
+                                            Icons.Rounded.ArrowBack,
+                                            tint = Purple80,
+                                            contentDescription = "Delete transaction",
+                                            modifier = Modifier.size(15.dp)
                                         )
                                     }
                                 }
@@ -194,7 +211,7 @@ fun Categories(navController: NavController, categoriesModel: CategoriesViewMode
                     modifier = Modifier
                         .height(44.dp)
                         .weight(1f)
-                        .padding(start = 16.dp),
+                        .padding(start = 16.dp).clip(RoundedCornerShape(20.dp)),
                 ) {
                     Column(
                         verticalArrangement = Arrangement.Center,
@@ -206,7 +223,8 @@ fun Categories(navController: NavController, categoriesModel: CategoriesViewMode
                             placeholder = { Text("Category name", color = Color.White
                             ) },
                             modifier = Modifier
-                                .fillMaxWidth().clip(RoundedCornerShape(10.dp)),
+                                .fillMaxWidth()
+                                ,
                             maxLines = 1,
                         )
                     }
