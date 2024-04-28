@@ -4,6 +4,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.moneto.data.Currency
 import com.example.moneto.data.TimeRange
 import com.example.moneto.data.Transaction
+import com.example.moneto.data.TransactionType
 import com.example.moneto.data.monetoDb
 import com.example.moneto.utils.calculateDateRange
 import io.realm.kotlin.ext.query
@@ -17,7 +18,8 @@ import kotlinx.coroutines.launch
 data class StatisticsViewState(
     val transactions: MutableList<Transaction> = mutableListOf(),
     val timeRange: TimeRange = TimeRange.Day,
-    val currency: Currency? = null
+    val currency: Currency? = null,
+    val typeOfTransaction: TransactionType = TransactionType.All
 )
 
 class StatisticsViewModel : TransactionsBaseViewModel(){
@@ -39,7 +41,7 @@ class StatisticsViewModel : TransactionsBaseViewModel(){
             )
         }
         viewModelScope.launch(Dispatchers.IO) {
-            updateTimeRange(TimeRange.Day)
+            updateTimeRange(_state.value.timeRange, _state.value.typeOfTransaction)
         }
     }
     override fun removeTransaction(tranToRemove: Transaction) {
@@ -60,7 +62,7 @@ class StatisticsViewModel : TransactionsBaseViewModel(){
             }
         }
     }
-    fun updateTimeRange(range:TimeRange) {
+    fun updateTimeRange(range:TimeRange, transactionType: TransactionType) {
         val (start, end) = calculateDateRange(range)
         val transactions = monetoDb.query<Transaction>().find().filter { transaction ->
             (transaction.date.toLocalDate().isAfter(start) && transaction.date.toLocalDate()
@@ -68,8 +70,16 @@ class StatisticsViewModel : TransactionsBaseViewModel(){
                 .isEqual(start) || transaction.date.toLocalDate().isEqual(end)
         }
         val mutableTransactions = mutableListOf<Transaction>()
-        for (transaction in transactions){
-            mutableTransactions.add(transaction)
+        if (transactionType != TransactionType.All){
+            for (transaction in transactions){
+                if (transaction.type == transactionType) {
+                    mutableTransactions.add(transaction)
+                }
+            }
+        } else {
+            for (transaction in transactions){
+                mutableTransactions.add(transaction)
+            }
         }
         _state.update { currentState ->
             currentState.copy(

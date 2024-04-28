@@ -32,7 +32,7 @@ fun MonthChart(transactions: List<Transaction>,month: LocalDate) {
                         label = "$i",
                         value = abs(groupedTransactions[i]?.total?.toFloat()
                             ?: 0f),
-                        color = if (groupedTransactions[i]?.total?.toFloat() ?: 0f > 0){ Color.Green } else{ Color.Red },
+                        color = if ((groupedTransactions[i]?.total?.toFloat() ?: 0f) > 0){ Color.Green } else{ Color.Red },
                     ))
                 }
             }

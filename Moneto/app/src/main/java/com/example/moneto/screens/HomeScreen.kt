@@ -37,6 +37,7 @@ import com.example.moneto.charts.TransactionChart
 import com.example.moneto.components.Picker
 import com.example.moneto.components.TransactionList
 import com.example.moneto.data.TimeRange
+import com.example.moneto.data.TransactionType
 import com.example.moneto.ui.theme.Background
 import com.example.moneto.ui.theme.LightBackground
 import com.example.moneto.ui.theme.Purple80
@@ -47,6 +48,9 @@ import com.example.moneto.view_models.HomeViewModel
 fun HomeScreen(homeViewModel: HomeViewModel = viewModel()) {
     val state by homeViewModel.state.collectAsState()
     var timeRangeOpened by remember {
+        mutableStateOf(false)
+    }
+    var transactionTypesOpened by remember {
         mutableStateOf(false)
     }
     val incomes = buildAnnotatedString {
@@ -80,6 +84,7 @@ fun HomeScreen(homeViewModel: HomeViewModel = viewModel()) {
         }
 
     }
+    val transactionTypes = listOf(TransactionType.All, TransactionType.Expense,  TransactionType.Income)
     val timeRanges = listOf(TimeRange.Day, TimeRange.Week, TimeRange.Month, TimeRange.Year)
     Scaffold(modifier = Modifier.fillMaxHeight(),content = { innerPadding ->
         Column(
@@ -125,19 +130,34 @@ fun HomeScreen(homeViewModel: HomeViewModel = viewModel()) {
             }
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Text(
-                    "Total for: ",
-                    style = Typography.titleLarge, color = Purple80
+                    "Filter transactions: ",
+                    style = Typography.titleSmall, color = Purple80
+                )
+                Picker(state.typeOfTransaction.name) { transactionTypesOpened = !transactionTypesOpened }
+                DropdownMenu(expanded = transactionTypesOpened,
+                    onDismissRequest = { transactionTypesOpened = false }) {
+                    transactionTypes.forEach { transactionType ->
+                        DropdownMenuItem(text = { Text(transactionType.name) }, onClick = {
+                            homeViewModel.updateTimeRangeAndSums(state.timeRange, transactionType  )
+                            transactionTypesOpened = false
+                        })
+                    }
+                }
+                Text(
+                    "For:  ",
+                    style = Typography.titleSmall, color = Purple80
                 )
                 Picker(state.timeRange.name) { timeRangeOpened = !timeRangeOpened }
                 DropdownMenu(expanded = timeRangeOpened,
                     onDismissRequest = { timeRangeOpened = false }) {
                     timeRanges.forEach { timeRange ->
                         DropdownMenuItem(text = { Text(timeRange.name) }, onClick = {
-                            homeViewModel.updateTimeRangeAndSums(timeRange)
+                            homeViewModel.updateTimeRangeAndSums(timeRange, state.typeOfTransaction)
                             timeRangeOpened = false
                         })
                     }
                 }
+
             }
             Spacer(modifier = Modifier.height(5.dp))
             Column {

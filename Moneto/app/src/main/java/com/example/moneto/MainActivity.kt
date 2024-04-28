@@ -8,10 +8,12 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
 import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -48,6 +50,8 @@ import androidx.navigation.compose.rememberNavController
 import com.example.moneto.data.Category
 import com.example.moneto.data.Curr
 import com.example.moneto.data.Currency
+import com.example.moneto.data.Transaction
+import com.example.moneto.data.TransactionType
 import com.example.moneto.data.monetoDb
 import com.example.moneto.notifications.scheduleChecks
 import com.example.moneto.screens.AddTransaction
@@ -64,12 +68,16 @@ import com.example.moneto.ui.theme.Login
 import com.example.moneto.ui.theme.MonetoTheme
 import io.realm.kotlin.ext.query
 import io.sentry.compose.withSentryObservableEffect
+import java.time.LocalDateTime
+import java.time.temporal.ChronoUnit
+import java.util.Random
 
 class MainActivity :  ComponentActivity(){
 
     companion object{
         private const val NOTIFICATION_PERMISSION = 100
     }
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val name = "Moneto Notifications"
@@ -130,7 +138,7 @@ fun BottomNavBar() {
                 )
         }
         monetoDb.write {
-            val categoriesToCreate = listOf("Sallary", "Restaurant", "Groceries", "Rent", "Drugs", "Car")
+            val categoriesToCreate = listOf("Salary", "Restaurant", "Groceries", "Rent", "Drugs", "Car")
             val categories = this.query<Category>().find()
             val existingCategoryNames = categories.map { it.name }.toSet()
 
@@ -142,8 +150,28 @@ fun BottomNavBar() {
                 }
             }
         }
+        monetoDb.write {
+            val allCategories = this.query<Category>().find()
 
+            val random = Random()
+            for (i in 1..100) {
+                val description = "Transaction $i"
+                val amount = random.nextDouble() * 1000 // Random amount up to $1000
+                val type =
+                    if (random.nextBoolean()) TransactionType.Income else TransactionType.Expense
+                val date =
+                    LocalDateTime.now().minusDays(random.nextInt(365).toLong()).truncatedTo(ChronoUnit.DAYS)
+                val categoryIndex = random.nextInt(allCategories.size)
+                val category = allCategories[categoryIndex]
+
+                // Create and add transaction to Realm
+                val transaction = Transaction(description, amount, type, date, category)
+                this.copyToRealm(transaction)
+            }
+        }
     }
+
+
 
     showBottomBar = when (backStackEntry?.destination?.route) {
         Screens.Categories.screen  -> false

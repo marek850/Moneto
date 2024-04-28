@@ -21,7 +21,8 @@ data class HomeViewState(
     val incomeValue: Double = 0.0,
     val totalSum: Double = 0.0,
     val timeRange: TimeRange = TimeRange.Day,
-    val currency: Currency? = null
+    val currency: Currency? = null,
+    val typeOfTransaction: TransactionType = TransactionType.All
 )
 class HomeViewModel :  TransactionsBaseViewModel(){
     private val _state = MutableStateFlow(HomeViewState())
@@ -42,7 +43,7 @@ class HomeViewModel :  TransactionsBaseViewModel(){
             )
         }
         viewModelScope.launch(Dispatchers.IO) {
-            updateTimeRangeAndSums(TimeRange.Day)
+            updateTimeRangeAndSums(_state.value.timeRange, _state.value.typeOfTransaction)
         }
     }
     override fun removeTransaction(tranToRemove: Transaction){
@@ -79,11 +80,11 @@ class HomeViewModel :  TransactionsBaseViewModel(){
                         totalSum = totalSum
                     )
                 }
-                updateTimeRangeAndSums(_state.value.timeRange)
+                updateTimeRangeAndSums(_state.value.timeRange, _state.value.typeOfTransaction)
             }
         }
     }
-    fun updateTimeRangeAndSums(range:TimeRange) {
+    fun updateTimeRangeAndSums(range:TimeRange,transactionType: TransactionType) {
         val (start, end) = calculateDateRange(range)
         val transactions = monetoDb.query<Transaction>().find().filter { transaction ->
             (transaction.date.toLocalDate().isAfter(start) && transaction.date.toLocalDate()
@@ -91,9 +92,18 @@ class HomeViewModel :  TransactionsBaseViewModel(){
                 .isEqual(start) || transaction.date.toLocalDate().isEqual(end)
         }
         val mutableTransactions = mutableListOf<Transaction>()
-        for (transaction in transactions){
-            mutableTransactions.add(transaction)
+        if (transactionType != TransactionType.All){
+            for (transaction in transactions){
+                if (transaction.type == transactionType) {
+                    mutableTransactions.add(transaction)
+                }
+            }
+        } else {
+            for (transaction in transactions){
+                mutableTransactions.add(transaction)
+            }
         }
+
         val expenses = monetoDb.query<Transaction>().find().filter { transaction ->
             (transaction.type == TransactionType.Expense) && ((transaction.date.toLocalDate().isAfter(start) && transaction.date.toLocalDate()
                 .isBefore(end)) || transaction.date.toLocalDate()
@@ -113,7 +123,8 @@ class HomeViewModel :  TransactionsBaseViewModel(){
                 expensesValue = expenseTotal,
                 incomeValue = incomeTotal,
                 totalSum = totalSum,
-                timeRange = range
+                timeRange = range,
+                typeOfTransaction = transactionType
             )
         }
     }
