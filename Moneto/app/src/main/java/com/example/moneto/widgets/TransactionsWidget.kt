@@ -1,6 +1,6 @@
-package com.example.moneto.widgets
 
 import android.content.Context
+import android.content.Intent
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -33,8 +33,7 @@ import kotlinx.coroutines.withContext
 import java.time.LocalDate
 
 val config = RealmConfiguration.create(schema = setOf(Category::class, Transaction::class, Limit::class, Currency::class))
-object TransactionsWidget: GlanceAppWidget() {
-
+class TransactionsWidget : GlanceAppWidget() {
     override suspend fun provideGlance(context: Context, id: GlanceId) {
         val monetoDb: Realm = Realm.open(config)
         // Initialize totals
@@ -92,7 +91,7 @@ object TransactionsWidget: GlanceAppWidget() {
                         )
                     )
                     Text(
-                        text = "${totalIncome}$",
+                        text = "${String.format("%.2f", totalIncome)}$",
                         style = TextStyle(
                             color = ColorProvider(Color.Green),
                             fontSize = 18.sp
@@ -112,7 +111,7 @@ object TransactionsWidget: GlanceAppWidget() {
                         )
                     )
                     Text(
-                        text = "${totalExpenses}$",
+                        text = "${String.format("%.2f", totalExpenses)}$",
                         style = TextStyle(
                             color = ColorProvider(Color.Red),
                             fontSize = 18.sp
@@ -122,10 +121,15 @@ object TransactionsWidget: GlanceAppWidget() {
             }
         }
     }
+
 }
 
-class TransactionsWidgetReciever:GlanceAppWidgetReceiver(){
+class TransactionsWidgetReceiver : GlanceAppWidgetReceiver() {
+    override fun onReceive(context: Context, intent: Intent) {
+        super.onReceive(context, intent)
+    }
+
     override val glanceAppWidget: GlanceAppWidget
-        get() = TransactionsWidget
-}
+        get() = TransactionsWidget()
 
+}

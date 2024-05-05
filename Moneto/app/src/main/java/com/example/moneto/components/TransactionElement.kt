@@ -3,6 +3,7 @@ package com.example.moneto.components
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.absolutePadding
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -50,7 +51,7 @@ fun TransactionElement(transaction: Transaction, currency: Currency?,viewModel: 
             verticalAlignment = Alignment.CenterVertically
         ) {
             Row(modifier = Modifier.fillMaxWidth()) {
-                Column(modifier = Modifier.padding(5.dp).fillMaxHeight()) {
+                Column(modifier = Modifier.absolutePadding(5.dp,15.dp,0.dp,0.dp).fillMaxHeight()) {
                     IconButton(
                         onClick = {
                             if (viewModel is HomeViewModel) {
@@ -70,8 +71,11 @@ fun TransactionElement(transaction: Transaction, currency: Currency?,viewModel: 
                 }
                 Spacer(Modifier.weight(0.1f))
                 Column(modifier = Modifier.padding(10.dp)) {
-                    Row{Text(text = transaction.description, color = Purple80)}
                     Row{Text(text = "${transaction.date.dayOfWeek.name.subSequence(0,3)} ${transaction.date.dayOfMonth} ${transaction.date.month.name.subSequence(0,3)} ${transaction.date.year}", color = PurpleGrey80,style = androidx.compose.ui.text.TextStyle(
+                        fontSize = 10.sp
+                    ))}
+                    Row{Text(text = transaction.description, color = Purple80)}
+                    Row{Text(text = transaction.categ?.name ?: "", color = PurpleGrey80,style = androidx.compose.ui.text.TextStyle(
                         fontSize = 10.sp
                     ))}
 

@@ -18,6 +18,7 @@ class Transaction() : RealmObject {
     val date: LocalDateTime get() { return LocalDateTime.parse(_date) }
 
     private var category: Category? = null
+    val categ: Category? get() {return category}
 
     constructor(
         description: String,

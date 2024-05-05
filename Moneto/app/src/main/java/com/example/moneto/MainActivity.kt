@@ -50,8 +50,6 @@ import androidx.navigation.compose.rememberNavController
 import com.example.moneto.data.Category
 import com.example.moneto.data.Curr
 import com.example.moneto.data.Currency
-import com.example.moneto.data.Transaction
-import com.example.moneto.data.TransactionType
 import com.example.moneto.data.monetoDb
 import com.example.moneto.notifications.scheduleChecks
 import com.example.moneto.screens.AddTransaction
@@ -68,9 +66,6 @@ import com.example.moneto.ui.theme.Login
 import com.example.moneto.ui.theme.MonetoTheme
 import io.realm.kotlin.ext.query
 import io.sentry.compose.withSentryObservableEffect
-import java.time.LocalDateTime
-import java.time.temporal.ChronoUnit
-import java.util.Random
 
 class MainActivity :  ComponentActivity(){
 
@@ -104,7 +99,6 @@ class MainActivity :  ComponentActivity(){
     private fun checkPermission(permission: String, requestCode: Int){
         if (ContextCompat.checkSelfPermission(this, permission) == PackageManager.PERMISSION_DENIED){
             ActivityCompat.requestPermissions(this, arrayOf(permission), requestCode)
-        }else   {
         }
     }
     override fun onRequestPermissionsResult(
@@ -150,25 +144,7 @@ fun BottomNavBar() {
                 }
             }
         }
-        monetoDb.write {
-            val allCategories = this.query<Category>().find()
 
-            val random = Random()
-            for (i in 1..100) {
-                val description = "Transaction $i"
-                val amount = random.nextDouble() * 1000 // Random amount up to $1000
-                val type =
-                    if (random.nextBoolean()) TransactionType.Income else TransactionType.Expense
-                val date =
-                    LocalDateTime.now().minusDays(random.nextInt(365).toLong()).truncatedTo(ChronoUnit.DAYS)
-                val categoryIndex = random.nextInt(allCategories.size)
-                val category = allCategories[categoryIndex]
-
-                // Create and add transaction to Realm
-                val transaction = Transaction(description, amount, type, date, category)
-                this.copyToRealm(transaction)
-            }
-        }
     }
 
 
@@ -204,7 +180,7 @@ fun BottomNavBar() {
             Icon(Icons.Default.List, contentDescription = null, modifier = Modifier.size(26.dp), tint = if (selected.value == Icons.Default.List) Color.White else Color.LightGray)
         }
         Button(
-            onClick = {navigationController.navigate(Screens.AddExpense.screen){
+            onClick = {navigationController.navigate(Screens.AddTransaction.screen){
                 popUpTo(0)
             } },
             modifier = Modifier
@@ -235,12 +211,12 @@ fun BottomNavBar() {
             Icon(Icons.Default.Info, contentDescription = null, modifier = Modifier.size(26.dp), tint = if (selected.value == Icons.Default.Info) Color.White else Color.LightGray)
         }
     }}}) {paddingValues ->
-        NavHost(navController = navigationController, startDestination = Screens.Home.screen, modifier = Modifier.padding(paddingValues) ){
+        NavHost(navController = navigationController, startDestination = Screens.AddTransaction.screen, modifier = Modifier.padding(paddingValues) ){
             composable(Screens.Home.screen){ HomeScreen() }
             composable(Screens.Statistics.screen){ StatisticScreen() }
             composable(Screens.Settings.screen){ SettingsScreen(navigationController) }
             composable(Screens.Info.screen){ InfoScreen() }
-            composable(Screens.AddExpense.screen){ AddTransaction() }
+            composable(Screens.AddTransaction.screen){ AddTransaction() }
             composable(Screens.Register.screen){ RegisterScreen(navigationController) }
             composable(Screens.Categories.screen){Categories(navigationController)}
             composable(Screens.Currencies.screen){ CurrenciesScreen(navigationController) }
