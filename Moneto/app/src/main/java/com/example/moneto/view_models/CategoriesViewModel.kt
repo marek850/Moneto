@@ -11,23 +11,31 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-
+/**
+ * Reprezentuje stav obrazovky kategórií, obsahujúci zoznam dostupných kategórií a názov novej kategórie pri vytváraní.
+ *
+ * @param categoryName Názov novej kategórie, ktorá sa má pridať.
+ * @param categories Zoznam všetkých kategórií získaných z databázy.
+ */
 data class CategoriesState(
     val categoryName: String = "",
     val categories: List<Category> = listOf()
 )
-
+/**
+ * ViewModel pre obrazovku kategórií, zodpovedný za správu kategórií vrátane ich vytvárania a mazania.
+ * Táto trieda spravuje a aktualizuje zoznam kategórií na základe interakcií užívateľa a zmeny v databáze.
+ */
 class CategoriesViewModel : ViewModel(){
     private val _state = MutableStateFlow(CategoriesState())
     val uiState: StateFlow<CategoriesState> = _state.asStateFlow()
 
     init {
+        // Načíta aktuálne kategórie z databázy pri inicializácii ViewModelu.
         _state.update { currentState ->
             currentState.copy(
                 categories = monetoDb.query<Category>().find()
             )
         }
-
         viewModelScope.launch(Dispatchers.IO) {
             monetoDb.query<Category>().asFlow().collect { changes ->
                 _state.update { currentState ->
@@ -38,9 +46,10 @@ class CategoriesViewModel : ViewModel(){
             }
         }
     }
-
-
-
+    /**
+     * Nastaví názov novej kategórie v stave.
+     * @param name Názov novej kategórie, ktorý sa má použiť.
+     */
     fun setNewCategoryName(name: String) {
         _state.update { currentState ->
             currentState.copy(
@@ -48,6 +57,9 @@ class CategoriesViewModel : ViewModel(){
             )
         }
     }
+    /**
+     * Vytvorí novú kategóriu podľa názvu uloženého v stave a uloží ju do databázy.
+     */
     fun createNewCategory() {
         viewModelScope.launch(Dispatchers.IO) {
             monetoDb.write {
@@ -55,6 +67,7 @@ class CategoriesViewModel : ViewModel(){
                     _state.value.categoryName,
                 ))
             }
+            // Resetuje názov kategórie po jej vytvorení.
             _state.update { currentState ->
                 currentState.copy(
                     categoryName = ""
@@ -62,7 +75,10 @@ class CategoriesViewModel : ViewModel(){
             }
         }
     }
-
+    /**
+     * Vymaže kategóriu z databázy.
+     * @param category Kategória, ktorá sa má vymazať.
+     */
     fun deleteCategory(category: Category) {
         viewModelScope.launch(Dispatchers.IO) {
             monetoDb.write {

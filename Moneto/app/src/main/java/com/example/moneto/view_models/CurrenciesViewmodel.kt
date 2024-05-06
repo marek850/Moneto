@@ -12,18 +12,29 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-
+/**
+ * Reprezentuje stav obrazovky meny, obsahujúci informácie o aktuálne vybranej mene.
+ *
+ * @param symbol Symbol meny, napríklad € pre Euro.
+ * @param shortName Skratka meny, napríklad EUR pre Euro.
+ * @param currency Enum reprezentujúci typ meny, predvolene nastavené na Euro.
+ */
 data class CurrenciesScreenState(
     val symbol: String = "",
     val shortName: String = "",
     val currency: Curr = Curr.Euro
 )
+/**
+ * ViewModel pre obrazovku mien, ktorý spravuje a uchováva stav súvisiaci s výberom a správou mien.
+ * Umožňuje aktualizáciu a ukladanie vybranej meny do databázy.
+ */
 class CurrenciesViewModel : ViewModel() {
     private val _state = MutableStateFlow(CurrenciesScreenState())
     val uiState: StateFlow<CurrenciesScreenState> = _state.asStateFlow()
     init {
         val currencies = monetoDb.query<Currency>().find()
         if (!currencies.isEmpty()){
+            // Inicializuje stav s prvou nájdenou menou v databáze.
             _state.update { currentState ->
                 currentState.copy(
                     symbol = currencies[0].symbol,
@@ -32,6 +43,11 @@ class CurrenciesViewModel : ViewModel() {
             }
         }
     }
+    /**
+     * Nastaví nové hodnoty pre symbol a skratku meny v stave.
+     * @param symbol Nový symbol meny, napríklad $.
+     * @param code Nová skratka meny, napríklad USD.
+     */
     fun setCurrency(symbol: String, code: String) {
         _state.update { currentState ->
             currentState.copy(
@@ -40,6 +56,9 @@ class CurrenciesViewModel : ViewModel() {
             )
         }
     }
+    /**
+     * Uloží aktuálnu vybranú menu do databázy. Existujúce záznamy o mene sú vymazané a nahradené novými údajmi.
+     */
     fun saveCurrency() {
         viewModelScope.launch(Dispatchers.IO) {
             monetoDb.write {

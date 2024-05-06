@@ -16,7 +16,16 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.LocalDateTime
-
+/**
+ * Reprezentuje stav obrazovky pre pridávanie nových transakcií, uchováva informácie potrebné na vytvorenie transakcie.
+ *
+ * @param amount Suma transakcie ako textový reťazec.
+ * @param description Popis transakcie.
+ * @param type Typ transakcie (príjem alebo výdavok).
+ * @param date Dátum transakcie.
+ * @param category Kategória transakcie, môže byť null ak nie je špecifikovaná.
+ * @param categories Zoznam možných kategórií načítaných z databázy, môže byť null ak nie sú načítané.
+ */
 data class AddScreenState(
     val amount: String = "",
     val description: String = "",
@@ -26,6 +35,10 @@ data class AddScreenState(
     val categories: RealmResults<Category>? = null
 
 )
+/**
+ * ViewModel pre obrazovku pridania novej transakcie, zodpovedný za správu a aktualizáciu stavu transakcie.
+ * Táto trieda spravuje údaje o transakcii a interaguje s databázou pre ukladanie transakcií.
+ */
 class AddTransactionViewModel : ViewModel(){
     private val _state = MutableStateFlow(AddScreenState(
         description = "",
@@ -40,6 +53,10 @@ class AddTransactionViewModel : ViewModel(){
             )
         }
     }
+    /**
+     * Nastaví sumu transakcie v stave.
+     * @param amount Suma transakcie ako textový reťazec.
+     */
     fun setAmount(amount: String) {
         var parsed = amount.toDoubleOrNull()
         if (amount.isEmpty()) {
@@ -53,15 +70,30 @@ class AddTransactionViewModel : ViewModel(){
             }
         }
     }
+    /**
+     * Nastaví popis transakcie v stave.
+     * @param description Popis transakcie.
+     */
     fun setDescription(description: String) {
         _state.update { currentState -> currentState.copy(description = description) }
     }
+    /**
+     * Nastaví dátum transakcie v stave.
+     * @param date Dátum transakcie.
+     */
     fun setDate(date: LocalDate) {
         _state.update { currentState -> currentState.copy(date = date) }
     }
+    /**
+     * Nastaví kategóriu transakcie v stave.
+     * @param category Kategória transakcie.
+     */
     fun setCategory(category: Category) {
         _state.update { currentState -> currentState.copy(category = category) }
     }
+    /**
+     * Vytvorí a uloží transakciu do databázy na základe aktuálnych údajov v stave.
+     */
     fun addTransaction() {
         if (_state.value.category != null && _state.value.amount != "") {
             viewModelScope.launch(Dispatchers.IO) {
@@ -91,6 +123,10 @@ class AddTransactionViewModel : ViewModel(){
             }
         }
     }
+    /**
+     * Nastaví typ transakcie v stave.
+     * @param transactionType Typ transakcie.
+     */
     fun setType(transactionType: TransactionType){
         _state.update { currentState ->
             currentState.copy(

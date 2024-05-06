@@ -29,10 +29,18 @@ import java.time.LocalTime
 import java.util.concurrent.TimeUnit
 import kotlin.math.abs
 import kotlin.math.ceil
-
+/**
+ * Worker pre kontrolu transakcií, ktorý kontroluje transakcie vykonané v aktuálny deň a posiela notifikácie, ak nie sú zaznamenané žiadne transakcie.
+ *
+ * @param appContext Kontext aplikácie.
+ * @param workerParams Parametre pracovníka.
+ */
 class TransactionCheckWorker(appContext: Context, workerParams: WorkerParameters) :
     CoroutineWorker(appContext, workerParams) {
-
+    /**
+     * Vykoná kontrolu transakcií a pošle notifikáciu, ak neexistujú žiadne transakcie v daný deň.
+     * @return Výsledok práce, úspech ak bol proces dokončený bez problémov.
+     */
     override suspend fun doWork(): Result {
         val today = LocalDate.now()
         val transactions = monetoDb.query<Transaction>()
@@ -45,7 +53,10 @@ class TransactionCheckWorker(appContext: Context, workerParams: WorkerParameters
 
         return Result.success()
     }
-
+    /**
+     * Posiela notifikáciu upozorňujúcu na neprítomnosť transakcií.
+     * @param context Kontext, v ktorom sa notifikácia posiela.
+     */
     private fun sendNotification(context: Context) {
         val intent = Intent(context, MainActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
@@ -68,10 +79,13 @@ class TransactionCheckWorker(appContext: Context, workerParams: WorkerParameters
     }
 }
 
-// Scheduling method to enqueue transaction checks
+/**
+ * Plánuje kontrolné úlohy na overenie transakcií, dennej a mesačnej kontroly limitu.
+ * @param applicationContext Kontext aplikácie pre správu plánovania úloh.
+ */
 fun scheduleChecks(applicationContext: Context) {
     val workManager = WorkManager.getInstance(applicationContext)
-
+    // Rôzne požiadavky na prácu s nastavením oneskorenia podľa času
     val noonRequest = OneTimeWorkRequestBuilder<TransactionCheckWorker>()
         .setInitialDelay(getInitialDelay(12, 0), TimeUnit.SECONDS)
         .addTag("transactionCheckNoon")
@@ -92,24 +106,37 @@ fun scheduleChecks(applicationContext: Context) {
         .setInitialDelay(getInitialDelay(12, 0), TimeUnit.SECONDS)
         .addTag("monthlyLimitCheck")
         .build()
-
+    // Plánovanie jednotlivých úloh
     workManager.enqueueUniquePeriodicWork("dailyLimitCheck", ExistingPeriodicWorkPolicy.REPLACE, dailyLimitCheckRequest)
     workManager.enqueueUniqueWork("noonCheck", ExistingWorkPolicy.REPLACE, noonRequest)
     workManager.enqueueUniqueWork("eveningCheck", ExistingWorkPolicy.REPLACE, eveningRequest)
     workManager.enqueueUniqueWork("monthlyLimitCheck", ExistingWorkPolicy.REPLACE, monthlyLimitCheckRequest)
 }
 
-// Helper function to calculate the initial delay for the work request based on target hour and minute
+/**
+ * Pomocná funkcia na výpočet počiatočného oneskorenia úlohy založené na cieľovej hodine a minúte.
+ * @param targetHour Cieľová hodina pre spustenie úlohy.
+ * @param targetMinute Cieľová minúta pre spustenie úlohy.
+ * @return Počet sekúnd do spustenia úlohy.
+ */
 private fun getInitialDelay(targetHour: Int, targetMinute: Int): Long {
     val currentTime = LocalTime.now()
     val targetTime = LocalTime.of(targetHour, targetMinute)
     return Duration.between(currentTime, targetTime).seconds.coerceAtLeast(0)
 }
 
-
+/**
+ * Worker pre dennú kontrolu limitu výdavkov. Overuje, či denné výdavky neprekračujú nastavený limit.
+ *
+ * @param appContext Kontext aplikácie.
+ * @param workerParams Parametre pracovníka.
+ */
 class DailyLimitCheckWorker(appContext: Context, workerParams: WorkerParameters) :
     CoroutineWorker(appContext, workerParams) {
-
+    /**
+     * Vykonáva dennú kontrolu limitu výdavkov a podľa výsledkov posiela notifikácie.
+     * @return Výsledok práce, úspech ak bola úloha spracovaná bez problémov.
+     */
     override suspend fun doWork(): Result {
         val today = LocalDate.now()
         val limits = monetoDb.query<Limit>().find()
@@ -134,6 +161,10 @@ class DailyLimitCheckWorker(appContext: Context, workerParams: WorkerParameters)
 
         return Result.success()
     }
+    /**
+     * Posiela notifikáciu o dosiahnutí denného limitu výdavkov.
+     * @param context Kontext, v ktorom sa notifikácia posiela.
+     */
     private fun sendReachedDailyLimitNotification(context: Context) {
 
         val builder = NotificationCompat.Builder(context, "CHANNEL_ID")
@@ -149,7 +180,10 @@ class DailyLimitCheckWorker(appContext: Context, workerParams: WorkerParameters)
 
         NotificationManagerCompat.from(context).notify(1235, builder.build())
     }
-
+    /**
+     * Posiela povzbudzujúcu notifikáciu, ak výdavky zostávajú pod denným limitom.
+     * @param context Kontext, v ktorom sa notifikácia posiela.
+     */
     private fun sendEncouragementNotification(context: Context) {
 
         val builder = NotificationCompat.Builder(context, "CHANNEL_ID")
@@ -166,10 +200,18 @@ class DailyLimitCheckWorker(appContext: Context, workerParams: WorkerParameters)
         NotificationManagerCompat.from(context).notify(1235, builder.build())
     }
 }
-
+/**
+ * Worker pre mesačnú kontrolu limitu výdavkov. Overuje, či mesačné výdavky neprekračujú nastavený limit.
+ *
+ * @param appContext Kontext aplikácie.
+ * @param workerParams Parametre pracovníka.
+ */
 class MonthlyLimitCheckWorker(appContext: Context, workerParams: WorkerParameters) :
     CoroutineWorker(appContext, workerParams) {
-
+    /**
+     * Vykonáva mesačnú kontrolu limitu výdavkov a posiela relevantné notifikácie v závislosti od stavu výdavkov.
+     * @return Výsledok práce, úspech ak bola úloha spracovaná bez problémov.
+     */
     override suspend fun doWork(): Result {
         val today = LocalDate.now()
         val limits = monetoDb.query<Limit>().find()
@@ -199,7 +241,10 @@ class MonthlyLimitCheckWorker(appContext: Context, workerParams: WorkerParameter
 
         return Result.success()
     }
-
+    /**
+     * Posiela notifikáciu o polovici mesiaca, ak výdavky vyzerajú dobre.
+     * @param context Kontext, v ktorom sa notifikácia posiela.
+     */
     private fun sendHalfMarkNotification(context: Context) {
 
         val builder = NotificationCompat.Builder(context, "CHANNEL_ID")
@@ -215,6 +260,10 @@ class MonthlyLimitCheckWorker(appContext: Context, workerParams: WorkerParameter
 
         NotificationManagerCompat.from(context).notify(1235, builder.build())
     }
+    /**
+     * Posiela notifikáciu o dosiahnutí mesačného limitu výdavkov.
+     * @param context Kontext, v ktorom sa notifikácia posiela.
+     */
     private fun sendReachedMonthlyLimitNotification(context: Context) {
 
         val builder = NotificationCompat.Builder(context, "CHANNEL_ID")
@@ -230,6 +279,10 @@ class MonthlyLimitCheckWorker(appContext: Context, workerParams: WorkerParameter
 
         NotificationManagerCompat.from(context).notify(1235, builder.build())
     }
+    /**
+     * Posiela notifikáciu o blížiacom sa konci mesiaca, ak výdavky ešte nedosiahli limit.
+     * @param context Kontext, v ktorom sa notifikácia posiela.
+     */
     private fun sendEndOfMonthNotification(context: Context) {
 
         val builder = NotificationCompat.Builder(context, "CHANNEL_ID")

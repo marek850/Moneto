@@ -14,7 +14,17 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-
+/**
+ * Reprezentuje stav hlavnej obrazovky, uchováva údaje o transakciách a súhrne finančných ukazovateľov.
+ *
+ * @param transactions Zoznam všetkých transakcií pre zvolené obdobie.
+ * @param expensesValue Celková hodnota výdavkov v zvolenom období.
+ * @param incomeValue Celková hodnota príjmov v zvolenom období.
+ * @param totalSum Čistá suma (príjmy mínus výdavky).
+ * @param timeRange Časové rozpätie, pre ktoré sa zobrazujú transakcie (napr. deň, mesiac).
+ * @param currency Menová jednotka, v ktorej sa zobrazujú finančné sumy.
+ * @param typeOfTransaction Typ transakcií, ktoré sa zobrazujú (napr. všetky, len príjmy alebo len výdavky).
+ */
 data class HomeViewState(
     val transactions: MutableList<Transaction> = mutableListOf(),
     val expensesValue: Double = 0.0,
@@ -24,18 +34,23 @@ data class HomeViewState(
     val currency: Currency? = null,
     val typeOfTransaction: TransactionType = TransactionType.All
 )
+/**
+ * ViewModel pre hlavnú obrazovku, zodpovedný za spracovanie údajov a aktualizácie stavu transakcií a finančných súhrnov.
+ * Dedí od [TransactionsBaseViewModel] na zdieľanie základných funkcionalít pre správu transakcií.
+ */
 class HomeViewModel :  TransactionsBaseViewModel(){
     private val _state = MutableStateFlow(HomeViewState())
     val state: StateFlow<HomeViewState> = _state.asStateFlow()
 
     init {
         val currencies = monetoDb.query<Currency>().find()
-        val currency = currencies[0]
+        val currency = currencies[0]// Predpokladá sa, že databáza obsahuje aspoň jednu menu.
         val transactions = monetoDb.query<Transaction>().find()
         val mutableTransactions = mutableListOf<Transaction>()
         for (transaction in transactions){
             mutableTransactions.add(transaction)
         }
+        // Inicializácia stavu s načítanými transakciami a predvolenou menou.
         _state.update { currentState ->
             currentState.copy(
                 transactions = mutableTransactions,
@@ -46,6 +61,10 @@ class HomeViewModel :  TransactionsBaseViewModel(){
             updateTimeRangeAndSums(_state.value.timeRange, _state.value.typeOfTransaction)
         }
     }
+    /**
+     * Odstraňuje transakciu a aktualizuje súhrnné finančné ukazovatele.
+     * @param tranToRemove Transakcia, ktorá má byť odstránená.
+     */
     override fun removeTransaction(tranToRemove: Transaction){
 
         viewModelScope.launch(Dispatchers.IO) {
@@ -84,6 +103,11 @@ class HomeViewModel :  TransactionsBaseViewModel(){
             }
         }
     }
+    /**
+     * Aktualizuje obdobie a súhrnné ukazovatele pre zobrazené transakcie na základe vybraného časového rozpätia a typu transakcií.
+     * @param range Nové časové rozpätie.
+     * @param transactionType Typ transakcií na zobrazenie.
+     */
     fun updateTimeRangeAndSums(range:TimeRange,transactionType: TransactionType) {
         val (start, end) = calculateDateRange(range)
         val transactions = monetoDb.query<Transaction>().find().filter { transaction ->
