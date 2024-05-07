@@ -51,7 +51,13 @@ import com.example.moneto.ui.theme.Typography
 import com.example.moneto.view_models.AddTransactionViewModel
 import com.marosseleng.compose.material3.datetimepickers.date.domain.DatePickerDefaults
 import com.marosseleng.compose.material3.datetimepickers.date.ui.dialog.DatePickerDialog
-
+/**
+ * Composable funkcia, ktorá zobrazuje obrazovku pridania transakcie v aplikácii Moneto.
+ * Táto obrazovka umožňuje používateľom vkladať a odosielať nové transakcie, vrátane popisu, sumy, typu, dátumu a kategórie.
+ * Na zber údajov od používateľa využíva rôzne komponenty užívateľského rozhrania, ako sú textové polia, tlačidlá a rozbaľovacie menu.
+ *
+ * @param addViewModel ViewModel, ktorý riadi a poskytuje stav pre operácie súvisiace s transakciami.
+ */
 @OptIn(ExperimentalComposeUiApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun AddTransaction(addViewModel: AddTransactionViewModel = viewModel()) {

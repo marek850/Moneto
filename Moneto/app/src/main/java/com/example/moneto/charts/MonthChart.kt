@@ -17,7 +17,15 @@ import com.github.tehras.charts.bar.renderer.yaxis.SimpleYAxisDrawer
 import java.time.LocalDate
 import java.time.YearMonth
 import kotlin.math.abs
-
+/**
+ * Composable funkcia, ktorá zobrazuje mesačný graf transakcií v aplikácii Moneto.
+ * Tento graf sumarizuje transakcie za každý deň v mesiaci a zobrazuje ich ako stĺpce v stĺpcovom grafe.
+ * Farba každého stĺpca indikuje, či suma za deň bola príjem (zelená) alebo výdaj (červená).
+ * Graf poskytuje rýchly prehľad o finančnej aktivite užívateľa počas vybraného mesiaca.
+ *
+ * @param transactions Zoznam transakcií, ktoré majú byť zobrazené v grafe.
+ * @param month Dátum, ktorý určuje mesiac pre graf. Používa sa na výpočet počtu dní v mesiaci.
+ */
 @Composable
 fun MonthChart(transactions: List<Transaction>,month: LocalDate) {
     val numberOfDays = YearMonth.of(month.year, month.month).lengthOfMonth()

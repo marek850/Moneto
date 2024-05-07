@@ -43,7 +43,16 @@ import com.example.moneto.ui.theme.LightBackground
 import com.example.moneto.ui.theme.Purple80
 import com.example.moneto.ui.theme.Typography
 import com.example.moneto.view_models.HomeViewModel
-
+/**
+ * Composable funkcia, ktorá slúži ako hlavný panel aplikácie Moneto. Táto obrazovka zobrazuje
+ * finančné súhrny, ako sú príjmy, výdavky a celkový zostatok, a umožňuje používateľom filtrovať
+ * transakcie podľa typu a časového rozsahu. Okrem toho poskytuje dynamické grafické znázornenie
+ * transakcií a zoznam detailov o transakciách.
+ *
+ * @param homeViewModel ViewModel, ktorý riadi a poskytuje stav pre domovskú obrazovku,
+ * vrátane údajov o transakciách a preferencií používateľov pre zobrazenie konkrétnych typov transakcií alebo
+ * časových rozsahov.
+ */
 @Composable
 fun HomeScreen(homeViewModel: HomeViewModel = viewModel()) {
     val state by homeViewModel.state.collectAsState()

@@ -16,7 +16,14 @@ import com.github.tehras.charts.bar.BarChartData
 import com.github.tehras.charts.bar.renderer.yaxis.SimpleYAxisDrawer
 import java.time.DayOfWeek
 import kotlin.math.abs
-
+/**
+ * Composable funkcia, ktorá zobrazuje týždenný graf transakcií v aplikácii Moneto.
+ * Tento graf sumarizuje transakcie za každý deň v týždni a zobrazuje ich ako stĺpce v stĺpcovom grafe.
+ * Farba každého stĺpca indikuje, či suma za deň bola príjem (zelená) alebo výdaj (červená).
+ * Graf poskytuje rýchly prehľad o finančnej aktivite užívateľa počas celého týždňa.
+ *
+ * @param transactions Zoznam transakcií, ktoré majú byť zobrazené v grafe.
+ */
 @Composable
 fun WeekChart(transactions: List<Transaction>) {
     val groupedTransactions = transactions.groupedByDayOfWeek()

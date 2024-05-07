@@ -46,7 +46,14 @@ import com.example.moneto.ui.theme.LightPurple
 import com.example.moneto.ui.theme.Purple80
 import com.example.moneto.ui.theme.Typography
 import com.example.moneto.view_models.CurrenciesViewModel
-
+/**
+ * Composable funkcia, ktorá zobrazuje obrazovku výberu meny v aplikácii Moneto.
+ * Používatelia môžu z rozbaľovacieho menu vybrať svoju preferovanú menu a uložiť svoju voľbu,
+ * čo spravuje CurrenciesViewModel. Obrazovka obsahuje spätnú väzbu prostredníctvom dialógového okna po uložení.
+ *
+ * @param navController NavController, ktorý zabezpečuje navigáciu v aplikácii.
+ * @param currenciesViewModel ViewModel, ktorý riadi a poskytuje stav pre nastavenia meny.
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CurrenciesScreen(navController: NavController,currenciesViewModel: CurrenciesViewModel = viewModel()) {

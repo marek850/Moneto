@@ -49,7 +49,14 @@ import com.example.moneto.ui.theme.LightBackground
 import com.example.moneto.ui.theme.LightPurple
 import com.example.moneto.ui.theme.Purple80
 import com.example.moneto.view_models.LimitsViewModel
-
+/**
+ * Composable funkcia, ktorá zobrazuje obrazovku nastavenia limitov v aplikácii Moneto.
+ * Táto obrazovka umožňuje používateľom nastaviť a uložiť denné a mesačné limity výdavkov. Poskytuje spätnú väzbu
+ * prostredníctvom dialógového okna po uložení limitov.
+ *
+ * @param navController NavController, ktorý zabezpečuje navigáciu v aplikácii.
+ * @param limitViewModel ViewModel, ktorý poskytuje a spravuje stav súvisiaci s nastaveniami limitov.
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LimitSetScreen(navController: NavController, limitViewModel: LimitsViewModel = viewModel()) {

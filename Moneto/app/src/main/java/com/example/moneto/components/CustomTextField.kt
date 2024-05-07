@@ -23,7 +23,28 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import com.example.moneto.ui.theme.LightText
-
+/**
+ * Composable funkcia, ktorá poskytuje štýlované textové pole v aplikácii Moneto.
+ * Toto textové pole umožňuje užívateľom vkladať text s možnosťami ako písanie v jednom riadku,
+ * vlastné ošetrenie klávesnice a vizuálne transformácie textu.
+ * Textové pole môže zobrazovať značky, placeholder text a podporuje rôzne konfigurácie na správu interakcií s užívateľom.
+ *
+ * @param value Hodnota textu, ktorý sa zobrazuje v textovom poli.
+ * @param onValueChange Funkcia, ktorá sa vykoná pri zmene textu v textovom poli.
+ * @param enabled Určuje, či je textové pole povolené pre interakciu.
+ * @param readOnly Určuje, či je textové pole iba na čítanie.
+ * @param textStyle Štýl textu použitý v textovom poli.
+ * @param label Kompozitná funkcia, ktorá generuje značku pre textové pole.
+ * @param placeholder Kompozitná funkcia, ktorá generuje placeholder text.
+ * @param arrangement Usporiadanie obsahu v rámci textového poľa.
+ * @param visualTransformation Transformácia aplikovaná na zobrazený text.
+ * @param keyboardOptions Možnosti konfigurácie klávesnice.
+ * @param keyboardActions Akcie klávesnice, ktoré sa majú vykonať na udalostiach klávesnice.
+ * @param isError Označuje, či textové pole zobrazuje chybový stav.
+ * @param singleLine Určuje, či textové pole umožňuje vstup v jednom riadku.
+ * @param maxLines Maximálny počet riadkov, ktoré textové pole podporuje.
+ * @param interactionSource Zdroj interakcie pre textové pole.
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CustomTextField(

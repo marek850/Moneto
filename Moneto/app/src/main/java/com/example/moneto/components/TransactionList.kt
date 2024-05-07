@@ -9,7 +9,15 @@ import androidx.compose.ui.unit.dp
 import com.example.moneto.data.Currency
 import com.example.moneto.data.Transaction
 import com.example.moneto.view_models.TransactionsBaseViewModel
-
+/**
+ * Composable funkcia, ktorá zobrazuje zoznam transakcií v aplikácii Moneto.
+ * Táto funkcia zobrazuje jednotlivé transakcie pomocou komponenty `TransactionElement` a poskytuje kontext o použitej mene.
+ * Ak zoznam transakcií neobsahuje žiadne položky, zobrazí sa správa o absencii dát.
+ *
+ * @param transactions Zoznam transakcií na zobrazenie.
+ * @param currency Mena, ktorá sa použije pre zobrazenie čiastok transakcií.
+ * @param viewModel ViewModel, ktorý poskytuje základné operácie a správu pre transakcie.
+ */
 @Composable
 fun TransactionList(
     transactions: List<Transaction>,

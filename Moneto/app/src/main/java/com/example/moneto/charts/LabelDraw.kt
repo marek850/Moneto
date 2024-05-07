@@ -7,7 +7,15 @@ import androidx.compose.ui.graphics.nativeCanvas
 import com.example.moneto.data.TimeRange
 import com.example.moneto.ui.theme.Purple80
 import com.github.tehras.charts.piechart.utils.toLegacyInt
-
+/**
+ * Trieda zodpovedná za vykreslenie značiek na stĺpcových grafoch v aplikácii Moneto.
+ * Táto trieda umožňuje prispôsobené vykreslenie značiek na osi X v závislosti od zvoleného časového rozsahu,
+ * ako sú dni, týždne, mesiace alebo roky. Značky môžu byť prispôsobené pre zobrazenie iba pri určitých hodnotách
+ * na osi X, čo zlepšuje čitateľnosť grafu.
+ *
+ * @param timeRange Časový rozsah, podľa ktorého sa určuje vykreslenie značiek.
+ * @param lastDay Voliteľný parameter, ktorý určuje posledný deň v mesiaci pri mesačnom zobrazení.
+ */
 class LabelDrawer(private val timeRange: TimeRange, private val lastDay: Int? = -1) :
     com.github.tehras.charts.bar.renderer.label.LabelDrawer {
     private val leftOffset = when (timeRange) {
@@ -21,7 +29,14 @@ class LabelDrawer(private val timeRange: TimeRange, private val lastDay: Int? = 
         this.color = Purple80.toLegacyInt()
         this.textSize = 42f
     }
-
+    /**
+     * Funkcia pre vykreslenie značiek na osi X grafu.
+     * @param drawScope Rozsah kreslenia poskytujúci kontext.
+     * @param canvas Plátno, na ktorom sa vykonáva kreslenie.
+     * @param label Text značky.
+     * @param barArea Oblast stĺpca, pod ktorým sa značka vykresluje.
+     * @param xAxisArea Oblast osi X, kde sú značky umiestnené.
+     */
     override fun drawLabel(
         drawScope: DrawScope,
         canvas: Canvas,

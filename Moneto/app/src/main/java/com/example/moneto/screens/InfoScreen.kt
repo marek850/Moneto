@@ -23,7 +23,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.moneto.R
 import com.example.moneto.ui.theme.Background
-
+/**
+ * Composable funkcia, ktorá zobrazuje informačnú obrazovku aplikácie Moneto.
+ * Táto obrazovka poskytuje prehľad o poslaní spoločnosti a jej službách, vrátane loga a popisného textu.
+ * Je navrhnutá tak, aby poskytovala používateľom prehľad o účele a výhodách používania aplikácie Moneto.
+ *
+ * @Preview Ukazuje, ako bude obrazovka vyzerať v nástroji Compose Preview, čo uľahčuje úpravy dizajnu a rozloženia počas vývoja.
+ */
 @Preview(showBackground = true)
 @Composable
 fun InfoScreen() {

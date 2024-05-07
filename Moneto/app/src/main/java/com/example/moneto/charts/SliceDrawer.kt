@@ -6,11 +6,24 @@ import androidx.compose.ui.graphics.Paint
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import com.github.tehras.charts.piechart.PieChartData
 import com.github.tehras.charts.piechart.renderer.SliceDrawer
-
+/**
+ * Trieda pre vykresľovanie výsekov koláčového grafu v aplikácii Moneto.
+ * Táto trieda definuje spôsob vykreslenia jednotlivých výsekov koláčového grafu, vrátane ich farby a tvaru.
+ * Používa sa v rámci grafických komponentov, kde je potrebné vizualizovať dáta vo forme koláčového grafu.
+ */
 class SliceDrawer : SliceDrawer{
     private val barPaint = Paint().apply {
         this.isAntiAlias = true
     }
+    /**
+     * Funkcia vykreslujúca jednotlivý výsek koláčového grafu.
+     * @param drawScope Rozsah kreslenia, poskytuje kontext a nástroje pre kreslenie.
+     * @param canvas Plátno, na ktorom sa vykonáva kreslenie.
+     * @param area Rozmery oblasti, kde sa výsek vykreslí.
+     * @param startAngle Začiatočný uhol výseku v stupňoch.
+     * @param sweepAngle Rozsah uhla výseku v stupňoch.
+     * @param slice Dáta výseku, ktoré obsahujú hodnotu a farbu.
+     */
     override fun drawSlice(
         drawScope: DrawScope,
         canvas: Canvas,

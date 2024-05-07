@@ -15,7 +15,17 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.example.moneto.ui.theme.Destructive
 import com.example.moneto.ui.theme.Typography
-
+/**
+ * Composable funkcia, ktorá vytvára vlastný riadok v aplikácii Moneto.
+ * Tento riadok môže obsahovať textovú značku a umožňuje vloženie ďalšieho obsahu a detailného obsahu prostredníctvom kompozitných funkcií.
+ * Riadok podporuje nastavenie deštruktívnej farby pre text a je štýlovo zaoblený.
+ *
+ * @param modifier Modifikátor, ktorý umožňuje prispôsobenie rozloženia a štýlovania riadku.
+ * @param label Textová značka, ktorá sa zobrazí v riadku, ak je poskytnutá.
+ * @param isDestructive Ak je true, text v riadku bude mať deštruktívnu farbu, inak bielu.
+ * @param detailContent Kompozitná funkcia, ktorá umožňuje vloženie detailného obsahu do riadku.
+ * @param content Kompozitná funkcia, ktorá umožňuje vloženie primárneho obsahu do riadku.
+ */
 @Composable
 fun CustomRow(modifier: Modifier = Modifier,
      label: String? = null,

@@ -52,7 +52,14 @@ import com.example.moneto.view_models.CategoriesViewModel
 import com.github.skydoves.colorpicker.compose.rememberColorPickerController
 import me.saket.swipe.SwipeAction
 import me.saket.swipe.SwipeableActionsBox
-
+/**
+ * Composable funkcia, ktorá zobrazuje obrazovku správy kategórií v aplikácii Moneto.
+ * Táto obrazovka umožňuje používateľom zobraziť, vytvoriť a odstrániť kategórie, čím zlepšuje ich organizačné schopnosti
+ * pri spracovaní transakcií. Rozhranie obsahuje dynamický zoznam kategórií s funkciou mazania potiahnutím.
+ *
+ * @param navController NavController, ktorý zabezpečuje navigáciu v aplikácii, uľahčuje navigáciu na predchádzajúce obrazovky.
+ * @param categoriesModel ViewModel, ktorý riadi a poskytuje stav pre operácie súvisiace s kategóriami.
+ */
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
 fun Categories(navController: NavController, categoriesModel: CategoriesViewModel = viewModel()) {

@@ -16,7 +16,14 @@ import com.github.tehras.charts.bar.BarChartData
 import com.github.tehras.charts.bar.renderer.yaxis.SimpleYAxisDrawer
 import java.time.Month
 import kotlin.math.abs
-
+/**
+ * Composable funkcia, ktorá zobrazuje ročný graf transakcií v aplikácii Moneto.
+ * Tento graf sumarizuje transakcie za každý mesiac roka a zobrazuje ich ako stĺpce v stĺpcovom grafe.
+ * Farba každého stĺpca indikuje, či suma za mesiac bola príjem (zelená) alebo výdaj (červená).
+ * Graf poskytuje rýchly prehľad o finančnej aktivite užívateľa počas celého roka.
+ *
+ * @param transactions Zoznam transakcií, ktoré majú byť zobrazené v grafe.
+ */
 @Composable
 fun YearChart(transactions: List<Transaction>) {
     val groupedTransactions = transactions.groupedByMonth()

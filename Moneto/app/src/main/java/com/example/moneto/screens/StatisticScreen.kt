@@ -37,7 +37,13 @@ import com.example.moneto.ui.theme.Purple80
 import com.example.moneto.ui.theme.Typography
 import com.example.moneto.view_models.StatisticsViewModel
 import java.time.LocalDate
-
+/**
+ * Composable funkcia, ktorá zobrazuje obrazovku štatistík v aplikácii Moneto.
+ *  * Táto obrazovka obsahuje grafy reprezentujúce údaje o transakciách za rôzne časové rozsahy a umožňuje používateľovi filtrovať transakcie podľa typu a časového rozsahu.
+ *  *
+ *  * @param statisticsViewModel ViewModel, ktorý poskytuje stav a správanie pre obrazovku štatistík.
+ *  * Tento ViewModel spravuje načítanie a aktualizáciu údajov o transakciách na základe interakcií s používateľom.
+ */
 @Composable
 fun StatisticScreen(statisticsViewModel: StatisticsViewModel = viewModel()) {
     val state by statisticsViewModel.state.collectAsState()
@@ -110,7 +116,4 @@ fun StatisticScreen(statisticsViewModel: StatisticsViewModel = viewModel()) {
             }
         }
     })
-
-
-
 }

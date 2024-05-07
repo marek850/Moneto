@@ -19,7 +19,14 @@ import androidx.compose.ui.unit.dp
 import com.example.moneto.ui.theme.LightPurple
 import com.example.moneto.ui.theme.Purple80
 import com.example.moneto.ui.theme.Typography
-
+/**
+ * Composable funkcia, ktorá poskytuje štýlový výberový komponent v aplikácii Moneto.
+ * Tento komponent zobrazuje textový štítok a ikonu šípky nadol, signalizujúc rozbaľovacie menu.
+ * Je navrhnutý tak, aby bol esteticky príjemný a intuitívny pre používateľa pri vykonávaní výberovej akcie.
+ *
+ * @param label Textový štítok, ktorý sa zobrazí v komponente.
+ * @param onClick Funkcia, ktorá sa vykoná pri kliknutí na povrch komponentu.
+ */
 @Composable
 fun Picker(label: String, onClick: () -> Unit) {
     Surface(

@@ -10,7 +10,12 @@ import androidx.compose.ui.unit.dp
 import com.example.moneto.charts.SliceDrawer
 import com.github.tehras.charts.piechart.PieChart
 import com.github.tehras.charts.piechart.PieChartData
-
+/**
+ * Composable funkcia, ktorá zobrazuje koláčový graf kategórií v aplikácii Moneto.
+ * Tento graf vizualizuje rozdelenie určitých dát v podobe koláčového grafu, kde každý výsek predstavuje rôzne kategórie alebo hodnoty.
+ * Každý výsek má priradenú farbu a veľkosť, ktorá reprezentuje jeho proporcionálny podiel na celku.
+ *
+ */
 @Composable
 @Preview
 fun CategoriesChart() {

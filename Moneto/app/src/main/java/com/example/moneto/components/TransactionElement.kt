@@ -32,7 +32,15 @@ import com.example.moneto.view_models.HomeViewModel
 import com.example.moneto.view_models.StatisticsViewModel
 import com.example.moneto.view_models.TransactionsBaseViewModel
 import java.text.DecimalFormat
-
+/**
+ * Composable funkcia, ktorá zobrazuje jednotlivý prvok transakcie v aplikácii Moneto.
+ * Táto funkcia zobrazuje detaily transakcie ako dátum, popis a kategóriu v karte s možnosťou odstránenia transakcie.
+ * Okrem toho zobrazuje sumu transakcie v príslušnej mene, pričom rozlišuje príjmy a výdavky farbami.
+ *
+ * @param transaction Objekt transakcie, ktorý sa má zobraziť.
+ * @param currency Mena, v ktorej sa zobrazuje sumu transakcie.
+ * @param viewModel ViewModel, ktorý poskytuje logiku pre odstránenie transakcie, ako sú HomeViewModel alebo StatisticsViewModel.
+ */
 @Composable
 fun TransactionElement(transaction: Transaction, currency: Currency?,viewModel: TransactionsBaseViewModel) {
     Card(

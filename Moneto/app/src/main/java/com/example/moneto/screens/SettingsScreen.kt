@@ -37,7 +37,13 @@ import com.example.moneto.Screens
 import com.example.moneto.ui.theme.Background
 import com.example.moneto.ui.theme.LightPurple
 import com.example.moneto.ui.theme.Purple80
-
+/**
+ * Composable funkcia, ktorá zobrazuje obrazovku nastavení aplikácie Moneto.
+ * Táto obrazovka je rozdelená na dve sekcie, všeobecné nastavenia a nastavenia súvisiace s rozpočtom,
+ * pričom každá z nich umožňuje navigáciu na detailnejšie stránky nastavení.
+ *
+ * @param navController NavController, ktorý zabezpečuje navigáciu v aplikácii, používaný na navigáciu na rôzne obrazovky nastavení.
+ */
 @Composable
 fun SettingsScreen(navController: NavController) {
     Column(modifier = Modifier.background(Background).fillMaxHeight()) {
@@ -46,6 +52,12 @@ fun SettingsScreen(navController: NavController) {
         BudgetSettings(navController)
     }
 }
+/**
+ * Composable funkcia, ktorá zobrazuje nastavenia rozpočtu na obrazovke nastavení.
+ * Poskytuje možnosti navigácie na správu mien a limitov.
+ *
+ * @param navController NavController používaný na navigáciu na príslušné obrazovky nastavení.
+ */
 @Composable
 fun BudgetSettings(navController: NavController) {
     Column(modifier = Modifier
@@ -62,7 +74,12 @@ fun BudgetSettings(navController: NavController) {
         GeneralSettingsItem(icon = Icons.Default.Build, mainText = "Limit", onClick = {navController.navigate(Screens.Limits.screen)} )
     }
 }
-
+/**
+ * Composable funkcia, ktorá zobrazuje možnosti všeobecných nastavení na obrazovke nastavení.
+ * Zahŕňa navigáciu na obrazovku nastavení kategórií.
+ *
+ * @param navController NavController používaný na navigáciu v aplikácii.
+ */
 @Composable
 fun GeneralSettings(navController: NavController) {
     Column(modifier = Modifier
@@ -79,7 +96,14 @@ fun GeneralSettings(navController: NavController) {
        )
     }
 }
-
+/**
+ * Opakovane použiteľná composable funkcia, ktorá reprezentuje jednotlivú položku nastavenia v rámci obrazovky nastavení.
+ * Táto kompozitná funkcia zobrazuje ikonu a text a poskytuje funkčnosť kliknutia na navigáciu na základe poskytnutého spätného volania.
+ *
+ * @param icon Ikonka, ktorá sa má zobraziť vedľa textu nastavenia.
+ * @param mainText Textový popis nastavenia.
+ * @param onClick Lambda funkcia, ktorá sa spustí pri kliknutí na položku.
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun GeneralSettingsItem(
@@ -129,7 +153,10 @@ fun GeneralSettingsItem(
         }
     }
 }
-
+/**
+ * Composable that renders an icon within a stylized box, used in various settings items.
+ * @param icon The icon to be displayed inside the box.
+ */
 @Composable
 fun HeaderText() {
     Text(text = "Settings", fontFamily = FontFamily.SansSerif, color = Purple80,
