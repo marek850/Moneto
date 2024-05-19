@@ -57,7 +57,7 @@ import com.example.moneto.view_models.CurrenciesViewModel
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CurrenciesScreen(navController: NavController,currenciesViewModel: CurrenciesViewModel = viewModel()) {
-    val state by currenciesViewModel.uiState.collectAsState()
+    val state by currenciesViewModel.state.collectAsState()
     val currencies = listOf(Curr.Euro, Curr.UnitedStatesDollar, Curr.AustralianDollar, Curr.JapaneseYen)
     val openDialog = remember { mutableStateOf(false) }
     Scaffold(topBar = {

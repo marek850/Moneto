@@ -63,7 +63,7 @@ import me.saket.swipe.SwipeableActionsBox
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
 fun Categories(navController: NavController, categoriesModel: CategoriesViewModel = viewModel()) {
-    val uiState by categoriesModel.uiState.collectAsState()
+    val uiState by categoriesModel.state.collectAsState()
 
     rememberColorPickerController()
 

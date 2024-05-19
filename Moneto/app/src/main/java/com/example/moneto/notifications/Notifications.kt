@@ -11,8 +11,6 @@ import androidx.core.app.NotificationManagerCompat
 import androidx.work.Constraints
 import androidx.work.CoroutineWorker
 import androidx.work.ExistingPeriodicWorkPolicy
-import androidx.work.ExistingWorkPolicy
-import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.WorkerParameters
@@ -86,13 +84,13 @@ class TransactionCheckWorker(appContext: Context, workerParams: WorkerParameters
 fun scheduleChecks(applicationContext: Context) {
     val workManager = WorkManager.getInstance(applicationContext)
     // Rôzne požiadavky na prácu s nastavením oneskorenia podľa času
-    val noonRequest = OneTimeWorkRequestBuilder<TransactionCheckWorker>()
+    val noonRequest = PeriodicWorkRequestBuilder<TransactionCheckWorker>(1, TimeUnit.DAYS)
         .setInitialDelay(getInitialDelay(12, 0), TimeUnit.SECONDS)
         .addTag("transactionCheckNoon")
         .build()
 
-    val eveningRequest = OneTimeWorkRequestBuilder<TransactionCheckWorker>()
-        .setInitialDelay(getInitialDelay(17, 5), TimeUnit.SECONDS)
+    val eveningRequest = PeriodicWorkRequestBuilder<TransactionCheckWorker>(1, TimeUnit.DAYS)
+        .setInitialDelay(getInitialDelay(17, 0), TimeUnit.SECONDS)
         .addTag("transactionCheckEvening")
         .build()
 
@@ -102,15 +100,15 @@ fun scheduleChecks(applicationContext: Context) {
         .setConstraints(Constraints.Builder().setRequiresBatteryNotLow(true).build())
         .build()
 
-    val monthlyLimitCheckRequest = OneTimeWorkRequestBuilder<MonthlyLimitCheckWorker>()
+    val monthlyLimitCheckRequest = PeriodicWorkRequestBuilder<MonthlyLimitCheckWorker>(1, TimeUnit.DAYS)
         .setInitialDelay(getInitialDelay(12, 0), TimeUnit.SECONDS)
         .addTag("monthlyLimitCheck")
         .build()
     // Plánovanie jednotlivých úloh
     workManager.enqueueUniquePeriodicWork("dailyLimitCheck", ExistingPeriodicWorkPolicy.REPLACE, dailyLimitCheckRequest)
-    workManager.enqueueUniqueWork("noonCheck", ExistingWorkPolicy.REPLACE, noonRequest)
-    workManager.enqueueUniqueWork("eveningCheck", ExistingWorkPolicy.REPLACE, eveningRequest)
-    workManager.enqueueUniqueWork("monthlyLimitCheck", ExistingWorkPolicy.REPLACE, monthlyLimitCheckRequest)
+    workManager.enqueueUniquePeriodicWork("noonCheck", ExistingPeriodicWorkPolicy.REPLACE, noonRequest)
+    workManager.enqueueUniquePeriodicWork("eveningCheck", ExistingPeriodicWorkPolicy.REPLACE, eveningRequest)
+    workManager.enqueueUniquePeriodicWork("monthlyLimitCheck", ExistingPeriodicWorkPolicy.REPLACE, monthlyLimitCheckRequest)
 }
 
 /**

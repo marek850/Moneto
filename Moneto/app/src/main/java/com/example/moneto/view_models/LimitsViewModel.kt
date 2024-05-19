@@ -29,7 +29,7 @@ data class LimitsScreenState(
  */
 class LimitsViewModel : ViewModel() {
     private val _state = MutableStateFlow(LimitsScreenState())
-    val uiState: StateFlow<LimitsScreenState> = _state.asStateFlow()
+    val state: StateFlow<LimitsScreenState> = _state.asStateFlow()
     init {
         val limits = monetoDb.query<Limit>().find()
         if (!limits.isEmpty()){

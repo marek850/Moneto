@@ -60,7 +60,7 @@ import com.example.moneto.view_models.LimitsViewModel
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LimitSetScreen(navController: NavController, limitViewModel: LimitsViewModel = viewModel()) {
-    val state by limitViewModel.uiState.collectAsState()
+    val state by limitViewModel.state.collectAsState()
     val openDialog = remember { mutableStateOf(false) }
     Scaffold(topBar = {
         MediumTopAppBar(

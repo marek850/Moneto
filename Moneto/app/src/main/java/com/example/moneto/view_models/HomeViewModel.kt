@@ -58,7 +58,7 @@ class HomeViewModel :  TransactionsBaseViewModel(){
             )
         }
         viewModelScope.launch(Dispatchers.IO) {
-            updateTimeRangeAndSums(_state.value.timeRange, _state.value.typeOfTransaction)
+            updateTimeRange(_state.value.timeRange, _state.value.typeOfTransaction)
         }
     }
     /**
@@ -99,7 +99,7 @@ class HomeViewModel :  TransactionsBaseViewModel(){
                         totalSum = totalSum
                     )
                 }
-                updateTimeRangeAndSums(_state.value.timeRange, _state.value.typeOfTransaction)
+                updateTimeRange(_state.value.timeRange, _state.value.typeOfTransaction)
             }
         }
     }
@@ -108,7 +108,7 @@ class HomeViewModel :  TransactionsBaseViewModel(){
      * @param range Nové časové rozpätie.
      * @param transactionType Typ transakcií na zobrazenie.
      */
-    fun updateTimeRangeAndSums(range:TimeRange,transactionType: TransactionType) {
+     override fun updateTimeRange(range:TimeRange, transactionType: TransactionType) {
         val (start, end) = calculateDateRange(range)
         val transactions = monetoDb.query<Transaction>().find().filter { transaction ->
             (transaction.date.toLocalDate().isAfter(start) && transaction.date.toLocalDate()

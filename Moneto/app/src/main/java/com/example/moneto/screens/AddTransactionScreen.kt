@@ -63,7 +63,7 @@ import com.marosseleng.compose.material3.datetimepickers.date.ui.dialog.DatePick
 @OptIn(ExperimentalComposeUiApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun AddTransaction(addViewModel: AddTransactionViewModel = viewModel()) {
-    val state by addViewModel.uiState.collectAsState()
+    val state by addViewModel.state.collectAsState()
     val transactionTypes = listOf(
         TransactionType.Income,
         TransactionType.Expense

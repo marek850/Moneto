@@ -147,7 +147,7 @@ fun HomeScreen(homeViewModel: HomeViewModel = viewModel()) {
                     onDismissRequest = { transactionTypesOpened = false }) {
                     transactionTypes.forEach { transactionType ->
                         DropdownMenuItem(text = { Text(transactionType.name) }, onClick = {
-                            homeViewModel.updateTimeRangeAndSums(state.timeRange, transactionType  )
+                            homeViewModel.updateTimeRange(state.timeRange, transactionType  )
                             transactionTypesOpened = false
                         })
                     }
@@ -161,7 +161,7 @@ fun HomeScreen(homeViewModel: HomeViewModel = viewModel()) {
                     onDismissRequest = { timeRangeOpened = false }) {
                     timeRanges.forEach { timeRange ->
                         DropdownMenuItem(text = { Text(timeRange.name) }, onClick = {
-                            homeViewModel.updateTimeRangeAndSums(timeRange, state.typeOfTransaction)
+                            homeViewModel.updateTimeRange(timeRange, state.typeOfTransaction)
                             timeRangeOpened = false
                         })
                     }

@@ -27,7 +27,7 @@ data class CategoriesState(
  */
 class CategoriesViewModel : ViewModel(){
     private val _state = MutableStateFlow(CategoriesState())
-    val uiState: StateFlow<CategoriesState> = _state.asStateFlow()
+    val state: StateFlow<CategoriesState> = _state.asStateFlow()
 
     init {
         // Načíta aktuálne kategórie z databázy pri inicializácii ViewModelu.

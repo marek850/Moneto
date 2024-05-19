@@ -30,7 +30,7 @@ data class CurrenciesScreenState(
  */
 class CurrenciesViewModel : ViewModel() {
     private val _state = MutableStateFlow(CurrenciesScreenState())
-    val uiState: StateFlow<CurrenciesScreenState> = _state.asStateFlow()
+    val state: StateFlow<CurrenciesScreenState> = _state.asStateFlow()
     init {
         val currencies = monetoDb.query<Currency>().find()
         if (!currencies.isEmpty()){

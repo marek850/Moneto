@@ -84,7 +84,7 @@ class StatisticsViewModel : TransactionsBaseViewModel(){
      * @param range Nový časový rozsah, ktorý sa má uplatniť.
      * @param transactionType Typ transakcií, ktoré majú byť filtrované.
      */
-    fun updateTimeRange(range:TimeRange, transactionType: TransactionType) {
+    override fun updateTimeRange(range:TimeRange, transactionType: TransactionType) {
         val (start, end) = calculateDateRange(range)
         val transactions = monetoDb.query<Transaction>().find().filter { transaction ->
             (transaction.date.toLocalDate().isAfter(start) && transaction.date.toLocalDate()

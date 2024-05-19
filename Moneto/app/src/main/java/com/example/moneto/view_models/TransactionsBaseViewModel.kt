@@ -1,7 +1,10 @@
 package com.example.moneto.view_models
 
 import androidx.lifecycle.ViewModel
+import com.example.moneto.data.TimeRange
 import com.example.moneto.data.Transaction
+import com.example.moneto.data.TransactionType
+
 /**
  * Abstraktná základná trieda ViewModel pre transakcie, poskytuje základné rozhranie pre operácie s transakciami.
  * Táto trieda je určená na dedenie ďalšími ViewModel triedami, ktoré implementujú špecifické správanie
@@ -15,4 +18,5 @@ abstract class TransactionsBaseViewModel(): ViewModel() {
      * @param tranToRemove Objekt transakcie, ktorá má byť odstránená.
      */
     abstract fun removeTransaction(tranToRemove: Transaction)
+    abstract fun updateTimeRange(range: TimeRange, transactionType: TransactionType)
 }

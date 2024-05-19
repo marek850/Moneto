@@ -45,7 +45,7 @@ class AddTransactionViewModel : ViewModel(){
         type = TransactionType.Expense,
         date = LocalDate.now()
     ))
-    val uiState: StateFlow<AddScreenState> = _state.asStateFlow()
+    val state: StateFlow<AddScreenState> = _state.asStateFlow()
     init {
         _state.update { currentState ->
             currentState.copy(
