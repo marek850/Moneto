@@ -78,7 +78,7 @@ fun StatisticScreen(statisticsViewModel: StatisticsViewModel = viewModel()) {
             }
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Text(
-                    "Filter transactions: ",
+                    "Transaction Type: ",
                     style = Typography.titleSmall, color = Purple80
                 )
                 Picker(state.typeOfTransaction.name) { transactionTypesOpened = !transactionTypesOpened }

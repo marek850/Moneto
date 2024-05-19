@@ -13,12 +13,12 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.KeyboardArrowLeft
+import androidx.compose.material.icons.automirrored.rounded.KeyboardArrowLeft
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MediumTopAppBar
 import androidx.compose.material3.Scaffold
@@ -75,7 +75,7 @@ fun LimitSetScreen(navController: NavController, limitViewModel: LimitsViewModel
                 ) {
                     Row(modifier = Modifier.padding(vertical = 10.dp)) {
                         Icon(
-                            Icons.Rounded.KeyboardArrowLeft,
+                            Icons.AutoMirrored.Rounded.KeyboardArrowLeft,
                             tint = Purple80,
                             contentDescription = "Settings"
                         )
@@ -118,7 +118,7 @@ fun LimitSetScreen(navController: NavController, limitViewModel: LimitsViewModel
                             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
                         )
                     }
-                    Divider(
+                    HorizontalDivider(
                         modifier = Modifier.padding(start = 16.dp, end = 16.dp),
                         thickness = 1.dp,
                         color = Color.LightGray

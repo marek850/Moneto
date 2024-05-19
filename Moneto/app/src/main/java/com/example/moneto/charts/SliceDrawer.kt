@@ -39,11 +39,7 @@ class SliceDrawer : SliceDrawer{
         val bottom = top + diameter
         android.graphics.RectF(left, top, right, bottom)
 
-        // Set the color for the slice
         barPaint.color = slice.color
-
-        // Draw the arc for the slice
-
 
     }
 }

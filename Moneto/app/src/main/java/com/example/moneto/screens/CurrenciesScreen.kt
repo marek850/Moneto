@@ -11,8 +11,8 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.rounded.KeyboardArrowLeft
 import androidx.compose.material.icons.filled.KeyboardArrowDown
-import androidx.compose.material.icons.rounded.KeyboardArrowLeft
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -73,7 +73,7 @@ fun CurrenciesScreen(navController: NavController,currenciesViewModel: Currencie
                 ) {
                     Row(modifier = Modifier.padding(vertical = 10.dp)) {
                         Icon(
-                            Icons.Rounded.KeyboardArrowLeft,
+                            Icons.AutoMirrored.Rounded.KeyboardArrowLeft,
                             tint = Purple80,
                             contentDescription = "Settings"
                         )

@@ -106,6 +106,7 @@ class StatisticsViewModel : TransactionsBaseViewModel(){
         _state.update { currentState ->
             currentState.copy(
                 timeRange = range,
+                typeOfTransaction = transactionType,
                 transactions = mutableTransactions
             )
         }

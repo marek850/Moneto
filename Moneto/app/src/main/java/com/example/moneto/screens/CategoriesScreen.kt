@@ -16,9 +16,9 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.ArrowBack
-import androidx.compose.material.icons.rounded.KeyboardArrowLeft
-import androidx.compose.material.icons.rounded.Send
+import androidx.compose.material.icons.automirrored.rounded.ArrowBack
+import androidx.compose.material.icons.automirrored.rounded.KeyboardArrowLeft
+import androidx.compose.material.icons.automirrored.rounded.Send
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -81,7 +81,9 @@ fun Categories(navController: NavController, categoriesModel: CategoriesViewMode
                 ) {
                     Row(modifier = Modifier.padding(vertical = 10.dp)) {
                         Icon(
-                            Icons.Rounded.KeyboardArrowLeft, tint = Purple80,contentDescription = "Settings"
+                            Icons.AutoMirrored.Rounded.KeyboardArrowLeft,
+                            tint = Purple80,
+                            contentDescription = "Settings"
                         )
                         Text("Settings", color = Purple80)
                     }
@@ -140,7 +142,7 @@ fun Categories(navController: NavController, categoriesModel: CategoriesViewMode
                                         )
                                         Spacer(modifier = Modifier.weight(1f))
                                         Icon(
-                                            Icons.Rounded.ArrowBack,
+                                            Icons.AutoMirrored.Rounded.ArrowBack,
                                             tint = Purple80,
                                             contentDescription = "Delete transaction",
                                             modifier = Modifier.size(15.dp)
@@ -186,7 +188,7 @@ fun Categories(navController: NavController, categoriesModel: CategoriesViewMode
                         .padding(start = 16.dp)
                 ) {
                     Icon(
-                        Icons.Rounded.Send,
+                        Icons.AutoMirrored.Rounded.Send,
                         tint = Purple80,
                         contentDescription = "Create category"
                     )

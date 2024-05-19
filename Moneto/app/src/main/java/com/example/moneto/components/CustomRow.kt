@@ -17,7 +17,7 @@ import com.example.moneto.ui.theme.Destructive
 import com.example.moneto.ui.theme.Typography
 /**
  * Composable funkcia, ktorá vytvára vlastný riadok v aplikácii Moneto.
- * Tento riadok môže obsahovať textovú značku a umožňuje vloženie ďalšieho obsahu a detailného obsahu prostredníctvom kompozitných funkcií.
+ * Tento riadok môže obsahovať textovú značku a umožňuje vloženie ďalšieho obsahu a detailného obsahu prostredníctvom composable funkcií.
  * Riadok podporuje nastavenie deštruktívnej farby pre text a je štýlovo zaoblený.
  *
  * @param modifier Modifikátor, ktorý umožňuje prispôsobenie rozloženia a štýlovania riadku.

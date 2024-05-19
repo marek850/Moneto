@@ -13,12 +13,13 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Divider
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MediumTopAppBar
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -39,6 +40,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.DialogProperties
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.moneto.components.CustomRow
 import com.example.moneto.components.CustomTextField
@@ -66,6 +68,7 @@ fun AddTransaction(addViewModel: AddTransactionViewModel = viewModel()) {
         TransactionType.Income,
         TransactionType.Expense
     )
+    val openDialog = remember { mutableStateOf(false) }
 
     Scaffold(topBar = {
         MediumTopAppBar(
@@ -94,33 +97,34 @@ fun AddTransaction(addViewModel: AddTransactionViewModel = viewModel()) {
 
                     ) {
 
-                        CustomRow(label = "Description"){
+                        CustomRow(label = "Description") {
                             CustomTextField(
                                 value = state.description,
                                 onValueChange = addViewModel::setDescription,
                                 textStyle = TextStyle(
                                     textAlign = TextAlign.Right,
                                 ),
-                                placeholder = {Text("Big Mac Menu etc.")
-                                    },
+                                placeholder = {
+                                    Text("Big Mac Menu etc.")
+                                },
                                 arrangement = Arrangement.End,
                             )
                         }
-                        Divider(
+                        HorizontalDivider(
                             modifier = Modifier.padding(start = 16.dp, end = 16.dp),
                             thickness = 1.dp,
                             color = Color.LightGray
                         )
                         CustomRow(
-                            label = "Amount"
-                        ){
+                            label = "Amount *"
+                        ) {
                             CustomTextField(
                                 value = state.amount,
                                 onValueChange = addViewModel::setAmount,
                                 textStyle = TextStyle(
                                     textAlign = TextAlign.Right,
                                 ),
-                                placeholder = { Text(text = "0")},
+                                placeholder = { Text(text = "0") },
                                 arrangement = Arrangement.End,
                                 keyboardOptions = KeyboardOptions(
                                     keyboardType = KeyboardType.Number,
@@ -128,28 +132,36 @@ fun AddTransaction(addViewModel: AddTransactionViewModel = viewModel()) {
                                 maxLines = 1
                             )
                         }
-                        Divider(
+                        HorizontalDivider(
                             modifier = Modifier.padding(start = 16.dp, end = 16.dp),
                             thickness = 1.dp,
                             color = Color.LightGray
                         )
-                        CustomRow(label = "Type") {
+                        CustomRow(label = "Type *") {
                             var typeMenuOpened by remember {
                                 mutableStateOf(false)
                             }
-                            TextButton(onClick = {typeMenuOpened = true}) {
+                            TextButton(onClick = { typeMenuOpened = true }) {
                                 Text(state.type.name, color = Purple80)
-                                DropdownMenu(expanded = typeMenuOpened, onDismissRequest = { typeMenuOpened = false }) {
+                                DropdownMenu(
+                                    expanded = typeMenuOpened,
+                                    onDismissRequest = { typeMenuOpened = false }) {
                                     transactionTypes.forEach { type ->
-                                        DropdownMenuItem(text = { Text(type.name, color = Purple80) },
+                                        DropdownMenuItem(text = {
+                                            Text(
+                                                type.name,
+                                                color = Purple80
+                                            )
+                                        },
                                             onClick = {
                                                 addViewModel.setType(type)
-                                                typeMenuOpened = false})
+                                                typeMenuOpened = false
+                                            })
                                     }
                                 }
                             }
                         }
-                        Divider(
+                        HorizontalDivider(
                             modifier = Modifier.padding(start = 16.dp, end = 16.dp),
                             thickness = 1.dp,
                             color = Color.LightGray
@@ -159,25 +171,28 @@ fun AddTransaction(addViewModel: AddTransactionViewModel = viewModel()) {
                         }
                         CustomRow(
                             label = "Date"
-                        ){
+                        ) {
                             TextButton(onClick = { datePickerShowing = true }) {
                                 Text(state.date.toString(), color = Purple80)
                             }
-                            if (datePickerShowing){
+                            if (datePickerShowing) {
                                 DatePickerDialog(
-                                    colors = DatePickerDefaults.colors(Purple80, yearMonthTextColor = Purple80,
+                                    colors = DatePickerDefaults.colors(
+                                        Purple80, yearMonthTextColor = Purple80,
                                         monthDayLabelSelectedBackgroundColor = Purple80,
                                         todayLabelTextColor = Purple80,
                                         previousNextMonthIconColor = Purple80,
                                         headlineSingleSelectionTextColor = Purple80,
-                                        weekDayLabelTextColor = Purple80),
+                                        weekDayLabelTextColor = Purple80
+                                    ),
                                     buttonColors = ButtonDefaults.textButtonColors(
                                         contentColor = Purple80,
                                     ),
-                                    onDismissRequest = {datePickerShowing = false},
+                                    onDismissRequest = { datePickerShowing = false },
                                     onDateChange = {
                                         addViewModel.setDate(it)
-                                    datePickerShowing = false},
+                                        datePickerShowing = false
+                                    },
                                     initialDate = state.date,
 
                                     title = { Text("Select date", style = Typography.titleMedium) }
@@ -185,24 +200,32 @@ fun AddTransaction(addViewModel: AddTransactionViewModel = viewModel()) {
                             }
 
                         }
-                        Divider(
+                        HorizontalDivider(
                             modifier = Modifier.padding(start = 16.dp, end = 16.dp),
                             thickness = 1.dp,
                             color = Color.LightGray
                         )
 
-                        CustomRow(label = "Category") {
+                        CustomRow(label = "Category *") {
                             var categoriesMenuOpen by remember {
                                 mutableStateOf(false)
                             }
-                            TextButton(onClick = {categoriesMenuOpen = true}) {
+                            TextButton(onClick = { categoriesMenuOpen = true }) {
                                 Text(state.category?.name ?: "Select category", color = Purple80)
-                                DropdownMenu(expanded = categoriesMenuOpen, onDismissRequest = { categoriesMenuOpen = false }) {
+                                DropdownMenu(
+                                    expanded = categoriesMenuOpen,
+                                    onDismissRequest = { categoriesMenuOpen = false }) {
                                     state.categories?.forEach { category ->
-                                    DropdownMenuItem(text = { Text(category.name, color = Purple80) },
-                                        onClick = {
-                                            addViewModel.setCategory(category)
-                                        categoriesMenuOpen = false})
+                                        DropdownMenuItem(text = {
+                                            Text(
+                                                category.name,
+                                                color = Purple80
+                                            )
+                                        },
+                                            onClick = {
+                                                addViewModel.setCategory(category)
+                                                categoriesMenuOpen = false
+                                            })
                                     }
                                 }
                             }
@@ -210,13 +233,47 @@ fun AddTransaction(addViewModel: AddTransactionViewModel = viewModel()) {
                     }
                 }
                 Button(
-                    onClick = addViewModel::addTransaction,
+                    onClick = {if (state.category == null || state.amount == "") {
+                        openDialog.value = true
+                    } else {
+                        addViewModel.addTransaction()
+                    } },
                     modifier = Modifier.padding(16.dp),
                     colors = ButtonDefaults.buttonColors(
                         containerColor = LightPurple
                     )
                 ) {
                     Text("Add transaction", color = Purple80)
+                }
+                if (openDialog.value) {
+                    AlertDialog(
+                        onDismissRequest = { openDialog.value = false },
+                        title = { Text(text = "Fill Required Data", color = Purple80) },
+                        text = { Text("Please fill all required information. Required information is marked with *") },
+                        confirmButton = {
+                            TextButton(
+                                onClick = {
+                                    openDialog.value = false
+                                }
+                            ) {
+                                Text("OK",color = Purple80)
+                            }
+                        },
+                        dismissButton = {
+                            TextButton(
+                                onClick = {
+                                    openDialog.value = false
+                                }
+                            ) {
+                                Text("Cancel",color = Purple80)
+                            }
+                        },
+                        properties = DialogProperties(
+                            dismissOnBackPress = true,
+                            dismissOnClickOutside = true
+                        ),
+                        containerColor = Background
+                    )
                 }
             }
     })
