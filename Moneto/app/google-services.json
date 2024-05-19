@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "561435495293",
+    "project_id": "moneto-aplikacia",
+    "storage_bucket": "moneto-aplikacia.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:561435495293:android:84e5b8f283cb275ab65a14",
+        "android_client_info": {
+          "package_name": "com.example.moneto"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCXX3V3YN8GYvodc1Obigc9PT_4DEUs_ew"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
